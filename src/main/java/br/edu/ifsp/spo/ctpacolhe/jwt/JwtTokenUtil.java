@@ -34,9 +34,8 @@ public class JwtTokenUtil {
 	}
 
 	public String generateAccessToken(Usuario usuario) {
-
 		return Jwts.builder().setSubject(String.format("%s,%s", usuario.getIdUsuario(), usuario.getEmail()))
-				.setIssuer("CTP Acolhe").claim("roles", usuario.getPerfil().toString()).setIssuedAt(new Date())
+				.setIssuer("CTP Acolhe").claim("roles", usuario.getPerfis().toString()).setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION)).signWith(getPublicKey())
 				.compact();
 	}

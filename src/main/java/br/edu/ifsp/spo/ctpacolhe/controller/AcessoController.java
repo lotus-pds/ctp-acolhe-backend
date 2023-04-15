@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoDto;
 import br.edu.ifsp.spo.ctpacolhe.service.AcessoService;
@@ -30,7 +31,7 @@ public class AcessoController {
 	
 	@PostMapping(path = "/acesso")
 	@ResponseBody
-	public ResponseEntity<AcessoDto> login(@RequestBody AcessoCreateDto acessoDto) {
+	public ResponseEntity<AcessoDto> login(@RequestBody @Valid AcessoCreateDto acessoDto) {
 		try {
 			String email = acessoDto.getEmail();
 			String senha = acessoDto.getSenha();
@@ -43,8 +44,7 @@ public class AcessoController {
 			return ResponseEntity.ok(dto);
 			
 		} catch(BadCredentialsException ex) {
-			// TODO: criar uma exception própria
-			throw new RuntimeException("Usuário e/ou senha incorreto(s)");
+			throw new ValidationException("Usuário e/ou senha incorreto(s)");
 		}
 	}
 
