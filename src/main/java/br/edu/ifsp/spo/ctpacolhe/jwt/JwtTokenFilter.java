@@ -3,6 +3,11 @@ package br.edu.ifsp.spo.ctpacolhe.jwt;
 import java.io.IOException;
 import java.util.UUID;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,13 +17,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.edu.ifsp.spo.ctpacolhe.constant.PerfilUsuario;
+import br.edu.ifsp.spo.ctpacolhe.entity.Perfil;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
 import io.jsonwebtoken.Claims;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -82,7 +83,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		String[] nomePermissoes = permissoes.split(",");
 
 		for (String nomePermissao : nomePermissoes) {
-			usuarioDetails.setPerfil(PerfilUsuario.getEnum(nomePermissao));
+			usuarioDetails.addPerfil(new Perfil(nomePermissao));
 		}
 
 		String[] jwtSubject = subject.split(",");
