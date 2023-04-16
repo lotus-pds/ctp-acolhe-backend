@@ -1,0 +1,22 @@
+server:
+  servlet:
+    context-path: /api/v1
+
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://${PROD_DB_HOST}:${PROD_DB_PORT}:/${PROD_DB_NAME};
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+    name: ctpacolhe
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type: TRACE
