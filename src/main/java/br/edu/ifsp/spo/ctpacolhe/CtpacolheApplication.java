@@ -8,8 +8,6 @@ public class CtpacolheApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CtpacolheApplication.class, args);
-		
-//		System.out.println("Hello World!");
 	}
 
 }
