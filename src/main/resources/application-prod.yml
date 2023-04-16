@@ -7,16 +7,16 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:
-        format_sql: true
+        '[format_sql]': true
     show-sql: true
   datasource:
-    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}:/${MYSQLDATABASE};
-    username: ${MYSQLUSER}
-    password: ${MYSQLPASSWORD}
-    name: ctpacolhe
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/ctpacolhe?serverTimezone=UTC}
+    username: ${MYSQLUSER:root}
+    password: ${MYSQLPASSWORD:123456}
 
 logging:
   level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.hibernate.type: TRACE
+    '[org.hibernate.SQL]': DEBUG
+    '[org.hibernate.type.descriptor.sql.BasicBinder]': TRACE
+    '[org.hibernate.type]': TRACE
