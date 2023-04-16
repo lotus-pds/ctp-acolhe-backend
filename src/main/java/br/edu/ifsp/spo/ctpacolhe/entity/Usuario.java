@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,13 +22,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.PeriodoCurso;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "usuario")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = -9070815452483904355L;
@@ -43,7 +52,8 @@ public class Usuario implements UserDetails {
 	@Column(name = "curso")
 	private String curso;
 	@Column(name = "periodo")
-	private String periodo;
+	@Enumerated(EnumType.STRING)
+	private PeriodoCurso periodo;
 	@Column(name = "turma")
 	private String turma;
 	@Column(name = "prontuario")
@@ -51,11 +61,14 @@ public class Usuario implements UserDetails {
 	@Column(name = "senha")
 	private String senha;
 	@Column(name = "ativo")
-	private Boolean ativo;
+	@Builder.Default
+	private Boolean ativo = true;
 	@Column(name = "email_confirmado")
-	private Boolean emailConfirmado;
+	@Builder.Default
+	private Boolean emailConfirmado = true;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "perfil_usuario", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_perfil"))
+	@Builder.Default
 	private Set<Perfil> perfis = new HashSet<>();
 
 	public void addPerfil(Perfil perfil) {

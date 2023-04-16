@@ -15,7 +15,7 @@ import br.edu.ifsp.spo.ctpacolhe.jwt.JwtTokenUtil;
 
 @Service
 @Transactional
-public class AcessoService {
+public class AutenticacaoService {
 	
 	@Autowired
 	private JwtTokenUtil jwtUtil;

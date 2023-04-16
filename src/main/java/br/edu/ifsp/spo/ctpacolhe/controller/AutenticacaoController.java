@@ -17,21 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoDto;
-import br.edu.ifsp.spo.ctpacolhe.service.AcessoService;
+import br.edu.ifsp.spo.ctpacolhe.service.AutenticacaoService;
 
 @RestController
-@RequestMapping("api/v1/")
-public class AcessoController {
+@RequestMapping("/conta")
+public class AutenticacaoController {
 	
 	@Autowired
 	private AuthenticationManager authManager;
 	
 	@Autowired
-	private AcessoService acessoService;
+	private AutenticacaoService acessoService;
 	
 	@PostMapping(path = "/acesso")
 	@ResponseBody
-	public ResponseEntity<AcessoDto> login(@RequestBody @Valid AcessoCreateDto acessoDto) {
+	public ResponseEntity<AcessoDto> acesso(@RequestBody @Valid AcessoCreateDto acessoDto) {
 		try {
 			String email = acessoDto.getEmail();
 			String senha = acessoDto.getSenha();
@@ -47,5 +47,5 @@ public class AcessoController {
 			throw new ValidationException("Usuário e/ou senha incorreto(s)");
 		}
 	}
-
+	
 }
