@@ -1,5 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,27 +37,37 @@ public class ApplicationSecurity {
 	@Autowired
 	private JwtTokenFilter jwtTokenFilter;
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
+    @Bean
+    PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		AuthenticationManagerBuilder authenticationManagerBuilder = http
 				.getSharedObject(AuthenticationManagerBuilder.class);
 		authenticationManagerBuilder.userDetailsService(userDetailsService);
 		authenticationManager = authenticationManagerBuilder.build();
 
-		http.csrf().disable();
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		var accountOpenPaths = List.of(
+				"/conta/cadastro",
+				"/conta/acesso"
+        );
 
-		http.authorizeRequests().antMatchers("/api/v1/acesso").permitAll().anyRequest().authenticated();
-
-		http.exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
-		});
+        http.cors().and().csrf()
+                .disable()
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeHttpRequests((authz) -> authz
+                .antMatchers(accountOpenPaths.toArray(String[]::new)).permitAll()
+                //.antMatchers("/sessions/**").hasAnyRole("ADMIN", "ATTENDANT")
+                .anyRequest().authenticated()
+             );
+		
+        http.exceptionHandling(handling -> handling.authenticationEntryPoint((request, response, ex) -> {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+        }));
 
 		http.authenticationManager(authenticationManager);
 
@@ -65,7 +77,7 @@ public class ApplicationSecurity {
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
 			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}

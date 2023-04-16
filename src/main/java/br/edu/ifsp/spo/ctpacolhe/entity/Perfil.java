@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.PerfilUsuario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,10 @@ public class Perfil {
 	
 	public Perfil(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public Perfil(PerfilUsuario perfil) {
+		this.idPerfil = perfil.toString();
 	}
 	
 	@Override
