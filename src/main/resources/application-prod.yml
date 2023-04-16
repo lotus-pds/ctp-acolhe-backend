@@ -10,9 +10,9 @@ spring:
         format_sql: true
     show-sql: true
   datasource:
-    url: jdbc:mysql://${PROD_DB_HOST}:${PROD_DB_PORT}:/${PROD_DB_NAME};
-    username: ${PROD_DB_USERNAME}
-    password: ${PROD_DB_PASSWORD}
+    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}:/${MYSQLDATABASE};
+    username: ${MYSQLUSER}
+    password: ${MYSQLPASSWORD}
     name: ctpacolhe
 
 logging:
