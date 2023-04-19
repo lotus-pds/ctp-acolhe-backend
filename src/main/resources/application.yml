@@ -14,6 +14,9 @@ spring:
     url: ${MYSQL_URL:jdbc:mysql://localhost:3306/ctpacolhe?serverTimezone=UTC}
     username: ${MYSQLUSER:root}
     password: ${MYSQLPASSWORD:123456}
+    
+frontend:
+  url: ${FRONTEND_URL:http://localhost:5173}
 
 logging:
   level:
