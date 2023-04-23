@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.ctpacolhe;
+package br.edu.ifsp.spo.ctpacolhe.common.security;
 
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class ApplicationSecurity {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests((authz) -> authz
                 .antMatchers(accountOpenPaths.toArray(String[]::new)).permitAll()
-                //.antMatchers("/sessions/**").hasAnyRole("ADMIN", "ATTENDANT")
+                .antMatchers("/humor/**").hasAnyAuthority("Aluno")
                 .anyRequest().authenticated()
              );
 		

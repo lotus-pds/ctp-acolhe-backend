@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.edu.ifsp.spo.ctpacolhe.common.constant.SentimentoHumor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,10 +20,6 @@ public class Sentimento {
 	@Column(name = "id_sentimento")
 	private String idSentimento;
 	
-	@Column(name = "descricao", nullable = false, unique = true)
+	@Column(name = "descricao")
 	private String descricao;
-	
-	public Sentimento(SentimentoHumor sentimento) {
-		this.idSentimento = sentimento.toString();
-	}
 }

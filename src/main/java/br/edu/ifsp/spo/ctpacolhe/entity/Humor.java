@@ -5,17 +5,17 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.SentimentoHumor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Table(name="humor")
@@ -33,12 +33,11 @@ public class Humor {
 	@Column(name = "data_humor")
 	private LocalDate dataHumor;
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_usuario")
+	@Column(name = "id_usuario")
 	private UUID idUsuario;
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_sentimento")
-	private String idSentimento;
+	@Column(name = "id_sentimento")
+	@Enumerated(EnumType.STRING)
+	private SentimentoHumor idSentimento;
 
 }

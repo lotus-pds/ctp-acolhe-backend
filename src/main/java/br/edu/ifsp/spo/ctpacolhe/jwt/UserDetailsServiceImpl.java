@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.ctpacolhe;
+package br.edu.ifsp.spo.ctpacolhe.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
