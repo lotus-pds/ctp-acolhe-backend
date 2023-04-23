@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.ctpacolhe.jwt;
+package br.edu.ifsp.spo.ctpacolhe.common.jwt;
 
 import java.security.Key;
 import java.util.Base64;

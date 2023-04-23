@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtTokenUtil;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Perfil;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
-import br.edu.ifsp.spo.ctpacolhe.jwt.JwtTokenUtil;
 
 @Service
 @Transactional

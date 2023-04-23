@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.ctpacolhe.jwt;
+package br.edu.ifsp.spo.ctpacolhe.common.jwt;
 
 import java.io.IOException;
 import java.util.UUID;
