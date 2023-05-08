@@ -59,7 +59,7 @@ public class AutenticacaoService {
 	
 	private Usuario getUsuario(String email) {
         return usuarioRepository.findByEmail(email).orElseThrow(
-                () -> new ValidationException("Usuário não cadastrado no sistema")
+                () -> new ValidationException("Usuário e/ou senha incorreto(s)")
         );
     }
 }
