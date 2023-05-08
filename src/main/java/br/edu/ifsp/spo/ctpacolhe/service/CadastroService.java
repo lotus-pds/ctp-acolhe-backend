@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.ctpacolhe.service;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.PerfilUsuario;
+import br.edu.ifsp.spo.ctpacolhe.common.email.EmailService;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Perfil;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
+import br.edu.ifsp.spo.ctpacolhe.entity.VerificacaoToken;
 import br.edu.ifsp.spo.ctpacolhe.repository.UsuarioRepository;
+import br.edu.ifsp.spo.ctpacolhe.repository.VerificacaoTokenRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 public class CadastroService {
 	
 	@Autowired
@@ -25,6 +31,12 @@ public class CadastroService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private VerificacaoTokenRepository verificacaoTokenRepository;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	public Usuario criar(UsuarioCreateDto dto) {
 		validaUsuario(dto);
@@ -43,7 +55,23 @@ public class CadastroService {
 		
 		usuario.addPerfil(new Perfil(PerfilUsuario.ALU));
 		
-		return usuarioRepository.save(usuario);
+		try {
+			usuario = usuarioRepository.save(usuario);
+			log.info("Usuário com id {} foi criado", usuario.getIdUsuario());
+			
+			VerificacaoToken verificacaoToken =
+                    new VerificacaoToken(usuario, 1800);
+			verificacaoTokenRepository.save(verificacaoToken);
+            log.debug("Token de verificação {} para o e-mail {} foi criado", verificacaoToken.getToken(), usuario.getEmail());
+
+            emailService.enviaEmailDeVerificacao(usuario, verificacaoToken);
+            log.info("E-mail de verificação foi enviado para {}", usuario.getEmail());
+
+            return usuario;
+		} catch (MessagingException e) {
+			log.error("Erro ao tentar enviar e-mail de confirmação para {}", usuario.getEmail(), e);
+            throw new ValidationException("Problema com o envio do email, tente novamente mais tarde");
+		}
 	}
 
 	private void validaUsuario(UsuarioCreateDto dto) {
