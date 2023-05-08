@@ -65,7 +65,7 @@ public class Usuario implements UserDetails {
 	private Boolean ativo = true;
 	@Column(name = "email_confirmado")
 	@Builder.Default
-	private Boolean emailConfirmado = true;
+	private Boolean emailConfirmado = false;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "perfil_usuario", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_perfil"))
 	@Builder.Default

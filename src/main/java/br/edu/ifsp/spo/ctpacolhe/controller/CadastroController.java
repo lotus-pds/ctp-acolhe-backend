@@ -1,11 +1,14 @@
 package br.edu.ifsp.spo.ctpacolhe.controller;
 
 import java.net.URI;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +41,13 @@ public class CadastroController implements Controller {
 		URI uri = uriCreated("/conta/cadastro/{idUsuario}", dto.getIdUsuario());
 		return ResponseEntity.created(uri).body(dto);
 	}
+	
+	@PatchMapping("cadastro/verificacao/{token}")
+	@ResponseBody
+    public ResponseEntity<UsuarioDto> verificacao(@PathVariable UUID token) {
+        Usuario usuario = cadastroService.verificar(token);
+
+        return ResponseEntity.ok(usuarioMapper.to(usuario));
+    }
 	
 }
