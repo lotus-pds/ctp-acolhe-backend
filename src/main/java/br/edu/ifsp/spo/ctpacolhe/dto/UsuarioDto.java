@@ -26,5 +26,6 @@ public class UsuarioDto {
 	private PeriodoCurso periodo;
 	private String turma;
 	private String prontuario;
+	private Boolean emailConfirmado;
 
 }

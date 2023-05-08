@@ -70,8 +70,30 @@ public class CadastroService {
             return usuario;
 		} catch (MessagingException e) {
 			log.error("Erro ao tentar enviar e-mail de confirmação para {}", usuario.getEmail(), e);
-            throw new ValidationException("Problema com o envio do email, tente novamente mais tarde");
+            throw new ValidationException("Problema com o envio do e-mail de verificação, tente novamente mais tarde");
 		}
+	}
+	
+	public Usuario verificar(UUID token) {
+		VerificacaoToken verificacaoToken = verificacaoTokenRepository.findByToken(token)
+                .orElseThrow(() -> new ValidationException("Token de verificação não encontrado"));
+
+		//TODO: Criar recurso de reenviar confirmação/verificação de e-mail
+//		if (verificacaoToken.getExpiraEm().isBefore(Instant.now())) {
+//			throw new ValidationException(
+//					"Token de verificação com e-mail " + verificacaoToken.getUsuario().getEmail() + " expirou");
+//		}
+
+        Usuario usuario = verificacaoToken.getUsuario();
+        usuario.setEmailConfirmado(true);
+        
+        usuarioRepository.save(usuario);
+        log.info("Conta com e-mail {} foi verificada", usuario.getEmail());
+        
+        verificacaoTokenRepository.delete(verificacaoToken);
+        log.info("Token de verificação com id {} foi deletado", verificacaoToken.getIdVerificacaoToken());
+        
+        return usuario;
 	}
 
 	private void validaUsuario(UsuarioCreateDto dto) {
