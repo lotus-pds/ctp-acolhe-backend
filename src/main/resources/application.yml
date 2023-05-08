@@ -14,7 +14,29 @@ spring:
     url: ${MYSQL_URL:jdbc:mysql://localhost:3306/ctpacolhe?serverTimezone=UTC}
     username: ${MYSQLUSER:root}
     password: ${MYSQLPASSWORD:123456}
-    
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    test-connection: false
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        debug: true
+        smtps:
+          localhost: 'localhost'
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enabled: true
+
+support:
+  mail: ${SUPPORT_EMAIL:lotusteam.2023@gmail.com}
+  name: ${SUPPORT_NAME:CTP Acolhe | Lotus}
+
 frontend:
   url: ${FRONTEND_URL:http://localhost:5173}
 
