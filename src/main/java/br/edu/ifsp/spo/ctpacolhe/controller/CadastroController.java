@@ -50,4 +50,10 @@ public class CadastroController implements Controller {
         return ResponseEntity.ok(usuarioMapper.to(usuario));
     }
 	
+	@PostMapping("cadastro/reenviar-email")
+    public ResponseEntity<UsuarioDto> reenviarEmail(@RequestBody String reenviarEmail) {
+        Usuario usuario = cadastroService.reenviarEmail(reenviarEmail);
+        return  ResponseEntity.ok(usuarioMapper.to(usuario));
+    }
+	
 }

@@ -53,6 +53,7 @@ public class ApplicationSecurity {
 		var accountOpenPaths = List.of(
 				"/conta/cadastro",
 				"/conta/cadastro/verificacao/{token}",
+				"/conta/cadastro/reenviar-email",
 				"/conta/acesso"
         );
 

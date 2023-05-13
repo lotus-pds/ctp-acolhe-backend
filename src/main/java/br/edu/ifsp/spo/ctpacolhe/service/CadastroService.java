@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.ctpacolhe.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +39,8 @@ public class CadastroService {
 	@Autowired
 	private EmailService emailService;
 	
+	private final Integer TOKEN_EXPIRA_EM = 1800;
+	
 	public Usuario criar(UsuarioCreateDto dto) {
 		validaUsuario(dto);
 		
@@ -60,7 +63,7 @@ public class CadastroService {
 			log.info("Usuário com id {} foi criado", usuario.getIdUsuario());
 			
 			VerificacaoToken verificacaoToken =
-                    new VerificacaoToken(usuario, 1800);
+                    new VerificacaoToken(usuario, TOKEN_EXPIRA_EM);
 			verificacaoTokenRepository.save(verificacaoToken);
             log.debug("Token de verificação {} para o e-mail {} foi criado", verificacaoToken.getToken(), usuario.getEmail());
 
@@ -77,12 +80,11 @@ public class CadastroService {
 	public Usuario verificar(UUID token) {
 		VerificacaoToken verificacaoToken = verificacaoTokenRepository.findByToken(token)
                 .orElseThrow(() -> new ValidationException("Token de verificação não encontrado"));
-
-		//TODO: Criar recurso de reenviar confirmação/verificação de e-mail
-//		if (verificacaoToken.getExpiraEm().isBefore(Instant.now())) {
-//			throw new ValidationException(
-//					"Token de verificação com e-mail " + verificacaoToken.getUsuario().getEmail() + " expirou");
-//		}
+		
+		if (verificacaoToken.getExpiraEm().isBefore(LocalDateTime.now())) {
+			throw new ValidationException(
+					"Token de verificação para o e-mail " + verificacaoToken.getUsuario().getEmail() + " expirou");
+		}
 
         Usuario usuario = verificacaoToken.getUsuario();
         usuario.setEmailConfirmado(true);
@@ -106,6 +108,31 @@ public class CadastroService {
 				throw new ValidationException("Prontuário já cadastrado");
 			}
 		});
+	}
+
+	public Usuario reenviarEmail(String reenviarEmail) {
+		Usuario usuario = usuarioRepository.findByEmail(reenviarEmail)
+                .orElseThrow(() -> new ValidationException("E-mail não encontrado"));
+		
+		VerificacaoToken verificacaoToken = verificacaoTokenRepository.findByIdUsuario(usuario.getIdUsuario())
+        		.orElseThrow(() -> new ValidationException("Token de verificação não encontrado"));
+
+        if (verificacaoToken.getGeradoEm().plusSeconds(60).isAfter(LocalDateTime.now())) {
+        	throw new ValidationException("Aguarde 1 minuto para o reenvio do e-mail de verificação");
+        }
+
+        try {
+        	verificacaoToken.setGeradoEm(LocalDateTime.now());
+            verificacaoToken.setExpiraEm(LocalDateTime.now().plusSeconds(TOKEN_EXPIRA_EM));
+            verificacaoTokenRepository.save(verificacaoToken);
+            
+            emailService.enviaEmailDeVerificacao(usuario, verificacaoToken);
+            log.info("E-mail de verificação foi reenviado para {}", usuario.getEmail());
+            return usuario;
+        } catch (MessagingException e) {
+			log.error("Erro ao tentar reenviar e-mail de confirmação para {}", usuario.getEmail(), e);
+            throw new ValidationException("Problema com o reenvio do e-mail de verificação, tente novamente mais tarde");
+		}
 	}
 
 }

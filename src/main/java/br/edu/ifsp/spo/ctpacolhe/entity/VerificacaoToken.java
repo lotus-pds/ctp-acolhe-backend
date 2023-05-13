@@ -1,6 +1,6 @@
 package br.edu.ifsp.spo.ctpacolhe.entity;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -29,8 +29,10 @@ public class VerificacaoToken  {
 	private UUID idVerificacaoToken;
 	@Column(name = "token")
 	private UUID token;
+	@Column(name = "gerado_em")
+	private LocalDateTime geradoEm;
 	@Column(name = "expira_em")
-	private Instant expiraEm;
+	private LocalDateTime expiraEm;
 	@Column(name = "id_usuario")
 	private UUID idUsuario;
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -40,7 +42,8 @@ public class VerificacaoToken  {
 	public VerificacaoToken(Usuario usuario, Integer duracaoEmSegundos) {
         this.idVerificacaoToken = UUID.randomUUID();
         this.token = UUID.randomUUID();
-        this.expiraEm = Instant.now().plusSeconds(duracaoEmSegundos);
+        this.geradoEm = LocalDateTime.now();
+        this.expiraEm = LocalDateTime.now().plusSeconds(duracaoEmSegundos);
         this.idUsuario = usuario.getIdUsuario();
     }
 }
