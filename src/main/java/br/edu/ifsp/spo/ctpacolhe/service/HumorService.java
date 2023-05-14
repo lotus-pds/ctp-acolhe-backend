@@ -1,11 +1,13 @@
 package br.edu.ifsp.spo.ctpacolhe.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ public class HumorService {
 	private HumorRepository humorRepository;
 
 	public Humor criaHumor(HumorCreateDto dto) {
-		Usuario usuarioAutenticado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Usuario usuarioAutenticado = buscaUsuarioAutenticado();
 
 		if (humorRepository.existsByDataHumorAndIdUsuario(LocalDate.now(), usuarioAutenticado.getIdUsuario())) {
 			throw new ValidationException(MensagemExceptionType.HUMOR_REGISTRADO_HOJE);
@@ -38,5 +40,22 @@ public class HumorService {
 				.build();
 
 		return humorRepository.save(humor);
+	}
+
+	public List<Humor> buscaHumores(LocalDate dataHumor) {
+		Usuario usuarioAutenticado = buscaUsuarioAutenticado();
+		
+		Humor humor = Humor.builder()
+				.dataHumor(dataHumor)
+				.idUsuario(usuarioAutenticado.getIdUsuario())
+				.build();
+		
+		List<Humor> humores = humorRepository.findAll(Example.of(humor));
+		
+		return humores;
+	}
+	
+	private Usuario buscaUsuarioAutenticado() {
+		return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 }
