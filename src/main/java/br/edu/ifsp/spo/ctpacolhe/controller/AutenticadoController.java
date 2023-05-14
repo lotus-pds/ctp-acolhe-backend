@@ -19,8 +19,8 @@ import br.edu.ifsp.spo.ctpacolhe.mapper.HumorMapper;
 import br.edu.ifsp.spo.ctpacolhe.service.HumorService;
 
 @RestController
-@RequestMapping("/humor")
-public class HumorController implements Controller {
+@RequestMapping("/usuario/autenticado")
+public class AutenticadoController implements Controller {
 	
 	@Autowired
 	private HumorService humorService;
@@ -28,7 +28,7 @@ public class HumorController implements Controller {
 	@Autowired
 	private HumorMapper humorMapper;
 	
-	@PostMapping
+	@PostMapping(path = "/humor")
 	@ResponseBody
 	public ResponseEntity<HumorDto> registroHumor(@RequestBody @Valid HumorCreateDto humorDto) {
 		Humor humor = humorService.criaHumor(humorDto);
