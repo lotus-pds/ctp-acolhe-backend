@@ -10,8 +10,16 @@ import lombok.NoArgsConstructor;
 public class ValidationException extends RuntimeException {
 
 	private static final long serialVersionUID = -1385014778384799345L;
-	
+
 	public ValidationException(String message) {
 		super(message);
+	}
+
+	public ValidationException(MensagemExceptionType message) {
+		super(message.getMessage());
+	}
+	
+	public ValidationException(MensagemExceptionType message, Object...parametros) {
+		super(String.format(message.getMessage(), parametros));
 	}
 }

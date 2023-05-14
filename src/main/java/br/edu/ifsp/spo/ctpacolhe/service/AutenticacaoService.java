@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtTokenUtil;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoCreateDto;
@@ -36,7 +37,7 @@ public class AutenticacaoService {
 		Usuario usuario = getUsuario(acessoDto.getEmail());
 		
 		if(!usuario.getEmailConfirmado()) {
-			throw new ValidationException("E-mail ainda não confirmado");
+			throw new ValidationException(MensagemExceptionType.AUT_EMAIL_NAO_CONFIRMADO);
 		}
 		
 		try {			
@@ -53,13 +54,13 @@ public class AutenticacaoService {
 
 			return dto;
 		} catch(BadCredentialsException ex) {
-			throw new ValidationException("Usuário e/ou senha incorreto(s)");
+			throw new ValidationException(MensagemExceptionType.AUT_CREDENCIAIS_INCORRETAS);
 		}
 	}
 	
 	private Usuario getUsuario(String email) {
         return usuarioRepository.findByEmail(email).orElseThrow(
-                () -> new ValidationException("Usuário e/ou senha incorreto(s)")
+                () -> new ValidationException(MensagemExceptionType.AUT_CREDENCIAIS_INCORRETAS)
         );
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.HumorCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Humor;
@@ -26,7 +27,7 @@ public class HumorService {
 		Usuario usuarioAutenticado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		if (humorRepository.existsByDataHumorAndIdUsuario(LocalDate.now(), usuarioAutenticado.getIdUsuario())) {
-			throw new ValidationException("Humor já registrado hoje");
+			throw new ValidationException(MensagemExceptionType.HUMOR_REGISTRADO_HOJE);
 		}
 
 		Humor humor = Humor.builder()

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.PerfilUsuario;
 import br.edu.ifsp.spo.ctpacolhe.common.email.EmailService;
+import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Perfil;
@@ -73,17 +74,16 @@ public class CadastroService {
             return usuario;
 		} catch (MessagingException e) {
 			log.error("Erro ao tentar enviar e-mail de confirmação para {}", usuario.getEmail(), e);
-            throw new ValidationException("Problema com o envio do e-mail de verificação, tente novamente mais tarde");
+            throw new ValidationException(MensagemExceptionType.PROBLEMA_COM_ENVIO_EMAIL_VERIFICACAO);
 		}
 	}
 	
 	public Usuario verificar(UUID token) {
 		VerificacaoToken verificacaoToken = verificacaoTokenRepository.findByToken(token)
-                .orElseThrow(() -> new ValidationException("Token de verificação não encontrado"));
+                .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO));
 		
 		if (verificacaoToken.getExpiraEm().isBefore(LocalDateTime.now())) {
-			throw new ValidationException(
-					"Token de verificação para o e-mail " + verificacaoToken.getUsuario().getEmail() + " expirou");
+			throw new ValidationException(MensagemExceptionType.TOKEN_EXPIROU, verificacaoToken.getUsuario().getEmail());
 		}
 
         Usuario usuario = verificacaoToken.getUsuario();
@@ -103,22 +103,22 @@ public class CadastroService {
 		
 		usuariosBuscados.stream().findFirst().ifPresent(usuario -> {
 			if(usuario.getEmail().equals(dto.getEmail())) {
-				throw new ValidationException("E-mail já cadastrado");
+				throw new ValidationException(MensagemExceptionType.CAD_EMAIL_JA_CADASTRADO);
 			} else {
-				throw new ValidationException("Prontuário já cadastrado");
+				throw new ValidationException(MensagemExceptionType.CAD_PRONTUARIO_JA_CADASTRADO);
 			}
 		});
 	}
 
 	public Usuario reenviarEmail(String reenviarEmail) {
 		Usuario usuario = usuarioRepository.findByEmail(reenviarEmail)
-                .orElseThrow(() -> new ValidationException("E-mail não encontrado"));
+                .orElseThrow(() -> new ValidationException(MensagemExceptionType.CAD_EMAIL_NAO_ENCONTRADO));
 		
 		VerificacaoToken verificacaoToken = verificacaoTokenRepository.findByIdUsuario(usuario.getIdUsuario())
-        		.orElseThrow(() -> new ValidationException("Token de verificação não encontrado"));
+        		.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO));
 
         if (verificacaoToken.getGeradoEm().plusSeconds(60).isAfter(LocalDateTime.now())) {
-        	throw new ValidationException("Aguarde 1 minuto para o reenvio do e-mail de verificação");
+        	throw new ValidationException(MensagemExceptionType.TOKEN_AGUARDE_UM_MINUTO);
         }
 
         try {
@@ -131,7 +131,7 @@ public class CadastroService {
             return usuario;
         } catch (MessagingException e) {
 			log.error("Erro ao tentar reenviar e-mail de confirmação para {}", usuario.getEmail(), e);
-            throw new ValidationException("Problema com o reenvio do e-mail de verificação, tente novamente mais tarde");
+            throw new ValidationException(MensagemExceptionType.PROBLEMA_COM_ENVIO_EMAIL_VERIFICACAO);
 		}
 	}
 
