@@ -18,7 +18,7 @@ import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Perfil;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
-import br.edu.ifsp.spo.ctpacolhe.entity.VerificacaoToken;
+import br.edu.ifsp.spo.ctpacolhe.entity.VerificacaoEmailToken;
 import br.edu.ifsp.spo.ctpacolhe.repository.UsuarioRepository;
 import br.edu.ifsp.spo.ctpacolhe.repository.VerificacaoTokenRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -63,8 +63,8 @@ public class CadastroService {
 			usuario = usuarioRepository.save(usuario);
 			log.info("Usuário com id {} foi criado", usuario.getIdUsuario());
 			
-			VerificacaoToken verificacaoToken =
-                    new VerificacaoToken(usuario, TOKEN_EXPIRA_EM);
+			VerificacaoEmailToken verificacaoToken =
+                    new VerificacaoEmailToken(usuario, TOKEN_EXPIRA_EM);
 			verificacaoTokenRepository.save(verificacaoToken);
             log.debug("Token de verificação {} para o e-mail {} foi criado", verificacaoToken.getToken(), usuario.getEmail());
 
@@ -79,7 +79,7 @@ public class CadastroService {
 	}
 	
 	public Usuario verificar(UUID token) {
-		VerificacaoToken verificacaoToken = verificacaoTokenRepository.findByToken(token)
+		VerificacaoEmailToken verificacaoToken = verificacaoTokenRepository.findByToken(token)
                 .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO));
 		
 		if (verificacaoToken.getExpiraEm().isBefore(LocalDateTime.now())) {
@@ -114,7 +114,7 @@ public class CadastroService {
 		Usuario usuario = usuarioRepository.findByEmail(reenviarEmail)
                 .orElseThrow(() -> new ValidationException(MensagemExceptionType.CAD_EMAIL_NAO_ENCONTRADO));
 		
-		VerificacaoToken verificacaoToken = verificacaoTokenRepository.findByIdUsuario(usuario.getIdUsuario())
+		VerificacaoEmailToken verificacaoToken = verificacaoTokenRepository.findByIdUsuario(usuario.getIdUsuario())
         		.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO));
 
         if (verificacaoToken.getGeradoEm().plusSeconds(60).isAfter(LocalDateTime.now())) {

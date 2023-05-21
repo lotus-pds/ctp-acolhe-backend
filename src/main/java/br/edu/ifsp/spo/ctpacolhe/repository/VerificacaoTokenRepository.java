@@ -6,10 +6,10 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.edu.ifsp.spo.ctpacolhe.entity.VerificacaoToken;
+import br.edu.ifsp.spo.ctpacolhe.entity.VerificacaoEmailToken;
 
-public interface VerificacaoTokenRepository extends JpaRepository<VerificacaoToken, UUID> {
-	Optional<VerificacaoToken> findByToken(UUID token);
+public interface VerificacaoTokenRepository extends JpaRepository<VerificacaoEmailToken, UUID> {
+	Optional<VerificacaoEmailToken> findByToken(UUID token);
 	boolean existsByExpiraEmAfter(Instant now);
-	Optional<VerificacaoToken> findByIdUsuario(UUID idUsuario);
+	Optional<VerificacaoEmailToken> findByIdUsuario(UUID idUsuario);
 }

@@ -17,12 +17,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "verificacao_token")
+@Table(name = "verificacao_email_token")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class VerificacaoToken  {
+public class VerificacaoEmailToken  {
 	
 	@Id
 	@Column(name = "id_verificacao_token")
@@ -39,7 +39,7 @@ public class VerificacaoToken  {
 	@JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", insertable = false, updatable = false)
 	private Usuario usuario;
 	
-	public VerificacaoToken(Usuario usuario, Integer duracaoEmSegundos) {
+	public VerificacaoEmailToken(Usuario usuario, Integer duracaoEmSegundos) {
         this.idVerificacaoToken = UUID.randomUUID();
         this.token = UUID.randomUUID();
         this.geradoEm = LocalDateTime.now();

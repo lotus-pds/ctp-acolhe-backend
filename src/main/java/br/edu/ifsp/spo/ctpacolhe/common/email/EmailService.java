@@ -12,7 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
-import br.edu.ifsp.spo.ctpacolhe.entity.VerificacaoToken;
+import br.edu.ifsp.spo.ctpacolhe.entity.VerificacaoEmailToken;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -47,7 +47,7 @@ public class EmailService {
         mailSender.send(mail);
     }
 
-	public void enviaEmailDeVerificacao(Usuario usuario, VerificacaoToken verificacaoToken) 
+	public void enviaEmailDeVerificacao(Usuario usuario, VerificacaoEmailToken verificacaoToken) 
 			 throws MessagingException {
 		String urlVerificacao = url + "cadastro/verificacao/" + verificacaoToken.getToken().toString();
         String nome = usuario.getNome().split(" ")[0];
