@@ -11,4 +11,5 @@ import br.edu.ifsp.spo.ctpacolhe.entity.RedefinicaoSenhaToken;
 public interface RedefinicaoTokenRepository extends JpaRepository<RedefinicaoSenhaToken, UUID> {
 	boolean existsByIdUsuarioAndExpiraEmAfter(UUID idUsuario, LocalDateTime now);
 	Optional<RedefinicaoSenhaToken> findByIdUsuario(UUID idUsuario);
+	Optional<RedefinicaoSenhaToken> findByToken(UUID token);
 }

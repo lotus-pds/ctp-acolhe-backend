@@ -4,10 +4,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
-import javax.validation.Valid;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.email.EmailService;
@@ -29,6 +30,9 @@ public class RedefinicaoSenhaService {
     private UsuarioRepository usuarioRepository;
 	
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	private RedefinicaoTokenRepository redefinicaoTokenRepository;
 	
 	@Autowired
@@ -37,6 +41,7 @@ public class RedefinicaoSenhaService {
 	@Value("${account.password-reset-token-expires-in}")
 	private Integer REDEFINICAO_TOKEN_EXPIRA_EM;
 	
+	@Transactional
 	public void enviarEmailEsqueciSenha(String email) {
 		Usuario usuario = buscaUsuario(email);
 		
@@ -60,9 +65,23 @@ public class RedefinicaoSenhaService {
         }
 	}
 
-	public void redefinicaoSenha(@Valid RedefinicaoSenhaDTO dto) {
-		// TODO Auto-generated method stub
+	@Transactional
+	public void redefinicaoSenha(RedefinicaoSenhaDTO dto) {
+		RedefinicaoSenhaToken redefinicaoSenhaToken = redefinicaoTokenRepository.findByToken(UUID.fromString(dto.getToken()))
+                .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.REDEFINICAO_SENHA));
 		
+		if (redefinicaoSenhaToken.getExpiraEm().isBefore(LocalDateTime.now())) {
+			throw new ValidationException(MensagemExceptionType.TOKEN_EXPIROU, CamposDinamicosType.REDEFINICAO_SENHA, redefinicaoSenhaToken.getUsuario().getEmail());
+		}
+		
+		Usuario usuario = redefinicaoSenhaToken.getUsuario();
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
+        
+        usuarioRepository.save(usuario);
+        log.info("Senha redefinida para o usuário com e-mail {}", usuario.getEmail());
+        
+        redefinicaoTokenRepository.delete(redefinicaoSenhaToken);
+        log.info("Token de redefinição de senha com id {} foi deletado", redefinicaoSenhaToken.getIdRedefinicaoToken());
 	}
 	
 	public void reenviarEmail(String reenviarEmail) {

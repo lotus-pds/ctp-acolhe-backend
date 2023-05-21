@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class RedefinicaoSenhaController implements Controller {
 		return ResponseEntity.accepted().build();
 	}
 
-	@PostMapping("redefinir")
+	@PatchMapping("redefinir")
 	public ResponseEntity<Void> redefinicao(@Valid @RequestBody RedefinicaoSenhaDTO dto) {
 		redefinicaoSenhaService.redefinicaoSenha(dto);
 		return ResponseEntity.noContent().build();
