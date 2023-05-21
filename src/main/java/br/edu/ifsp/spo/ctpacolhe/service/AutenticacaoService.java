@@ -41,7 +41,7 @@ public class AutenticacaoService {
 		Usuario usuario = getUsuario(acessoDto.getEmail());
 		
 		if(!usuario.getEmailConfirmado()) {
-			throw new ValidationException(MensagemExceptionType.AUT_EMAIL_NAO_CONFIRMADO);
+			throw new ValidationException(MensagemExceptionType.EMAIL_NAO_CONFIRMADO);
 		}
 		
 		try {			
@@ -58,13 +58,13 @@ public class AutenticacaoService {
 
 			return dto;
 		} catch(BadCredentialsException ex) {
-			throw new ValidationException(MensagemExceptionType.AUT_CREDENCIAIS_INCORRETAS);
+			throw new ValidationException(MensagemExceptionType.CREDENCIAIS_INCORRETAS);
 		}
 	}
 	
 	private Usuario getUsuario(String email) {
         return usuarioRepository.findByEmail(email).orElseThrow(
-                () -> new ValidationException(MensagemExceptionType.AUT_CREDENCIAIS_INCORRETAS)
+                () -> new ValidationException(MensagemExceptionType.CREDENCIAIS_INCORRETAS)
         );
     }
 }
