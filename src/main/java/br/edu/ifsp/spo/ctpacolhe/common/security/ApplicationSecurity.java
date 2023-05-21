@@ -54,7 +54,10 @@ public class ApplicationSecurity {
 				"/conta/cadastro",
 				"/conta/cadastro/verificacao/{token}",
 				"/conta/cadastro/reenviar-email",
-				"/conta/acesso"
+				"/conta/acesso",
+				"/conta/senha/esqueci",
+				"/conta/senha/esqueci/reenviar-email",
+				"/conta/senha/redefinir"
         );
 
         http.cors().and().csrf()

@@ -12,18 +12,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "verificacao_email_token")
+@Table(name = "redefinicao_senha_token")
 @NoArgsConstructor
 @Getter
 @Setter
-public class VerificacaoEmailToken extends Tokens {
+public class RedefinicaoSenhaToken extends Tokens {
 	@Id
-	@Column(name = "id_verificacao_token")
-	private UUID idVerificacaoToken;
+	@Column(name = "id_redefinicao_token")
+	private UUID idRedefinicaoToken;
 
-	public VerificacaoEmailToken(Usuario usuario, Integer duracaoEmSegundos) {
+	public RedefinicaoSenhaToken(Usuario usuario, Integer duracaoEmSegundos) {
 		super(usuario, duracaoEmSegundos);
-		this.idVerificacaoToken = UUID.randomUUID();
+		this.idRedefinicaoToken = UUID.randomUUID();
 	}
-
 }

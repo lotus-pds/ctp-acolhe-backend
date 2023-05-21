@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,8 @@ public class CadastroService {
 	@Autowired
 	private EmailService emailService;
 	
-	private final Integer TOKEN_EXPIRA_EM = 1800;
+	@Value("${account.verification-token-expires-in}")
+	private Integer VERIFICACAO_TOKEN_EXPIRA_EM;
 	
 	public Usuario criar(UsuarioCreateDto dto) {
 		validaUsuario(dto);
@@ -64,7 +66,7 @@ public class CadastroService {
 			log.info("Usuário com id {} foi criado", usuario.getIdUsuario());
 			
 			VerificacaoEmailToken verificacaoToken =
-                    new VerificacaoEmailToken(usuario, TOKEN_EXPIRA_EM);
+                    new VerificacaoEmailToken(usuario, VERIFICACAO_TOKEN_EXPIRA_EM);
 			verificacaoTokenRepository.save(verificacaoToken);
             log.debug("Token de verificação {} para o e-mail {} foi criado", verificacaoToken.getToken(), usuario.getEmail());
 
@@ -123,7 +125,7 @@ public class CadastroService {
 
         try {
         	verificacaoToken.setGeradoEm(LocalDateTime.now());
-            verificacaoToken.setExpiraEm(LocalDateTime.now().plusSeconds(TOKEN_EXPIRA_EM));
+            verificacaoToken.setExpiraEm(LocalDateTime.now().plusSeconds(VERIFICACAO_TOKEN_EXPIRA_EM));
             verificacaoTokenRepository.save(verificacaoToken);
             
             emailService.enviaEmailDeVerificacao(usuario, verificacaoToken);

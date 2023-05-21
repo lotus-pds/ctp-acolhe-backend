@@ -17,7 +17,10 @@ public enum MensagemExceptionType {
 	TOKEN_EXPIROU("Token de verificação para o e-mail=%s expirou"),
 	TOKEN_AGUARDE_UM_MINUTO("Aguarde 1 minuto para o reenvio do e-mail de verificação"),
 	
+	EMAIL_REDEFINICAO_SENHA_JA_ENVIADO("E-mail para redefinição de senha já enviado, solicite o reenvio ou tente novamente mais tarde"),
+	
 	PROBLEMA_COM_ENVIO_EMAIL_VERIFICACAO("Problema com o envio do e-mail de verificação, tente novamente mais tarde"),
+	PROBLEMA_COM_ENVIO_EMAIL_REDEFINICAO_SENHA("Problema com o envio do e-mail de redefinição de senha, tente novamente mais tarde"),
 	
 	HUMOR_REGISTRADO_HOJE("Humor já registrado hoje");
 	
