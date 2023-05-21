@@ -1,14 +1,19 @@
 package br.edu.ifsp.spo.ctpacolhe.dto;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import lombok.Getter;
-import lombok.Setter;
+import br.edu.ifsp.spo.ctpacolhe.common.annotation.Password;
+import lombok.Value;
 
-@Getter
-@Setter
+@Value
 public class RedefinicaoSenhaDTO {
+	
 	@NotNull
-	private String token;
+	String token;
+	
 	@NotNull
-	private String senha;
+	@Size(min = 8, max = 64)
+	@Password
+	String senha;
+	
 }
