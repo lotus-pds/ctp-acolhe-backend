@@ -8,6 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
@@ -25,9 +26,11 @@ import io.jsonwebtoken.security.SignatureException;
 public class JwtTokenUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
 
-	public static final long EXPIRE_DURATION = 120 * 60000; // 2 horas
+	@Value("${jwt.access-token-expires-in}")
+	private long EXPIRE_DURATION;
 
-	private String SECRET_KEY = "asdfSFS34wfsdfsdfSDSD32dfsddDDerQSNCK34SOWEK5354fdgdf4";
+	@Value("${jwt.secret}")
+	private String SECRET_KEY;
 
 	public Key getPublicKey() {
 		return new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY), SignatureAlgorithm.HS256.getJcaName());

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,6 +34,9 @@ public class AutenticacaoService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@Value("${jwt.access-token-expires-in}")
+	private long EXPIRE_DURATION;
+	
 	public AcessoDto montaAutenticacao(AcessoCreateDto acessoDto) {
 		Usuario usuario = getUsuario(acessoDto.getEmail());
 		
@@ -50,7 +54,7 @@ public class AutenticacaoService {
 			List<String> perfis = usuario.getPerfis().stream().map(Perfil::getDescricao).toList();
 			
 			AcessoDto dto = new AcessoDto(acessoToken, perfis,
-					System.currentTimeMillis() + JwtTokenUtil.EXPIRE_DURATION);
+					System.currentTimeMillis() + EXPIRE_DURATION);
 
 			return dto;
 		} catch(BadCredentialsException ex) {

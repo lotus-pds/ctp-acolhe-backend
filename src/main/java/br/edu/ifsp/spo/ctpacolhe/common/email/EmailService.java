@@ -9,8 +9,10 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifsp.spo.ctpacolhe.entity.RedefinicaoSenhaToken;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
 import br.edu.ifsp.spo.ctpacolhe.entity.VerificacaoEmailToken;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +48,8 @@ public class EmailService {
 
         mailSender.send(mail);
     }
-
+	
+	@Async
 	public void enviaEmailDeVerificacao(Usuario usuario, VerificacaoEmailToken verificacaoToken) 
 			 throws MessagingException {
 		String urlVerificacao = url + "cadastro/verificacao/" + verificacaoToken.getToken().toString();
@@ -64,6 +67,26 @@ public class EmailService {
                 "<p>Atenciosamente,</p>\n" +
                 "<p>Organiza&ccedil;&atilde;o CTP Acolhe &#124; Lotus.</p></div></div>";
         
-        enviaEmail("Verificação de E-mail do CTP Acolhe", usuario.getEmail(), conteudo);
+        enviaEmail("Verificação de E-mail - CTP Acolhe", usuario.getEmail(), conteudo);
+	}
+
+	@Async
+	public void enviaEmailDeRedefinicao(Usuario usuario, RedefinicaoSenhaToken redefinicaoSenhaToken)
+			throws MessagingException {
+		String urlRedefinicao = url + "redefinir-minha-senha/" + redefinicaoSenhaToken.getToken().toString();
+        String nome = usuario.getNome().split(" ")[0];
+        
+        String conteudo = "<div style=\"text-align: center;\"><div style=\"padding: 10px; text-align: left\"><h1>Pedido de altera&ccedil;&atilde;o de senha</h1>\n" +
+                "<p>Ol&aacute;, "+ nome + ".</p>\n" +
+                "<p>Utilize o bot&atilde;o abaixo para alterar a sua senha.</p>\n" +
+                "<a href=\"" + urlRedefinicao +"\" target=\"_blank\" style=\"max-width: 280px; text-decoration: none; display: inline-block; background-color: #4caf50; color: #ffffff; height: 36px; border-radius: 5px; font-weight: bold; font-size: 18px; margin: 20px 0; width: 100%; text-align: center; padding-top: 10px; \">" +
+                "  Redefinir Senha" +
+                "</a>" +
+                "<p>Caso n&atilde;o consiga utilizar o bot&atilde;o, copie e cole o seguinte link no seu navegador:</p>\n" +
+                "<p>"+ urlRedefinicao + "</p>\n" +
+                "<p>Atenciosamente,</p>\n" +
+                "<p>Organiza&ccedil;&atilde;o CTP Acolhe &#124; Lotus.</p></div></div>";
+        
+        enviaEmail("Redefinição de senha - CTP Acolhe", usuario.getEmail(), conteudo);
 	}
 }
