@@ -17,6 +17,7 @@ import lombok.Setter;
 @JsonInclude(Include.NON_NULL)
 public class AcessoDto {
 	private String tokenAcesso;
+	private String tokenRenovacao;
 	private List<String> roles;
 	private Long expiraEm;
 }
