@@ -52,7 +52,7 @@ public class EmailService {
 	@Async
 	public void enviaEmailDeVerificacao(Usuario usuario, VerificacaoEmailToken verificacaoToken) 
 			 throws MessagingException {
-		String urlVerificacao = url + "cadastro/verificacao/" + verificacaoToken.getToken().toString();
+		String urlVerificacao = url + "subscribe/verification/" + verificacaoToken.getToken().toString();
         String nome = usuario.getNome().split(" ")[0];
 		
         String conteudo = "<div style=\"text-align: center;\"><div style=\"padding: 10px; text-align: left\"><h1>Verifique seu e-mail</h1>\n" +
@@ -73,7 +73,7 @@ public class EmailService {
 	@Async
 	public void enviaEmailDeRedefinicao(Usuario usuario, RedefinicaoSenhaToken redefinicaoSenhaToken)
 			throws MessagingException {
-		String urlRedefinicao = url + "redefinir-minha-senha/" + redefinicaoSenhaToken.getToken().toString();
+		String urlRedefinicao = url + "reset-my-password/" + redefinicaoSenhaToken.getToken().toString();
         String nome = usuario.getNome().split(" ")[0];
         
         String conteudo = "<div style=\"text-align: center;\"><div style=\"padding: 10px; text-align: left\"><h1>Pedido de altera&ccedil;&atilde;o de senha</h1>\n" +
