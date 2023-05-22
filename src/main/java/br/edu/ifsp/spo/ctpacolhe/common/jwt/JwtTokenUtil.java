@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.ctpacolhe.common.jwt;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -39,6 +40,13 @@ public class JwtTokenUtil {
 	public String generateAccessToken(Usuario usuario) {
 		return Jwts.builder().setSubject(String.format("%s,%s", usuario.getIdUsuario(), usuario.getEmail()))
 				.setIssuer("CTP Acolhe").claim("roles", usuario.getPerfis().toString()).setIssuedAt(new Date())
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION)).signWith(getPublicKey())
+				.compact();
+	}
+	
+	public String generateRefreshToken(Usuario usuario, UUID idRenovacaoToken) {
+		return Jwts.builder().setSubject(String.format("%s,%s", usuario.getIdUsuario(), usuario.getEmail()))
+				.setIssuer("CTP Acolhe").setIssuedAt(new Date()).setId(idRenovacaoToken.toString())
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION)).signWith(getPublicKey())
 				.compact();
 	}

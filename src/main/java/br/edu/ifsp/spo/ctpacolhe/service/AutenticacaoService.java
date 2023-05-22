@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -18,11 +19,15 @@ import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtTokenUtil;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Perfil;
+import br.edu.ifsp.spo.ctpacolhe.entity.RenovacaoToken;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
+import br.edu.ifsp.spo.ctpacolhe.repository.RenovacaoTokenRepository;
 import br.edu.ifsp.spo.ctpacolhe.repository.UsuarioRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 public class AutenticacaoService {
 	
 	@Autowired
@@ -30,6 +35,9 @@ public class AutenticacaoService {
 	
 	@Autowired
 	private JwtTokenUtil jwtUtil;
+	
+	@Autowired
+	private RenovacaoTokenRepository renovacaoTokenRepository;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -49,13 +57,21 @@ public class AutenticacaoService {
 					.authenticate(new UsernamePasswordAuthenticationToken(acessoDto.getEmail(), acessoDto.getSenha()));
 			
 			Usuario usuarioAutenticado = (Usuario) authentication.getPrincipal();
+			
+			renovacaoTokenRepository.deleteAllByIdUsuario(usuarioAutenticado.getIdUsuario());
+			
 			String acessoToken = jwtUtil.generateAccessToken(usuarioAutenticado);
+			
+			UUID idRenovacaoToken = UUID.randomUUID();
+			String renovacaoTokenString = jwtUtil.generateRefreshToken(usuarioAutenticado, idRenovacaoToken);
+			RenovacaoToken renovacaoToken = new RenovacaoToken(idRenovacaoToken, renovacaoTokenString, usuarioAutenticado.getIdUsuario());
+			renovacaoTokenRepository.save(renovacaoToken);
 			
 			List<String> perfis = usuario.getPerfis().stream().map(Perfil::getDescricao).toList();
 			
-			AcessoDto dto = new AcessoDto(acessoToken, perfis,
-					System.currentTimeMillis() + EXPIRE_DURATION);
-
+			AcessoDto dto = new AcessoDto(acessoToken, renovacaoTokenString, perfis, System.currentTimeMillis() + EXPIRE_DURATION);
+			
+			log.info("Acesso feito com sucesso para o e-mail {}", usuarioAutenticado.getEmail());
 			return dto;
 		} catch(BadCredentialsException ex) {
 			throw new ValidationException(MensagemExceptionType.CREDENCIAIS_INCORRETAS);
@@ -64,7 +80,6 @@ public class AutenticacaoService {
 	
 	private Usuario getUsuario(String email) {
         return usuarioRepository.findByEmail(email).orElseThrow(
-                () -> new ValidationException(MensagemExceptionType.CREDENCIAIS_INCORRETAS)
-        );
+                () -> new ValidationException(MensagemExceptionType.CREDENCIAIS_INCORRETAS));
     }
 }
