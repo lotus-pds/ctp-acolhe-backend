@@ -3,17 +3,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.edu.ifsp.spo.ctpacolhe.common.annotation.Password;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
 
-@Value
+@Getter
+@Setter
 public class RedefinicaoSenhaDTO {
 	
 	@NotNull
-	String token;
+	private String token;
 	
 	@NotNull
 	@Size(min = 8, max = 64)
 	@Password
-	String senha;
+	private String senha;
 	
 }
