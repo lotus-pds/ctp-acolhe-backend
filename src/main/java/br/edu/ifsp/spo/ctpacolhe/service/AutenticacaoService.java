@@ -104,6 +104,13 @@ public class AutenticacaoService {
 		return dto;
 	}
 	
+	public void sair(Authentication usuarioAutenticado) {
+		Usuario usuario = (Usuario) usuarioAutenticado.getPrincipal();
+		
+		renovacaoTokenRepository.deleteAllByIdUsuario(usuario.getIdUsuario());
+        log.info("Usuário com e-mail {} saiu da sessão com sucesso", usuario.getEmail());
+	}
+	
 	private Usuario buscaUsuario(UUID id) {
         return usuarioRepository.findById(id).orElseThrow(
                 () -> new ValidationException(MensagemExceptionType.CREDENCIAIS_INCORRETAS));
