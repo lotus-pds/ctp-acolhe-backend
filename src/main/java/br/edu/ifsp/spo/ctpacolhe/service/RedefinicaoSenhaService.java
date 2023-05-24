@@ -23,6 +23,7 @@ import br.edu.ifsp.spo.ctpacolhe.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Transactional
 @Slf4j
 public class RedefinicaoSenhaService {
 	
@@ -41,7 +42,6 @@ public class RedefinicaoSenhaService {
 	@Value("${account.password-reset-token-expires-in}")
 	private Integer REDEFINICAO_TOKEN_EXPIRA_EM;
 	
-	@Transactional
 	public void enviarEmailEsqueciSenha(String email) {
 		Usuario usuario = buscaUsuario(email);
 		
@@ -65,13 +65,12 @@ public class RedefinicaoSenhaService {
         }
 	}
 
-	@Transactional
 	public void redefinicaoSenha(RedefinicaoSenhaDTO dto) {
 		RedefinicaoSenhaToken redefinicaoSenhaToken = redefinicaoTokenRepository.findByToken(UUID.fromString(dto.getToken()))
-                .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.REDEFINICAO_SENHA));
+                .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.REDEFINICAO_SENHA_TOKEN));
 		
 		if (redefinicaoSenhaToken.getExpiraEm().isBefore(LocalDateTime.now())) {
-			throw new ValidationException(MensagemExceptionType.TOKEN_EXPIROU, CamposDinamicosType.REDEFINICAO_SENHA, redefinicaoSenhaToken.getUsuario().getEmail());
+			throw new ValidationException(MensagemExceptionType.TOKEN_EXPIROU, CamposDinamicosType.REDEFINICAO_SENHA_TOKEN, redefinicaoSenhaToken.getUsuario().getEmail());
 		}
 		
 		Usuario usuario = redefinicaoSenhaToken.getUsuario();
@@ -107,11 +106,11 @@ public class RedefinicaoSenhaService {
 
 	private RedefinicaoSenhaToken validaRedefinicaoToken(UUID idUsuario) {
 		RedefinicaoSenhaToken redefinicaoToken = redefinicaoTokenRepository.findByIdUsuario(idUsuario)
-				.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.REDEFINICAO_SENHA));
+				.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.REDEFINICAO_SENHA_TOKEN));
 
 		if (redefinicaoToken.getGeradoEm().plusSeconds(60).isAfter(LocalDateTime.now())) {
 			throw new ValidationException(MensagemExceptionType.TOKEN_AGUARDE_UM_MINUTO,
-					CamposDinamicosType.REDEFINICAO_SENHA);
+					CamposDinamicosType.REDEFINICAO_SENHA_TOKEN);
 		}
 		
 		return redefinicaoToken;

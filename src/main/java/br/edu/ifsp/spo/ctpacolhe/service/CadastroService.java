@@ -77,16 +77,16 @@ public class CadastroService {
             return usuario;
 		} catch (MessagingException e) {
 			log.error("Erro ao tentar enviar e-mail de confirmação para {}", usuario.getEmail(), e);
-            throw new ValidationException(MensagemExceptionType.PROBLEMA_COM_ENVIO_EMAIL, CamposDinamicosType.VERIFICACAO);
+            throw new ValidationException(MensagemExceptionType.PROBLEMA_COM_ENVIO_EMAIL, CamposDinamicosType.VERIFICACAO_TOKEN);
 		}
 	}
 	
 	public Usuario verificar(UUID token) {
 		VerificacaoEmailToken verificacaoToken = verificacaoTokenRepository.findByToken(token)
-                .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.VERIFICACAO));
+                .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.VERIFICACAO_TOKEN));
 		
 		if (verificacaoToken.getExpiraEm().isBefore(LocalDateTime.now())) {
-			throw new ValidationException(MensagemExceptionType.TOKEN_EXPIROU, CamposDinamicosType.VERIFICACAO, verificacaoToken.getUsuario().getEmail());
+			throw new ValidationException(MensagemExceptionType.TOKEN_EXPIROU, CamposDinamicosType.VERIFICACAO_TOKEN, verificacaoToken.getUsuario().getEmail());
 		}
 
         Usuario usuario = verificacaoToken.getUsuario();
@@ -118,10 +118,10 @@ public class CadastroService {
                 .orElseThrow(() -> new ValidationException(MensagemExceptionType.EMAIL_NAO_ENCONTRADO));
 		
 		VerificacaoEmailToken verificacaoToken = verificacaoTokenRepository.findByIdUsuario(usuario.getIdUsuario())
-        		.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.VERIFICACAO));
+        		.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.VERIFICACAO_TOKEN));
 
         if (verificacaoToken.getGeradoEm().plusSeconds(60).isAfter(LocalDateTime.now())) {
-        	throw new ValidationException(MensagemExceptionType.TOKEN_AGUARDE_UM_MINUTO, CamposDinamicosType.VERIFICACAO);
+        	throw new ValidationException(MensagemExceptionType.TOKEN_AGUARDE_UM_MINUTO, CamposDinamicosType.VERIFICACAO_TOKEN);
         }
 
         try {
@@ -134,7 +134,7 @@ public class CadastroService {
             return usuario;
         } catch (MessagingException e) {
 			log.error("Erro ao tentar reenviar e-mail de confirmação para {}", usuario.getEmail(), e);
-            throw new ValidationException(MensagemExceptionType.PROBLEMA_COM_ENVIO_EMAIL, CamposDinamicosType.VERIFICACAO);
+            throw new ValidationException(MensagemExceptionType.PROBLEMA_COM_ENVIO_EMAIL, CamposDinamicosType.VERIFICACAO_TOKEN);
 		}
 	}
 
