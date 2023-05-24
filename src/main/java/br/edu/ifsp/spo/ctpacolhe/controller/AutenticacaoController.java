@@ -5,6 +5,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,5 +37,12 @@ public class AutenticacaoController {
 		AcessoDto dto = autenticacaoService.renovacaoToken(renovacaoToken);
 
 		return ResponseEntity.ok(dto);
+    }
+	
+	@DeleteMapping("/sair")
+    public ResponseEntity<Void> sair(Authentication usuarioAutenticado) {
+        autenticacaoService.sair(usuarioAutenticado);
+
+        return ResponseEntity.noContent().build();
     }
 }
