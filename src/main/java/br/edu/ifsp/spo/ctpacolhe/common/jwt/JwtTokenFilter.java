@@ -38,7 +38,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 		String token = getAccessToken(request);
 
-		if (!jwtUtil.validateAccessToken(token)) {
+		if (!jwtUtil.validateJwtToken(token)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -75,9 +75,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 	private UserDetails getUserDetails(String token) {
 		Usuario usuarioDetails = new Usuario();
-		Claims claims = jwtUtil.getAllClaimsFromToken(token);
+		Claims claims = jwtUtil.getAllClaimsFromAccessToken(token);
 		String subject = (String) claims.get(Claims.SUBJECT);
 		String permissoes = (String) claims.get("roles");
+		String email = (String) claims.get("email");
 
 		permissoes = permissoes.replace("[", "").replace("]", "");
 		String[] nomePermissoes = permissoes.split(",");
@@ -86,10 +87,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 			usuarioDetails.addPerfil(new Perfil(nomePermissao));
 		}
 
-		String[] jwtSubject = subject.split(",");
-
-		usuarioDetails.setIdUsuario(UUID.fromString(jwtSubject[0]));
-		usuarioDetails.setEmail(jwtSubject[1]);
+		usuarioDetails.setIdUsuario(UUID.fromString(subject));
+		usuarioDetails.setEmail(email);
 
 		return usuarioDetails;
 	}

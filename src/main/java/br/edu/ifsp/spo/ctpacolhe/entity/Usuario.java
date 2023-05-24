@@ -74,6 +74,10 @@ public class Usuario implements UserDetails {
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil);
 	}
+	
+	public List<String> getPerfisString() {
+		return this.getPerfis().stream().map(Perfil::getDescricao).toList();
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

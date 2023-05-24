@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe.controller;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +29,11 @@ public class AutenticacaoController {
 		
 		return ResponseEntity.ok(dto);
 	}
+	
+	@PostMapping("/renovar-token")
+    public ResponseEntity<AcessoDto> renovarToken(@Valid @RequestBody @NotBlank String renovacaoToken) {
+		AcessoDto dto = autenticacaoService.renovacaoToken(renovacaoToken);
+
+		return ResponseEntity.ok(dto);
+    }
 }

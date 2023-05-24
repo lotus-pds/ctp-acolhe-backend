@@ -45,9 +45,10 @@ account:
   password-reset-token-expires-in: 1800
   
 jwt:
+  issuer: ctp-acolhe
   secret: ${JWT_SECRET:asdfSFS34wfsdfsdfSDSD32dfsddDDerQSNCK34SOWEK5354fdgdf4}
   access-token-expires-in: ${JWT_ACCESS_TOKEN_EXPIRES_IN:7200000}
-  refresh-token-expires-in: ${JWT_REFRESH_TOKEN_EXPIRES_IN:86400}
+  refresh-token-expires-in: ${JWT_REFRESH_TOKEN_EXPIRES_IN:14400000}
 
 logging:
   level:

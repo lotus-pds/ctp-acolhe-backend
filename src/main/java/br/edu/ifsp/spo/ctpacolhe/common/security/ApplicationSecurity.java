@@ -57,7 +57,8 @@ public class ApplicationSecurity {
 				"/conta/acesso",
 				"/conta/senha/esqueci",
 				"/conta/senha/esqueci/reenviar-email",
-				"/conta/senha/redefinir"
+				"/conta/senha/redefinir",
+				"/conta/renovar-token"
         );
 
         http.cors().and().csrf()

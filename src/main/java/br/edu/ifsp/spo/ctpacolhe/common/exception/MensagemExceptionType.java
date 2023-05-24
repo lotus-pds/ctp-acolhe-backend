@@ -15,6 +15,7 @@ public enum MensagemExceptionType {
 	
 	TOKEN_NAO_ENCONTRADO("Token de %s não encontrado"),
 	TOKEN_EXPIROU("Token de %s para o e-mail=%s expirou"),
+	TOKEN_RENOVACAO_EXPIROU("Token de renovação expirou, acesse sua conta novamente"),
 	TOKEN_AGUARDE_UM_MINUTO("Aguarde 1 minuto para o reenvio do e-mail de %s"),
 	
 	EMAIL_REDEFINICAO_SENHA_JA_ENVIADO("E-mail para redefinição de senha já enviado, solicite o reenvio ou tente novamente mais tarde"),
