@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RedefinicaoSenhaDTO {
+public class RedefinicaoSenhaDto {
 	
 	@NotNull
 	private String token;

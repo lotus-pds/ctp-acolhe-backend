@@ -1,13 +1,18 @@
 package br.edu.ifsp.spo.ctpacolhe.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioDto;
+import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
 import br.edu.ifsp.spo.ctpacolhe.mapper.UsuarioMapper;
 import br.edu.ifsp.spo.ctpacolhe.service.UsuarioService;
@@ -26,6 +31,16 @@ public class UsuarioAutenticadoController implements Controller {
 	@ResponseBody
 	public ResponseEntity<UsuarioDto> buscaUsuario() {
 		Usuario usuario = usuarioService.buscaUsuario();
+
+		UsuarioDto dto = usuarioMapper.to(usuario);
+
+		return ResponseEntity.ok(dto);
+	}
+	
+	@PutMapping
+	@ResponseBody
+	public ResponseEntity<UsuarioDto> alteraDados(@RequestBody @Valid UsuarioUpdateDto usuarioDto) {
+		Usuario usuario = usuarioService.alteraDados(usuarioDto);
 
 		UsuarioDto dto = usuarioMapper.to(usuario);
 

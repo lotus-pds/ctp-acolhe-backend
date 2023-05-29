@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifsp.spo.ctpacolhe.service.RedefinicaoSenhaService;
-import br.edu.ifsp.spo.ctpacolhe.dto.RedefinicaoSenhaDTO;
+import br.edu.ifsp.spo.ctpacolhe.dto.RedefinicaoSenhaDto;
 
 @RestController
 @RequestMapping("conta/senha")
@@ -32,7 +32,7 @@ public class RedefinicaoSenhaController implements Controller {
 	}
 
 	@PatchMapping("redefinir")
-	public ResponseEntity<Void> redefinicao(@Valid @RequestBody RedefinicaoSenhaDTO dto) {
+	public ResponseEntity<Void> redefinicao(@Valid @RequestBody RedefinicaoSenhaDto dto) {
 		redefinicaoSenhaService.redefinicaoSenha(dto);
 		return ResponseEntity.noContent().build();
 	}

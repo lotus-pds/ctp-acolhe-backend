@@ -67,6 +67,7 @@ public class ApplicationSecurity {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests((authz) -> authz
                 .antMatchers(accountOpenPaths.toArray(String[]::new)).permitAll()
+                .antMatchers("/usuario/autenticado/**").hasAnyAuthority("Admin", "Aluno")
                 .antMatchers("/usuario/autenticado/humor/**").hasAnyAuthority("Aluno")
                 .anyRequest().authenticated()
              );
