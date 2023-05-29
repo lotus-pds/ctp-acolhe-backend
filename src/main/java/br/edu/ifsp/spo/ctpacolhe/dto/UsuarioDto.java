@@ -27,5 +27,6 @@ public class UsuarioDto {
 	private String turma;
 	private String prontuario;
 	private Boolean emailConfirmado;
+	private Boolean ativo;
 
 }
