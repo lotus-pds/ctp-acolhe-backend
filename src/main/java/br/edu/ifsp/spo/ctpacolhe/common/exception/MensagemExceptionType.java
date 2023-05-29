@@ -9,6 +9,7 @@ public enum MensagemExceptionType {
 	EMAIL_NAO_CONFIRMADO("E-mail ainda não confirmado"),
 	CREDENCIAIS_INCORRETAS("Usuário e/ou senha incorreto(s)"),
 	
+	USUARIO_NAO_ENCONTRADO("Usuário não encontrado"),
 	EMAIL_NAO_ENCONTRADO("E-mail não encontrado"),
 	EMAIL_JA_CADASTRADO("E-mail já cadastrado"),
 	PRONTUARIO_JA_CADASTRADO("Prontuário já cadastrado"),

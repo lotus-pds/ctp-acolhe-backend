@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
@@ -21,12 +20,15 @@ import br.edu.ifsp.spo.ctpacolhe.repository.HumorRepository;
 @Service
 @Transactional
 public class HumorService {
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@Autowired
 	private HumorRepository humorRepository;
 
 	public Humor criaHumor(HumorCreateDto dto) {
-		Usuario usuarioAutenticado = buscaUsuarioAutenticado();
+		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
 
 		if (humorRepository.existsByDataHumorAndIdUsuario(LocalDate.now(), usuarioAutenticado.getIdUsuario())) {
 			throw new ValidationException(MensagemExceptionType.HUMOR_REGISTRADO_HOJE);
@@ -43,7 +45,7 @@ public class HumorService {
 	}
 
 	public List<Humor> buscaHumores(LocalDate dataHumor) {
-		Usuario usuarioAutenticado = buscaUsuarioAutenticado();
+		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
 		
 		Humor humor = Humor.builder()
 				.dataHumor(dataHumor)
@@ -53,9 +55,5 @@ public class HumorService {
 		List<Humor> humores = humorRepository.findAll(Example.of(humor));
 		
 		return humores;
-	}
-	
-	private Usuario buscaUsuarioAutenticado() {
-		return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 }

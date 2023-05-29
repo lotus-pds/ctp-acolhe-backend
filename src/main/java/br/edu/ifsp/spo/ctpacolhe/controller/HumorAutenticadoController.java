@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +23,8 @@ import br.edu.ifsp.spo.ctpacolhe.mapper.HumorMapper;
 import br.edu.ifsp.spo.ctpacolhe.service.HumorService;
 
 @RestController
-@RequestMapping("/usuario/autenticado")
-public class AutenticadoController implements Controller {
+@RequestMapping("/usuario/autenticado/humor")
+public class HumorAutenticadoController implements Controller {
 	
 	@Autowired
 	private HumorService humorService;
@@ -34,7 +32,6 @@ public class AutenticadoController implements Controller {
 	@Autowired
 	private HumorMapper humorMapper;
 	
-	@PostMapping(path = "/humor")
 	@ResponseBody
 	public ResponseEntity<HumorDto> registroHumor(@RequestBody @Valid HumorCreateDto humorDto) {
 		Humor humor = humorService.criaHumor(humorDto);
@@ -45,7 +42,6 @@ public class AutenticadoController implements Controller {
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
-	@GetMapping(path = "/humor")
 	@ResponseBody
 	public ResponseEntity<List<HumorDto>> buscaHumores(
 			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE) LocalDate dataHumor) {

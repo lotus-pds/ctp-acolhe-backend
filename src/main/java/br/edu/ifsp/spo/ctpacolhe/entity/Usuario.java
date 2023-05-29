@@ -60,12 +60,12 @@ public class Usuario implements UserDetails {
 	private String prontuario;
 	@Column(name = "senha")
 	private String senha;
-	@Column(name = "ativo")
-	@Builder.Default
-	private Boolean ativo = true;
 	@Column(name = "email_confirmado")
 	@Builder.Default
 	private Boolean emailConfirmado = false;
+	@Column(name = "ativo")
+	@Builder.Default
+	private Boolean ativo = true;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "perfil_usuario", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_perfil"))
 	@Builder.Default
