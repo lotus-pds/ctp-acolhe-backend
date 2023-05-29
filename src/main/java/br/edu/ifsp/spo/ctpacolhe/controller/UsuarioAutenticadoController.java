@@ -5,12 +5,14 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifsp.spo.ctpacolhe.dto.SenhaUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
@@ -45,5 +47,13 @@ public class UsuarioAutenticadoController implements Controller {
 		UsuarioDto dto = usuarioMapper.to(usuario);
 
 		return ResponseEntity.ok(dto);
+	}
+	
+	@PatchMapping("/alterar-senha")
+	@ResponseBody
+	public ResponseEntity<Void> alteraSenha(@RequestBody @Valid SenhaUpdateDto senhasDto) {
+		usuarioService.alteraSenha(senhasDto);
+
+		return ResponseEntity.noContent().build();
 	}
 }

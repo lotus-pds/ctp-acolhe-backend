@@ -4,10 +4,12 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
+import br.edu.ifsp.spo.ctpacolhe.dto.SenhaUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
 import br.edu.ifsp.spo.ctpacolhe.repository.UsuarioRepository;
@@ -18,6 +20,9 @@ public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public Usuario buscaUsuario() {
 		Usuario usuario = validaUsuarioAutenticado();
@@ -36,6 +41,22 @@ public class UsuarioService {
 		usuario.setProntuario(usuarioDto.getProntuario());
 		
 		return usuarioRepository.save(usuario);
+	}
+	
+	public void alteraSenha(SenhaUpdateDto senhasDto) {
+		Usuario usuario = validaUsuarioAutenticado();
+		
+		if (!passwordEncoder.matches(senhasDto.getSenhaAtual(), usuario.getSenha())) {
+			throw new ValidationException(MensagemExceptionType.SENHA_ATUAL_INCORRETA);
+		}
+		
+		if (senhasDto.getSenhaAtual().equals(senhasDto.getSenhaNova())) {
+			throw new ValidationException(MensagemExceptionType.SENHA_ATUAL_E_NOVA_IGUAIS);
+		}
+		
+		usuario.setSenha(passwordEncoder.encode(senhasDto.getSenhaNova()));
+		
+		usuarioRepository.save(usuario);
 	}
 
 	private Usuario validaUsuarioAutenticado() {

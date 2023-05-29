@@ -8,6 +8,9 @@ import lombok.Getter;
 public enum MensagemExceptionType {
 	EMAIL_NAO_CONFIRMADO("E-mail ainda não confirmado"),
 	CREDENCIAIS_INCORRETAS("Usuário e/ou senha incorreto(s)"),
+	SENHA_ATUAL_INCORRETA("Senha atual incorreta"),
+	
+	SENHA_ATUAL_E_NOVA_IGUAIS("Senha atual e nova são iguais"),
 	
 	USUARIO_NAO_ENCONTRADO("Usuário não encontrado"),
 	EMAIL_NAO_ENCONTRADO("E-mail não encontrado"),
