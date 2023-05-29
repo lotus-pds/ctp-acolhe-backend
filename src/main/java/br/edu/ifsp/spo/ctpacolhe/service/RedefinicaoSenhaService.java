@@ -15,7 +15,7 @@ import br.edu.ifsp.spo.ctpacolhe.common.email.EmailService;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.CamposDinamicosType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
-import br.edu.ifsp.spo.ctpacolhe.dto.RedefinicaoSenhaDTO;
+import br.edu.ifsp.spo.ctpacolhe.dto.RedefinicaoSenhaDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.RedefinicaoSenhaToken;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
 import br.edu.ifsp.spo.ctpacolhe.repository.RedefinicaoTokenRepository;
@@ -65,7 +65,7 @@ public class RedefinicaoSenhaService {
         }
 	}
 
-	public void redefinicaoSenha(RedefinicaoSenhaDTO dto) {
+	public void redefinicaoSenha(RedefinicaoSenhaDto dto) {
 		RedefinicaoSenhaToken redefinicaoSenhaToken = redefinicaoTokenRepository.findByToken(UUID.fromString(dto.getToken()))
                 .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.REDEFINICAO_SENHA_TOKEN));
 		
