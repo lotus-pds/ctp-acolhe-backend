@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.constant.PerfilUsuario;
 import br.edu.ifsp.spo.ctpacolhe.common.email.EmailService;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.CamposDinamicosType;
-import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Perfil;

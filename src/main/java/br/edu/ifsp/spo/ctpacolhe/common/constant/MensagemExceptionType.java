@@ -1,4 +1,4 @@
-package br.edu.ifsp.spo.ctpacolhe.common.exception;
+package br.edu.ifsp.spo.ctpacolhe.common.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
+import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.HumorCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Humor;
