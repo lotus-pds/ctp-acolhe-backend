@@ -1,8 +1,5 @@
 package br.edu.ifsp.spo.ctpacolhe.common.email;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +7,8 @@ import org.springframework.stereotype.Component;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.EmailContentType;
 import br.edu.ifsp.spo.ctpacolhe.common.util.CtpAcolheUtils;
-import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
 public class EmailContentService {
 	
 	@Value("${account.verification-token-expires-in}")
@@ -29,18 +24,8 @@ public class EmailContentService {
 	private static final String URL_LINK = "{{URL_LINK}}";
 	private static final String TITULO_BOTAO = "{{TITULO_BOTAO}}";
 	
-	public String getConteudoEmail(String nome, String url, EmailContentType tipoEmail) {
-		ClassLoader classLoader = EmailContentService.class.getClassLoader();
-		URL resourceUrl = classLoader.getResource("email-layout/template-email-default.html");
-		String filePath = "";
-		
-		try {
-			filePath = URLDecoder.decode(resourceUrl.getFile(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			log.error("Erro ao tentar decodificar template de e-mail com caminho {}", resourceUrl.getFile().toString());
-		}
-		
-		String htmlContent = CtpAcolheUtils.readFileToString(filePath);
+	public String getConteudoEmail(String nome, String url, EmailContentType tipoEmail) {		
+		String htmlContent = TemplateEmailDefault.getContent();
 		
 		htmlContent = htmlContent.replace(NOME, nome)
 				.replace(URL_LINK, url);
