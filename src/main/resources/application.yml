@@ -39,6 +39,9 @@ support:
   mail: ${SUPPORT_EMAIL:lotusteam.2023@gmail.com}
   name: ${SUPPORT_NAME:CTP Acolhe | Lotus}
 
+adjust-datetime:
+  minus_time-in-hours: ${MINUS_TIME_IN_HOURS:0}
+
 frontend:
   url: ${FRONTEND_URL:http://localhost:5173}
   

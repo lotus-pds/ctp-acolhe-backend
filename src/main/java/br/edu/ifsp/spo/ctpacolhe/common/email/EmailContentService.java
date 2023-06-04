@@ -17,6 +17,9 @@ public class EmailContentService {
 	@Value("${account.password-reset-token-expires-in}")
 	private Integer REDEFINICAO_TOKEN_EXPIRA_EM;
 	
+	@Value("${adjust-datetime.minus_time-in-hours}")
+	private Integer MENOS_TEMPO_EM_HORAS;
+	
 	private static final String TITULO = "{{TITULO}}";
 	private static final String NOME = "{{NOME}}";
 	private static final String PARAGRAFO = "{{PARAGRAFO}}";
@@ -34,7 +37,7 @@ public class EmailContentService {
 			htmlContent = htmlContent.replace(TITULO, "Confirmação de E-mail")
 					.replace(PARAGRAFO,
 							"Você realizou seu cadastro com sucesso na plataforma do CTP Acolhe em "
-									+ CtpAcolheUtils.formatDateTime(LocalDateTime.now())
+									+ CtpAcolheUtils.formatDateTime(LocalDateTime.now().minusHours(MENOS_TEMPO_EM_HORAS))
 									+ ". Este link de confirmação de e-mail é válido apenas pelos próximos "
 									+ REDEFINICAO_TOKEN_EXPIRA_EM / 60 + " minutos.")
 					.replace(ACAO, "Utilize o botão abaixo para verificar seu e-mail:")
@@ -43,7 +46,7 @@ public class EmailContentService {
 		if (EmailContentType.REDEFINICAO_SENHA.equals(tipoEmail)) {
 			htmlContent = htmlContent.replace(TITULO, "Redefinição de Senha").replace(PARAGRAFO,
 					"Recebemos uma solicitação de alteração da sua senha de acesso à plataforma do CTP Acolhe em "
-							+ CtpAcolheUtils.formatDateTime(LocalDateTime.now())
+							+ CtpAcolheUtils.formatDateTime(LocalDateTime.now().minusHours(MENOS_TEMPO_EM_HORAS))
 							+ ". Este link de redefinição de senha é válido apenas pelos próximos "
 							+ REDEFINICAO_TOKEN_EXPIRA_EM / 60 + " minutos.")
 					.replace(ACAO, "Se você reconhece essa ação, clique no botão abaixo para prosseguir:")
