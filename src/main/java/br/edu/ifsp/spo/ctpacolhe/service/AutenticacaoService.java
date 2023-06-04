@@ -12,8 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.CamposDinamicosType;
-import br.edu.ifsp.spo.ctpacolhe.common.exception.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtConfig;
 import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtTokenUtil;

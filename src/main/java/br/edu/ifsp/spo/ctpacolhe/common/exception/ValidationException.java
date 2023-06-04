@@ -3,6 +3,7 @@ package br.edu.ifsp.spo.ctpacolhe.common.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import lombok.NoArgsConstructor;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
