@@ -1,5 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe.common.email;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +34,7 @@ public class EmailContentService {
 			htmlContent = htmlContent.replace(TITULO, "Confirmação de E-mail")
 					.replace(PARAGRAFO,
 							"Você realizou seu cadastro com sucesso na plataforma do CTP Acolhe em "
-									+ CtpAcolheUtils.formatDateTime(CtpAcolheUtils.getDateTimeBrazil())
+									+ CtpAcolheUtils.formatDateTime(LocalDateTime.now())
 									+ ". Este link de confirmação de e-mail é válido apenas pelos próximos "
 									+ REDEFINICAO_TOKEN_EXPIRA_EM / 60 + " minutos.")
 					.replace(ACAO, "Utilize o botão abaixo para verificar seu e-mail:")
@@ -41,7 +43,7 @@ public class EmailContentService {
 		if (EmailContentType.REDEFINICAO_SENHA.equals(tipoEmail)) {
 			htmlContent = htmlContent.replace(TITULO, "Redefinição de Senha").replace(PARAGRAFO,
 					"Recebemos uma solicitação de alteração da sua senha de acesso à plataforma do CTP Acolhe em "
-							+ CtpAcolheUtils.formatDateTime(CtpAcolheUtils.getDateTimeBrazil())
+							+ CtpAcolheUtils.formatDateTime(LocalDateTime.now())
 							+ ". Este link de redefinição de senha é válido apenas pelos próximos "
 							+ REDEFINICAO_TOKEN_EXPIRA_EM / 60 + " minutos.")
 					.replace(ACAO, "Se você reconhece essa ação, clique no botão abaixo para prosseguir:")
