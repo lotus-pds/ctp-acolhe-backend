@@ -66,4 +66,14 @@ public class UsuarioAutenticadoController implements Controller {
 		
 		return ResponseEntity.ok(dto);
 	}
+	
+	@PatchMapping("/reativar")
+	@ResponseBody
+	public ResponseEntity<UsuarioDto> reativar() {
+		Usuario usuario = usuarioService.reativar();
+		
+		UsuarioDto dto = usuarioMapper.to(usuario);
+		
+		return ResponseEntity.ok(dto);
+	}
 }

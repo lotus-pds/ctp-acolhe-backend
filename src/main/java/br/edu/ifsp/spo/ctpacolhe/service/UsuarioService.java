@@ -70,6 +70,18 @@ public class UsuarioService {
 		
 		return usuarioRepository.save(usuario);
 	}
+	
+	public Usuario reativar() {
+		Usuario usuario = validaUsuarioAutenticado();
+		
+		if (usuario.getAtivo()) {
+			throw new ValidationException(MensagemExceptionType.USUARIO_JA_ATIVO);
+		}
+		
+		usuario.setAtivo(true);
+		
+		return usuarioRepository.save(usuario);
+	}
 
 	private Usuario validaUsuarioAutenticado() {
 		Usuario usuarioAutenticado = buscaUsuarioAutenticado();
