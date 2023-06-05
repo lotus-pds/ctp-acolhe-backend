@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.ctpacolhe.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -66,6 +67,12 @@ public class Usuario implements UserDetails {
 	@Column(name = "ativo")
 	@Builder.Default
 	private Boolean ativo = true;
+	@Column(name = "data_cadastro")
+	@Builder.Default
+	private LocalDateTime dataCadastro = LocalDateTime.now();
+	@Column(name = "url_avatar")
+	@Builder.Default
+	private String urlAvatar = "https://media.discordapp.net/attachments/1077345452694970438/1107082557515890758/Mask_group_9.png?width=468&height=468";
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "perfil_usuario", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_perfil"))
 	@Builder.Default

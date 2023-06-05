@@ -60,6 +60,10 @@ public class CadastroService {
 				.senha(passwordEncoder.encode(dto.getSenha()))
 				.build();
 		
+		if (dto.getUrlAvatar() != null) {
+			usuario.setUrlAvatar(dto.getUrlAvatar());
+		}
+		
 		usuario.addPerfil(new Perfil(PerfilUsuario.ALU));
 		
 		try {
