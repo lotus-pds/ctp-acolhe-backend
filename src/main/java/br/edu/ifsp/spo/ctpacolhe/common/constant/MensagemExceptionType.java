@@ -13,6 +13,7 @@ public enum MensagemExceptionType {
 	
 	USUARIO_NAO_ENCONTRADO("Usuário não encontrado"),
 	USUARIO_JA_INATIVO("Usuário já inativo"),
+	USUARIO_JA_ATIVO("Usuário já ativo"),
 	EMAIL_NAO_ENCONTRADO("E-mail não encontrado"),
 	EMAIL_JA_CADASTRADO("E-mail já cadastrado"),
 	PRONTUARIO_JA_CADASTRADO("Prontuário já cadastrado"),
