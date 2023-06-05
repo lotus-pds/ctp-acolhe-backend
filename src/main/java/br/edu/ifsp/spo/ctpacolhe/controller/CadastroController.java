@@ -31,7 +31,7 @@ public class CadastroController implements Controller {
 	@Autowired
 	private UsuarioMapper usuarioMapper;
 	
-	@PostMapping(path = "/cadastro")
+	@PostMapping("/cadastro")
 	@ResponseBody
 	public ResponseEntity<UsuarioDto> cadastro(@RequestBody @Valid UsuarioCreateDto usuarioDto) {
 		Usuario usuario = cadastroService.criar(usuarioDto);

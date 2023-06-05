@@ -24,7 +24,7 @@ public class AutenticacaoController {
 	@Autowired
 	private AutenticacaoService autenticacaoService;
 	
-	@PostMapping(path = "/acesso")
+	@PostMapping("/acesso")
 	@ResponseBody
 	public ResponseEntity<AcessoDto> acesso(@RequestBody @Valid AcessoCreateDto acessoDto) {
 		AcessoDto dto = autenticacaoService.montaAutenticacao(acessoDto);
