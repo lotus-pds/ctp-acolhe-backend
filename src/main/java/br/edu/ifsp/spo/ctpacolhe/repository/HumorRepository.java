@@ -6,8 +6,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.edu.ifsp.spo.ctpacolhe.entity.Humor;
-import br.edu.ifsp.spo.ctpacolhe.repository.custom.HumorRepositoryCustom;
 
-public interface HumorRepository extends JpaRepository<Humor, UUID>, HumorRepositoryCustom {
+public interface HumorRepository extends JpaRepository<Humor, UUID> {
 	boolean existsByDataHumorAndIdUsuario(LocalDate dataHumor, UUID idUsuario);
 }
