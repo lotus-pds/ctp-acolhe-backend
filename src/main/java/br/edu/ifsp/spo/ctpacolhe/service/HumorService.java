@@ -1,13 +1,13 @@
 package br.edu.ifsp.spo.ctpacolhe.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
@@ -15,7 +15,6 @@ import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.HumorCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Humor;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
-import br.edu.ifsp.spo.ctpacolhe.filter.HumorFiltro;
 import br.edu.ifsp.spo.ctpacolhe.repository.HumorRepository;
 
 @Service
@@ -45,11 +44,16 @@ public class HumorService {
 		return humorRepository.save(humor);
 	}
 
-	public Page<Humor> buscaHumores(HumorFiltro filtro, Pageable paginacao) {
+	public List<Humor> buscaHumores(LocalDate dataHumor) {
 		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
 		
-		filtro.setIdUsuario(usuarioAutenticado.getIdUsuario());
+		Humor humor = Humor.builder()
+				.dataHumor(dataHumor)
+				.idUsuario(usuarioAutenticado.getIdUsuario())
+				.build();
 		
-		return humorRepository.findAll(filtro, paginacao);
+		List<Humor> humores = humorRepository.findAll(Example.of(humor));
+		
+		return humores;
 	}
 }
