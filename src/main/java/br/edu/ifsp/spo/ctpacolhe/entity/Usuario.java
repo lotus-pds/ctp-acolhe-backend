@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -50,8 +51,8 @@ public class Usuario implements UserDetails {
 	private String email;
 	@Column(name = "telefone")
 	private String telefone;
-	@Column(name = "curso")
-	private String curso;
+	@Column(name = "id_curso")
+	private UUID idCurso;
 	@Column(name = "periodo")
 	@Enumerated(EnumType.STRING)
 	private PeriodoCurso periodo;
@@ -73,6 +74,9 @@ public class Usuario implements UserDetails {
 	@Column(name = "url_avatar")
 	@Builder.Default
 	private String urlAvatar = "https://media.discordapp.net/attachments/1077345452694970438/1107082557515890758/Mask_group_9.png?width=468&height=468";
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_curso", referencedColumnName = "id_curso", insertable = false, updatable = false)
+	private Curso curso;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "perfil_usuario", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_perfil"))
 	@Builder.Default
