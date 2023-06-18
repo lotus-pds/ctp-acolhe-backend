@@ -26,7 +26,6 @@ public class HumorAutenticadoFiltroDto implements FiltroDto {
 				.dataFinal(dataFinal)
 				.build();
 		
-		
 		return FiltroWrapper.builder().paginacao(paginacao).filtro(humorFiltro).build();
 	}
 }
