@@ -53,7 +53,7 @@ public class CadastroService {
 				.nome(dto.getNome())
 				.email(dto.getEmail())
 				.telefone(dto.getTelefone())
-				.curso(dto.getCurso())
+				.idCurso(dto.getIdCurso())
 				.periodo(dto.getPeriodo())
 				.turma(dto.getTurma())
 				.prontuario(dto.getProntuario())

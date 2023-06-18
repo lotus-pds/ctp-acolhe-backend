@@ -20,6 +20,7 @@ import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
 import br.edu.ifsp.spo.ctpacolhe.mapper.UsuarioMapper;
 import br.edu.ifsp.spo.ctpacolhe.service.CadastroService;
+import br.edu.ifsp.spo.ctpacolhe.service.UsuarioService;
 
 @RestController
 @RequestMapping("/conta")
@@ -29,12 +30,16 @@ public class CadastroController implements Controller {
 	private CadastroService cadastroService;
 	
 	@Autowired
+	private UsuarioService usuarioService;
+	
+	@Autowired
 	private UsuarioMapper usuarioMapper;
 	
 	@PostMapping("/cadastro")
 	@ResponseBody
 	public ResponseEntity<UsuarioDto> cadastro(@RequestBody @Valid UsuarioCreateDto usuarioDto) {
 		Usuario usuario = cadastroService.criar(usuarioDto);
+		usuario = usuarioService.buscaUsuario(usuario.getIdUsuario());
 		
 		UsuarioDto dto = usuarioMapper.to(usuario);
 		

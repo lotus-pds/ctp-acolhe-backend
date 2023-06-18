@@ -23,7 +23,7 @@ public class UsuarioDto {
 	private String nome;
 	private String email;
 	private String telefone;
-	private String curso;
+	private CursoDto curso;
 	private PeriodoCurso periodo;
 	private String turma;
 	private String prontuario;

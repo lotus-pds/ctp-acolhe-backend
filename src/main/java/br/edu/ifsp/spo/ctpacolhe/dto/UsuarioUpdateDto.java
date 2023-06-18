@@ -1,5 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe.dto;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -22,8 +24,7 @@ public class UsuarioUpdateDto {
 	private String nome;
 	@Size(max = 11)
 	private String telefone;
-	@Size(max = 100)
-	private String curso;
+	private UUID idCurso;
 	private PeriodoCurso periodo;
 	@Size(max = 5)
 	private String turma;

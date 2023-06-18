@@ -43,7 +43,8 @@ public class UsuarioAutenticadoController implements Controller {
 	@ResponseBody
 	public ResponseEntity<UsuarioDto> alteraDados(@RequestBody @Valid UsuarioUpdateDto usuarioDto) {
 		Usuario usuario = usuarioService.alteraDados(usuarioDto);
-
+		usuario = usuarioService.buscaUsuario(usuario.getIdUsuario());
+		
 		UsuarioDto dto = usuarioMapper.to(usuario);
 
 		return ResponseEntity.ok(dto);

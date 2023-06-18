@@ -1,5 +1,8 @@
 package br.edu.ifsp.spo.ctpacolhe.service;
 
+import java.util.UUID;
+
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +32,27 @@ public class UsuarioService {
 		
 		return usuario;
 	}
+	
+	public Usuario buscaUsuario(UUID idUsuario) {
+		Usuario usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new ValidationException(MensagemExceptionType.USUARIO_NAO_ENCONTRADO));
+		
+		return usuario;
+	}
 
-	public Usuario alteraDados(UsuarioUpdateDto usuarioDto) {
+	public Usuario alteraDados(UsuarioUpdateDto dto) {
 		Usuario usuario = validaUsuarioAutenticado();
 		
-		usuario.setNome(usuarioDto.getNome());
-		usuario.setTelefone(usuarioDto.getTelefone());
-		usuario.setCurso(usuarioDto.getCurso());
-		usuario.setPeriodo(usuarioDto.getPeriodo());
-		usuario.setTurma(usuarioDto.getTurma());
-		usuario.setProntuario(usuarioDto.getProntuario());
+		usuario.setNome(dto.getNome());
+		usuario.setTelefone(dto.getTelefone());
+		usuario.setIdCurso(dto.getIdCurso());
+		usuario.setPeriodo(dto.getPeriodo());
+		usuario.setTurma(dto.getTurma());
+		usuario.setProntuario(dto.getProntuario());
 		
-		return usuarioRepository.save(usuario);
+		usuario = usuarioRepository.save(usuario);
+		
+		return usuario;
 	}
 	
 	public void alteraSenha(SenhaUpdateDto senhasDto) {
