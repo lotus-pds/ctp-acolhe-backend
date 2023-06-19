@@ -36,7 +36,7 @@ public interface Controller {
 		
 		BodyBuilder status = ResponseEntity.ok();
 		
-		if ((totalRegistrosPage < totalRegistros) && !(totalPages.equals(numeroPagina))) {
+		if ((totalRegistrosPage < totalRegistros) && !(totalPages.equals(numeroPagina + 1))) {
 			status = ResponseEntity.status(HttpStatus.PARTIAL_CONTENT);
 		}
 		

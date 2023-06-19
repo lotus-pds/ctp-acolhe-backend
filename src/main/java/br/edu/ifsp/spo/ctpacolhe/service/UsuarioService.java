@@ -5,12 +5,14 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
+import br.edu.ifsp.spo.ctpacolhe.common.wrapper.FiltroWrapper;
 import br.edu.ifsp.spo.ctpacolhe.dto.SenhaUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
@@ -96,6 +98,11 @@ public class UsuarioService {
 		usuario.setAtivo(true);
 		
 		return usuarioRepository.save(usuario);
+	}
+	
+	public Page<Usuario> buscaUsuarios(FiltroWrapper filtroWrapper) {
+		Page<Usuario> usuarios = usuarioRepository.findAll(filtroWrapper);
+		return usuarios;
 	}
 
 	private Usuario validaUsuarioAutenticado() {
