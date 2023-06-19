@@ -42,6 +42,10 @@ public class UsuarioService {
 	public Usuario alteraDados(UsuarioUpdateDto dto) {
 		Usuario usuario = validaUsuarioAutenticado();
 		
+		if (usuarioRepository.existsByProntuarioAndIdUsuarioNot(dto.getProntuario(), usuario.getIdUsuario())) {
+			throw new ValidationException(MensagemExceptionType.PRONTUARIO_JA_CADASTRADO);
+		}
+		
 		usuario.setNome(dto.getNome());
 		usuario.setTelefone(dto.getTelefone());
 		usuario.setIdCurso(dto.getIdCurso());
