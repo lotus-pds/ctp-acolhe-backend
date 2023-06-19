@@ -62,6 +62,7 @@ public class UsuarioAutenticadoController implements Controller {
 	@ResponseBody
 	public ResponseEntity<UsuarioDto> inativar() {
 		Usuario usuario = usuarioService.inativar();
+		usuario = usuarioService.buscaUsuario(usuario.getIdUsuario());
 		
 		UsuarioDto dto = usuarioMapper.to(usuario);
 		
@@ -72,6 +73,7 @@ public class UsuarioAutenticadoController implements Controller {
 	@ResponseBody
 	public ResponseEntity<UsuarioDto> reativar() {
 		Usuario usuario = usuarioService.reativar();
+		usuario = usuarioService.buscaUsuario(usuario.getIdUsuario());
 		
 		UsuarioDto dto = usuarioMapper.to(usuario);
 		

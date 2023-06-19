@@ -2,7 +2,6 @@ package br.edu.ifsp.spo.ctpacolhe.service;
 
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;

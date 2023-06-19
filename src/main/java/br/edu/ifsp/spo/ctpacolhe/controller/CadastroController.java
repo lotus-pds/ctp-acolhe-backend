@@ -51,6 +51,7 @@ public class CadastroController implements Controller {
 	@ResponseBody
     public ResponseEntity<UsuarioDto> verificacao(@PathVariable UUID token) {
         Usuario usuario = cadastroService.verificar(token);
+        usuario = usuarioService.buscaUsuario(usuario.getIdUsuario());
 
         return ResponseEntity.ok(usuarioMapper.to(usuario));
     }
@@ -58,6 +59,8 @@ public class CadastroController implements Controller {
 	@PostMapping("cadastro/reenviar-email")
     public ResponseEntity<UsuarioDto> reenviarEmail(@RequestBody String reenviarEmail) {
         Usuario usuario = cadastroService.reenviarEmail(reenviarEmail);
+        usuario = usuarioService.buscaUsuario(usuario.getIdUsuario());
+        
         return  ResponseEntity.ok(usuarioMapper.to(usuario));
     }
 	
