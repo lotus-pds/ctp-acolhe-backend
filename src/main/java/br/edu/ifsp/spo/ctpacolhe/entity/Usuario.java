@@ -72,8 +72,7 @@ public class Usuario implements UserDetails {
 	@Builder.Default
 	private LocalDateTime dataCadastro = LocalDateTime.now();
 	@Column(name = "url_avatar")
-	@Builder.Default
-	private String urlAvatar = "https://media.discordapp.net/attachments/1077345452694970438/1107082557515890758/Mask_group_9.png?width=468&height=468";
+	private String urlAvatar;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_curso", referencedColumnName = "id_curso", insertable = false, updatable = false)
 	private Curso curso;
