@@ -29,7 +29,7 @@ public class UsuarioController implements Controller {
 	
 	@GetMapping
 	@ResponseBody
-	public ResponseEntity<List<UsuarioDto>> buscaHumores(Pageable paginacao, UsuarioFiltroDto filtro) {
+	public ResponseEntity<List<UsuarioDto>> buscaUsuarios(Pageable paginacao, UsuarioFiltroDto filtro) {
 		Page<Usuario> usuarios = usuarioService.buscaUsuarios(filtro.toWrapper(paginacao));
 		List<UsuarioDto> dtos = usuarioMapper.to(usuarios.getContent());
 		return respostaPaginada(usuarios).body(dtos);
