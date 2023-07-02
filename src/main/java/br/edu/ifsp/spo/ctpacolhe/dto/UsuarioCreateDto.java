@@ -36,6 +36,7 @@ public class UsuarioCreateDto {
 	@NotEmpty
 	@Password
 	private String senha;
+	@NotEmpty
 	private String urlAvatar;
 
 }

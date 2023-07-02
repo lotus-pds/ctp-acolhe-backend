@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifsp.spo.ctpacolhe.dto.SenhaUpdateDto;
+import br.edu.ifsp.spo.ctpacolhe.dto.AvatarUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
@@ -51,9 +52,15 @@ public class UsuarioAutenticadoController implements Controller {
 	}
 	
 	@PatchMapping("/alterar-senha")
-	@ResponseBody
 	public ResponseEntity<Void> alteraSenha(@RequestBody @Valid SenhaUpdateDto senhasDto) {
 		usuarioService.alteraSenha(senhasDto);
+
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PatchMapping("/alterar-avatar")
+	public ResponseEntity<Void> alteraAvatar(@RequestBody @Valid AvatarUpdateDto urlAvatarDto) {
+		usuarioService.alteraAvatar(urlAvatarDto);
 
 		return ResponseEntity.noContent().build();
 	}

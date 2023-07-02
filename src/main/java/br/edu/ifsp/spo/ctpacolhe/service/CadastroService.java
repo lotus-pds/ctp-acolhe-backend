@@ -58,11 +58,8 @@ public class CadastroService {
 				.turma(dto.getTurma())
 				.prontuario(dto.getProntuario())
 				.senha(passwordEncoder.encode(dto.getSenha()))
+				.urlAvatar(dto.getUrlAvatar())
 				.build();
-		
-		if (dto.getUrlAvatar() != null) {
-			usuario.setUrlAvatar(dto.getUrlAvatar());
-		}
 		
 		usuario.addPerfil(new Perfil(PerfilUsuario.ALU));
 		

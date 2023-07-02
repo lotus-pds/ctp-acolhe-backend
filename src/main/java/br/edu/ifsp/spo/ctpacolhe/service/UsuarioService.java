@@ -14,6 +14,7 @@ import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.common.wrapper.FiltroWrapper;
 import br.edu.ifsp.spo.ctpacolhe.dto.SenhaUpdateDto;
+import br.edu.ifsp.spo.ctpacolhe.dto.AvatarUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
 import br.edu.ifsp.spo.ctpacolhe.repository.UsuarioRepository;
@@ -72,6 +73,14 @@ public class UsuarioService {
 		}
 		
 		usuario.setSenha(passwordEncoder.encode(senhasDto.getSenhaNova()));
+		
+		usuarioRepository.save(usuario);
+	}
+	
+	public void alteraAvatar(AvatarUpdateDto avatarDto) {
+		Usuario usuario = validaUsuarioAutenticado();
+		
+		usuario.setUrlAvatar(avatarDto.getUrlAvatar());
 		
 		usuarioRepository.save(usuario);
 	}
