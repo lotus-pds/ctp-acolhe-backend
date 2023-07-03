@@ -114,7 +114,7 @@ public class CadastroService {
 		});
 	}
 
-	public Usuario reenviarEmail(String reenviarEmail) {
+	public void reenviarEmail(String reenviarEmail) {
 		Usuario usuario = usuarioRepository.findByEmail(reenviarEmail)
                 .orElseThrow(() -> new ValidationException(MensagemExceptionType.EMAIL_NAO_ENCONTRADO));
 		
@@ -132,7 +132,6 @@ public class CadastroService {
             
             emailService.enviaEmailDeVerificacao(usuario, verificacaoToken);
             log.info("E-mail de verificação foi reenviado para {}", usuario.getEmail());
-            return usuario;
         } catch (MessagingException e) {
 			log.error("Erro ao tentar reenviar e-mail de confirmação para {}", usuario.getEmail(), e);
             throw new ValidationException(MensagemExceptionType.PROBLEMA_COM_ENVIO_EMAIL, CamposDinamicosType.VERIFICACAO_TOKEN);
