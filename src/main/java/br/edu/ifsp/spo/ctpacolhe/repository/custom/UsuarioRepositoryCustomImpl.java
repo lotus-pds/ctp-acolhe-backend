@@ -29,6 +29,7 @@ public class UsuarioRepositoryCustomImpl extends RepositoryCustom implements Usu
 		Root<Usuario> root = query.from(Usuario.class);
 		
 		root.fetch(Usuario_.curso, JoinType.LEFT);
+		root.fetch(Usuario_.perfis, JoinType.LEFT);
 		
 		List<Predicate> predicates = aplicaFiltros(filtro, root);
 		

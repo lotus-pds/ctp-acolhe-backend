@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -31,5 +32,6 @@ public class UsuarioDto {
 	private Boolean ativo;
 	private LocalDateTime dataCadastro;
 	private String urlAvatar;
+	private List<PerfilDto> perfis;
 
 }

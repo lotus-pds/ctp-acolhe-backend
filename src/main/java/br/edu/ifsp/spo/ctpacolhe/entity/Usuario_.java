@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.ctpacolhe.entity;
 
+import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -10,4 +11,5 @@ public abstract class Usuario_ {
 	public static volatile SingularAttribute<Usuario, String> prontuario;
 	public static volatile SingularAttribute<Usuario, Curso> curso;
 	public static volatile SingularAttribute<Usuario, Boolean> ativo;
+	public static volatile SetAttribute<Usuario, Perfil> perfis;
 }
