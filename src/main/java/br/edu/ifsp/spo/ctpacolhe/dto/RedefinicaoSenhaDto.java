@@ -12,7 +12,6 @@ public class RedefinicaoSenhaDto {
 	
 	@NotNull
 	private String token;
-	
 	@NotNull
 	@Size(min = 8, max = 64)
 	@Password

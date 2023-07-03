@@ -56,12 +56,11 @@ public class CadastroController implements Controller {
         return ResponseEntity.ok(usuarioMapper.to(usuario));
     }
 	
-	@PostMapping("cadastro/reenviar-email")
-    public ResponseEntity<UsuarioDto> reenviarEmail(@RequestBody String reenviarEmail) {
-        Usuario usuario = cadastroService.reenviarEmail(reenviarEmail);
-        usuario = usuarioService.buscaUsuario(usuario.getIdUsuario());
+	@PostMapping("cadastro/verificacao/reenviar-email")
+    public ResponseEntity<Void> reenviarEmail(@RequestBody String reenviarEmail) {
+        cadastroService.reenviarEmail(reenviarEmail);
         
-        return  ResponseEntity.ok(usuarioMapper.to(usuario));
+        return ResponseEntity.accepted().build();
     }
 	
 }
