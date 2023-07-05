@@ -10,6 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PerfilDto {
-	String idPerfil;
-	String descricao;
+	private String idPerfil;
+	private String descricao;
 }

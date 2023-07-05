@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifsp.spo.ctpacolhe.dto.SenhaUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.AvatarUpdateDto;
+import br.edu.ifsp.spo.ctpacolhe.dto.SenhaUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
@@ -33,7 +33,7 @@ public class UsuarioAutenticadoController implements Controller {
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<UsuarioDto> buscaUsuario() {
-		Usuario usuario = usuarioService.buscaUsuario();
+		Usuario usuario = usuarioService.validaUsuarioAutenticado();
 
 		UsuarioDto dto = usuarioMapper.to(usuario);
 

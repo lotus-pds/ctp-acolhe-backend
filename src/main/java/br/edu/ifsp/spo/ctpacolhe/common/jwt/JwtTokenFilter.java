@@ -77,14 +77,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		Usuario usuarioDetails = new Usuario();
 		Claims claims = jwtUtil.getAllClaimsFromAccessToken(token);
 		String subject = (String) claims.get(Claims.SUBJECT);
-		String permissoes = (String) claims.get("roles");
+		String perfis = (String) claims.get("roles");
 		String email = (String) claims.get("email");
 
-		permissoes = permissoes.replace("[", "").replace("]", "");
-		String[] nomePermissoes = permissoes.split(",");
+		perfis = perfis.replace("[", "").replace("]", "");
+		String[] nomePerfis = perfis.split(",");
 
-		for (String nomePermissao : nomePermissoes) {
-			usuarioDetails.addPerfil(new Perfil(nomePermissao));
+		for (String nomePerfil : nomePerfis) {
+			usuarioDetails.addPerfil(new Perfil(nomePerfil));
 		}
 
 		usuarioDetails.setIdUsuario(UUID.fromString(subject));

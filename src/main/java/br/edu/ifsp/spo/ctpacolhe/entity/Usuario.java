@@ -88,6 +88,15 @@ public class Usuario implements UserDetails {
 	public List<String> getPerfisString() {
 		return this.getPerfis().stream().map(Perfil::getDescricao).toList();
 	}
+	
+	public Perfil novoPerfil(String idPerfil) {
+		Perfil novoPerfil = Perfil.builder().idPerfil(idPerfil).build();
+		
+		Perfil perfil = this.perfis.stream().filter(p -> p.equals(novoPerfil)).findFirst().orElse(novoPerfil);
+		this.perfis.add(perfil);
+		
+		return perfil;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
