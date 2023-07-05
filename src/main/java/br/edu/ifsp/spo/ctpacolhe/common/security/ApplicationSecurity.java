@@ -69,7 +69,7 @@ public class ApplicationSecurity {
                 .antMatchers(accountOpenPaths.toArray(String[]::new)).permitAll()
                 .antMatchers("/usuario/autenticado/**").hasAnyAuthority("Admin", "Aluno")
                 .antMatchers("/usuario/autenticado/humor/**").hasAnyAuthority("Aluno")
-                .antMatchers("/usuario").hasAnyAuthority("Admin")
+                .antMatchers("/usuario", "/usuario/{idUsuario}/perfil").hasAnyAuthority("Admin")
                 .anyRequest().authenticated()
              );
 		

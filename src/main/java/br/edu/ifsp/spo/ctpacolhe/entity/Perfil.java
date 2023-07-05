@@ -8,13 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.PerfilUsuario;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "perfil")
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
 public class Perfil {

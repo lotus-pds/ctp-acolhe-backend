@@ -14,7 +14,7 @@ public enum MensagemExceptionType {
 	USUARIO_NAO_ENCONTRADO("Usuário não encontrado"),
 	USUARIO_JA_INATIVO("Usuário já inativo"),
 	USUARIO_JA_ATIVO("Usuário já ativo"),
-	EMAIL_NAO_ENCONTRADO("E-mail não encontrado"),
+	EMAIL_NAO_ENCONTRADO("E-mail não encontrado"),	
 	EMAIL_JA_CADASTRADO("E-mail já cadastrado"),
 	PRONTUARIO_JA_CADASTRADO("Prontuário já cadastrado"),
 	
@@ -27,7 +27,10 @@ public enum MensagemExceptionType {
 	
 	PROBLEMA_COM_ENVIO_EMAIL("Problema com o envio do e-mail de %s, tente novamente mais tarde"),
 	
-	HUMOR_REGISTRADO_HOJE("Humor já registrado hoje");
+	HUMOR_REGISTRADO_HOJE("Humor já registrado hoje"),
+	
+	PERFIL_NAO_ENCONTRADO("Perfil com id %s não encontrado"),
+	EMAIL_USUARIO_NAO_CONFIRMADO("Email do usuário ainda não confirmado");
 	
 	String message;
 }
