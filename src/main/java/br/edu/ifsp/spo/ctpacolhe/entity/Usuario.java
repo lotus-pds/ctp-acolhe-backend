@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -80,6 +82,9 @@ public class Usuario implements UserDetails {
 	@JoinTable(name = "perfil_usuario", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_perfil"))
 	@Builder.Default
 	private Set<Perfil> perfis = new HashSet<>();
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@Builder.Default
+	private Set<VerificacaoEmailToken> verificacaoEmailTokens = new HashSet<>();
 
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil);

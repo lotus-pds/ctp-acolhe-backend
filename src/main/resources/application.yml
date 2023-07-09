@@ -59,6 +59,10 @@ jwt:
   secret: ${JWT_SECRET:asdfSFS34wfsdfsdfSDSD32dfsddDDerQSNCK34SOWEK5354fdgdf4}
   access-token-expires-in: ${JWT_ACCESS_TOKEN_EXPIRES_IN:7200000}
   refresh-token-expires-in: ${JWT_REFRESH_TOKEN_EXPIRES_IN:14400000}
+  
+scheduler:
+  unverified-account:
+    interval: ${SCHEDULER_UNVERIFIED_ACCOUNT_INTERVAL:3600000}
 
 logging:
   level:

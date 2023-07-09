@@ -16,4 +16,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>, Usuario
 	Optional<Usuario> findByEmail(String email);
 	List<Usuario> findByEmailOrProntuario(String email, String prontuario);
 	boolean existsByProntuarioAndIdUsuarioNot(String prontuario, UUID idUsuario);
+	List<Usuario> findAllByEmailConfirmado(Boolean ativo);
 }
