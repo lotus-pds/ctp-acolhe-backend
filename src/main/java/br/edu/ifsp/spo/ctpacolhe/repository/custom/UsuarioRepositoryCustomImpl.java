@@ -2,7 +2,9 @@ package br.edu.ifsp.spo.ctpacolhe.repository.custom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -49,6 +51,26 @@ public class UsuarioRepositoryCustomImpl extends RepositoryCustom implements Usu
 		Long totalRegistros = countRegistros(builder, predicates);
 
         return new PageImpl<>(usuarios, filtroWrapper.getPaginacao(totalRegistros), totalRegistros);
+	}
+	
+	@Override
+	public void removePerfisByIds(List<UUID> idsUsuarios) {		
+		String deleteQuery = "DELETE FROM perfil_usuario WHERE id_usuario IN (:idsUsuarios)";
+		
+		Query query = entityManager.createNativeQuery(deleteQuery);
+		query.setParameter("idsUsuarios", idsUsuarios);
+		
+		query.executeUpdate();
+	}
+	
+	@Override
+	public void removeHumoresByIds(List<UUID> idsUsuarios) {
+		String deleteQuery = "DELETE FROM humor WHERE id_usuario IN (:idsUsuarios)";
+		
+		Query query = entityManager.createNativeQuery(deleteQuery);
+		query.setParameter("idsUsuarios", idsUsuarios);
+		
+		query.executeUpdate();
 	}
 
 	private List<Predicate> aplicaFiltros(UsuarioFiltro filtro, Root<Usuario> root) {

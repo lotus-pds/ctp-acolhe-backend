@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -136,6 +137,23 @@ public class CadastroService {
 			log.error("Erro ao tentar reenviar e-mail de confirmação para {}", usuario.getEmail(), e);
             throw new ValidationException(MensagemExceptionType.PROBLEMA_COM_ENVIO_EMAIL, CamposDinamicosType.VERIFICACAO_TOKEN);
 		}
+	}
+
+	public void removeCadastrosNaoVerificados() {
+		List<Usuario> cadastrosNaoVerificados = usuarioRepository.findAllByEmailConfirmado(false);
+		List<UUID> idsUsuarios = new ArrayList<>();
+		
+		cadastrosNaoVerificados.forEach(cadastro -> {
+			if (cadastro.getDataCadastro().plusMinutes(30).isBefore(LocalDateTime.now())) {
+				idsUsuarios.add(cadastro.getIdUsuario());
+			}
+		});
+		
+		usuarioRepository.removePerfisByIds(idsUsuarios);
+		usuarioRepository.removeHumoresByIds(idsUsuarios);
+		
+		usuarioRepository.deleteAllById(idsUsuarios);
+		log.info("Cadastros com e-mail não verificado removidos pelo sistema");
 	}
 
 }
