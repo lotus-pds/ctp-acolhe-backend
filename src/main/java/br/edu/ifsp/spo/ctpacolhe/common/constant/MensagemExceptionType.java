@@ -30,7 +30,9 @@ public enum MensagemExceptionType {
 	HUMOR_REGISTRADO_HOJE("Humor já registrado hoje"),
 	
 	PERFIL_NAO_ENCONTRADO("Perfil %s não encontrado"),
-	EMAIL_USUARIO_NAO_CONFIRMADO("Email do usuário ainda não confirmado");
+	EMAIL_USUARIO_NAO_CONFIRMADO("Email do usuário ainda não confirmado"),
+	
+	USUARIO_INATIVO("Usuário inativo");
 	
 	String message;
 }
