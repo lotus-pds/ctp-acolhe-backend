@@ -97,6 +97,10 @@ public class Usuario implements UserDetails {
 		
 		return perfil;
 	}
+	
+	public boolean isAtivo() {
+        return getAtivo() != null && getAtivo();
+    }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

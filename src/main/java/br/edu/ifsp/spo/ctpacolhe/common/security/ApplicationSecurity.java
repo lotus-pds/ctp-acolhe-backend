@@ -21,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.edu.ifsp.spo.ctpacolhe.common.filter.ExceptionHandlerFilter;
+import br.edu.ifsp.spo.ctpacolhe.common.filter.UsuarioAtivoFilter;
 import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtTokenFilter;
 
 @Configuration
@@ -28,14 +30,33 @@ import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtTokenFilter;
 @EnableGlobalAuthentication
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class ApplicationSecurity {
+	
+	public static final List<String> ACCOUNT_OPEN_PATHS = List.of(
+			"/conta/cadastro",
+			"/conta/cadastro/verificacao/{token}",
+			"/conta/cadastro/reenviar-email",
+			"/conta/acesso",
+			"/conta/senha/esqueci",
+			"/conta/senha/esqueci/reenviar-email",
+			"/conta/senha/redefinir",
+			"/conta/renovar-token",
+			"/curso"
+    );
+			
 
 	public AuthenticationManager authenticationManager;
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private ExceptionHandlerFilter exceptionHandlerFilter;
 
 	@Autowired
 	private JwtTokenFilter jwtTokenFilter;
+	
+	@Autowired
+    private UsuarioAtivoFilter usuarioAtivoFilter;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -50,24 +71,12 @@ public class ApplicationSecurity {
 		authenticationManagerBuilder.userDetailsService(userDetailsService);
 		authenticationManager = authenticationManagerBuilder.build();
 
-		var accountOpenPaths = List.of(
-				"/conta/cadastro",
-				"/conta/cadastro/verificacao/{token}",
-				"/conta/cadastro/reenviar-email",
-				"/conta/acesso",
-				"/conta/senha/esqueci",
-				"/conta/senha/esqueci/reenviar-email",
-				"/conta/senha/redefinir",
-				"/conta/renovar-token",
-				"/curso"
-        );
-
         http.cors().and().csrf()
                 .disable()
             .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests((authz) -> authz
-                .antMatchers(accountOpenPaths.toArray(String[]::new)).permitAll()
+                .antMatchers(ACCOUNT_OPEN_PATHS.toArray(String[]::new)).permitAll()
                 .antMatchers("/usuario/autenticado/**").hasAnyAuthority("Admin", "Aluno")
                 .antMatchers("/usuario/autenticado/humor/**").hasAnyAuthority("Aluno")
                 .antMatchers("/usuario", "/usuario/{idUsuario}/perfil").hasAnyAuthority("Admin")
@@ -79,8 +88,12 @@ public class ApplicationSecurity {
         }));
 
 		http.authenticationManager(authenticationManager);
-
+		
 		http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+		
+		http.addFilterBefore(exceptionHandlerFilter, JwtTokenFilter.class);
+		
+		http.addFilterAfter(usuarioAtivoFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
