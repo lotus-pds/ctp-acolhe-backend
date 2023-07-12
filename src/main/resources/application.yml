@@ -62,7 +62,7 @@ jwt:
   
 scheduler:
   unverified-account:
-    interval: ${SCHEDULER_UNVERIFIED_ACCOUNT_INTERVAL:300000}
+    interval: ${SCHEDULER_UNVERIFIED_ACCOUNT_INTERVAL:86400000}
 
 logging:
   level:
