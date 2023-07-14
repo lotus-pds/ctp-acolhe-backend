@@ -9,14 +9,14 @@ import lombok.Builder;
 import lombok.Data;
 
 @Entity
-@Table(name = "tipo_resposta")
+@Table(name = "status")
 @Builder
 @Data
-public class TipoResposta {
+public class Status {
 	@Id
-	@Column(name = "id_tipo_resposta")
-	private String idTipoResposta;
-
+	@Column(name = "id_status")
+	private String idStatus;
+	
 	@Column(name = "descricao")
 	private String descricao;
 }
