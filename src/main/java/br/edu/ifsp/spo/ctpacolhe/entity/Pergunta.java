@@ -10,13 +10,15 @@ import java.util.HashSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.TipoResposta;
 import lombok.Builder;
 import lombok.Data;
 
@@ -35,11 +37,8 @@ public class Pergunta {
 	@Column(name = "ordem")
 	private Integer ordem;
 	
-	@Column(name = "id_tipo_resposta")
-	private String idTipoResposta;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_tipo_resposta", referencedColumnName = "id_tipo_resposta", updatable = false, insertable = false)
+	@Column(name = "tipo_resposta")
+	@Enumerated(EnumType.STRING)
 	private TipoResposta tipoResposta;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.PERSIST })
