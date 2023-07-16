@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
-import br.edu.ifsp.spo.ctpacolhe.common.exception.CamposDinamicosType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtConfig;
 import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtTokenUtil;
@@ -87,8 +86,7 @@ public class AutenticacaoService {
         Usuario usuario = buscaUsuario(idUsuario);
         
 		RenovacaoToken renovacaoToken = renovacaoTokenRepository.findById(idToken)
-				.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO,
-						CamposDinamicosType.RENOVACAO_TOKEN));
+				.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_RENOVACAO_NAO_ENCONTRADO));
         
         String novoAcessoToken = jwtUtil.generateAccessToken(usuario);
         String novoRenovacaoToken = jwtUtil.generateRefreshToken(usuario, UUID.randomUUID());

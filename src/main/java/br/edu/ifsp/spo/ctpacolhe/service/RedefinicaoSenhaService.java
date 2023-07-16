@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.email.EmailService;
-import br.edu.ifsp.spo.ctpacolhe.common.exception.CamposDinamicosType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.RedefinicaoSenhaDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.RedefinicaoSenhaToken;
@@ -67,10 +66,10 @@ public class RedefinicaoSenhaService {
 
 	public void redefinicaoSenha(RedefinicaoSenhaDto dto) {
 		RedefinicaoSenhaToken redefinicaoSenhaToken = redefinicaoTokenRepository.findByToken(UUID.fromString(dto.getToken()))
-                .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.REDEFINICAO_SENHA_TOKEN));
+                .orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_REDEFINICAO_SENHA_NAO_ENCONTRADO));
 		
 		if (redefinicaoSenhaToken.getExpiraEm().isBefore(LocalDateTime.now())) {
-			throw new ValidationException(MensagemExceptionType.TOKEN_EXPIROU, CamposDinamicosType.REDEFINICAO_SENHA_TOKEN, redefinicaoSenhaToken.getUsuario().getEmail());
+			throw new ValidationException(MensagemExceptionType.TOKEN_REDEFINICAO_SENHA_EXPIROU, redefinicaoSenhaToken.getUsuario().getEmail());
 		}
 		
 		Usuario usuario = redefinicaoSenhaToken.getUsuario();
@@ -106,11 +105,10 @@ public class RedefinicaoSenhaService {
 
 	private RedefinicaoSenhaToken validaRedefinicaoToken(UUID idUsuario) {
 		RedefinicaoSenhaToken redefinicaoToken = redefinicaoTokenRepository.findByIdUsuario(idUsuario)
-				.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_NAO_ENCONTRADO, CamposDinamicosType.REDEFINICAO_SENHA_TOKEN));
+				.orElseThrow(() -> new ValidationException(MensagemExceptionType.TOKEN_REDEFINICAO_SENHA_NAO_ENCONTRADO));
 
 		if (redefinicaoToken.getGeradoEm().plusSeconds(60).isAfter(LocalDateTime.now())) {
-			throw new ValidationException(MensagemExceptionType.TOKEN_AGUARDE_UM_MINUTO,
-					CamposDinamicosType.REDEFINICAO_SENHA_TOKEN);
+			throw new ValidationException(MensagemExceptionType.TOKEN_REDEFINICAO_SENHA_AGUARDE_UM_MINUTO);
 		}
 		
 		return redefinicaoToken;
