@@ -5,6 +5,9 @@ import java.util.UUID;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import br.edu.ifsp.spo.ctpacolhe.common.annotation.Name;
 import br.edu.ifsp.spo.ctpacolhe.common.constant.PeriodoCurso;
 import lombok.AllArgsConstructor;
@@ -16,6 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonInclude(Include.NON_NULL)
 public class UsuarioUpdateDto {
 	
 	@NotEmpty
