@@ -1,11 +1,11 @@
 package br.edu.ifsp.spo.ctpacolhe.entity;
 
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.Comparator;
-import java.util.HashSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,13 +19,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.TipoResposta;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "pergunta")
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pergunta {
 	@Id
 	@Column(name = "id_pergunta")

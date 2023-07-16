@@ -5,13 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "status")
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Status {
 	@Id
 	@Column(name = "id_status")

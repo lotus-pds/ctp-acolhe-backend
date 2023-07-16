@@ -2,7 +2,6 @@ package br.edu.ifsp.spo.ctpacolhe.entity;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,13 +14,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "incidente")
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Incidente {
 	@Id
 	@Column(name = "id_incidente")
@@ -42,15 +45,13 @@ public class Incidente {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario_copia", referencedColumnName = "id_usuario_copia", insertable = false, updatable = false)
 	private UsuarioCopia usuarioCopia;
+	
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_status", referencedColumnName = "id_status", insertable = false, updatable = false)
+	private Status status;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_incidente", referencedColumnName = "id_incidente")
 	@Builder.Default
 	private Set<IncidenteDetalhe> detalhes = new HashSet<>();
-
-	public List<Pergunta> getPerguntasRespostas() {
-		return detalhes.stream().map(deta -> {
-			return Pergunta.builder().descricao(deta.getPergunta()).build();
-		}).toList();
-	}
 }

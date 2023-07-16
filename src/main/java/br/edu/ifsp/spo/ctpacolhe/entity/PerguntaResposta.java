@@ -13,13 +13,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.edu.ifsp.spo.ctpacolhe.entity.id.PerguntaRespostaID;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "pergunta_x_resposta")
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @IdClass(PerguntaRespostaID.class)
 public class PerguntaResposta {
 	@Id

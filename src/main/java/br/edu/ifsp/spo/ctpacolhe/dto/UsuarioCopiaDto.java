@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UsuarioCopiaDto {
-	private UUID idUSuarioCopia;
+	private UUID idUsuarioCopia;
 	private UUID idUsuarioOrigem;
 	private String nome;
 	private String email;
