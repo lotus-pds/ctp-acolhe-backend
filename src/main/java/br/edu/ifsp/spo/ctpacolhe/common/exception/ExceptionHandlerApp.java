@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
@@ -27,15 +28,16 @@ public class ExceptionHandlerApp {
 
 	@ExceptionHandler(Throwable.class)
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ResponseEntity<ProblemException> problem(final Throwable e) {
-		String message = e.getMessage();
-
-		message = "Ocorreu um erro na solicitação";
+	public ResponseEntity<ProblemException> problem(final Throwable e, Locale locale) {
+		MensagemExceptionType message = MensagemExceptionType.ERRO_NA_SOLICITACAO;
+		
 		UUID uuid = UUID.randomUUID();
 		String logRef = uuid.toString();
 		
+		String error = messageSource.getMessage(message.getMessage(), null, locale);
+		
 		log.error("logRef=" + logRef, message, e);
-		return new ResponseEntity<ProblemException>(new ProblemException(logRef, message),
+		return new ResponseEntity<ProblemException>(new ProblemException(logRef, error),
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
