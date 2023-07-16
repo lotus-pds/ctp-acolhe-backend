@@ -14,5 +14,6 @@ public class IncidenteCreateDto {
 	@NotEmpty
 	@Max(value = 255)
 	private String assunto;
+	@NotEmpty
 	private List<PerguntaCreateDto> perguntas;
 }

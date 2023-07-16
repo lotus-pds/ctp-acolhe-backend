@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,7 +51,7 @@ public class Incidente {
 	@JoinColumn(name = "id_status", referencedColumnName = "id_status", insertable = false, updatable = false)
 	private Status status;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "id_incidente", referencedColumnName = "id_incidente")
 	@Builder.Default
 	private Set<IncidenteDetalhe> detalhes = new HashSet<>();
