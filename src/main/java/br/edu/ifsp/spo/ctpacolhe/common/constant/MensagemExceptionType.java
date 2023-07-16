@@ -36,6 +36,8 @@ public enum MensagemExceptionType {
 	
 	PERGUNTA_NAO_ENCONTRADA("Pergunta %s não encontrada"),
 	PERGUNTA_NAO_PERMITE_MULTIPLAS_RESPOSTAS("Pergunta %s não permite múltiplas respostas"),
+	
+	INCIDENTE_NAO_ENCONTRADO("Incidente não encontrado"),
 	INCIDENTE_NAO_POSSUI_PERGUNTAS("Incidente não possui lista de perguntas"),
 	
 	RESPOSTA_PARA_PERGUNTA_NAO_ENCONTRADA("Resposta %s para pergunta %s não encontrada");

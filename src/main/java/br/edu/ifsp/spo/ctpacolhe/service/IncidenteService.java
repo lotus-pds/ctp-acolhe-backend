@@ -74,6 +74,13 @@ public class IncidenteService {
 		
 		return incidenteRepository.save(incidente);
 	}
+	
+	public Incidente buscaIncidente(UUID idIncidente) {
+		Incidente incidente = incidenteRepository.findById(idIncidente)
+				.orElseThrow(() -> new ValidationException(MensagemExceptionType.INCIDENTE_NAO_ENCONTRADO));
+		
+		return incidente;
+	}
 
 	private Set<IncidenteDetalhe> validaPerguntas(IncidenteCreateDto incidenteDto, List<Pergunta> perguntas) {
 		Set<IncidenteDetalhe> detalhes = new HashSet<>();
