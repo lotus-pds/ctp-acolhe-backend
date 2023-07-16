@@ -8,13 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "resposta")
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Resposta {
 	@Id
 	@Column(name = "id_resposta")

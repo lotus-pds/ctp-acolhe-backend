@@ -10,13 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.PeriodoCurso;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "usuario_copia")
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UsuarioCopia {
 	@Id
 	@Column(name = "id_usuario_copia")
