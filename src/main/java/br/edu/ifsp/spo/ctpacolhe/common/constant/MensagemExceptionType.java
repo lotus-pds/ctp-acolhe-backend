@@ -6,41 +6,41 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum MensagemExceptionType {
-	EMAIL_NAO_CONFIRMADO("E-mail ainda não confirmado"),
-	CREDENCIAIS_INCORRETAS("Usuário e/ou senha incorreto(s)"),
-	SENHA_ATUAL_INCORRETA("Senha atual incorreta"),
-	SENHA_ATUAL_E_NOVA_IGUAIS("Senha atual e nova são iguais"),
-	
-	USUARIO_NAO_ENCONTRADO("Usuário não encontrado"),
-	USUARIO_JA_INATIVO("Usuário já inativo"),
-	USUARIO_JA_ATIVO("Usuário já ativo"),
-	EMAIL_NAO_ENCONTRADO("E-mail não encontrado"),	
-	EMAIL_JA_CADASTRADO("E-mail já cadastrado"),
-	PRONTUARIO_JA_CADASTRADO("Prontuário já cadastrado"),
-	
-	TOKEN_NAO_ENCONTRADO("Token de %s não encontrado"),
-	TOKEN_EXPIROU("Token de %s para o e-mail=%s expirou"),
-	TOKEN_RENOVACAO_EXPIROU("Token de renovação expirou, acesse sua conta novamente"),
-	TOKEN_AGUARDE_UM_MINUTO("Aguarde 1 minuto para o reenvio do e-mail de %s"),
-	
-	EMAIL_REDEFINICAO_SENHA_JA_ENVIADO("E-mail para redefinição de senha já enviado, solicite o reenvio ou tente novamente mais tarde"),
-	
-	PROBLEMA_COM_ENVIO_EMAIL("Problema com o envio do e-mail de %s, tente novamente mais tarde"),
-	
-	HUMOR_REGISTRADO_HOJE("Humor já registrado hoje"),
-	
-	PERFIL_NAO_ENCONTRADO("Perfil %s não encontrado"),
-	EMAIL_USUARIO_NAO_CONFIRMADO("Email do usuário ainda não confirmado"),
-	
-	USUARIO_INATIVO("Usuário inativo"),
-	
-	PERGUNTA_NAO_ENCONTRADA("Pergunta %s não encontrada"),
-	PERGUNTA_NAO_PERMITE_MULTIPLAS_RESPOSTAS("Pergunta %s não permite múltiplas respostas"),
-	
-	INCIDENTE_NAO_ENCONTRADO("Incidente não encontrado"),
-	INCIDENTE_NAO_POSSUI_PERGUNTAS("Incidente não possui lista de perguntas"),
-	
-	RESPOSTA_PARA_PERGUNTA_NAO_ENCONTRADA("Resposta %s para pergunta %s não encontrada");
-	
-	String message;
+    EMAIL_NAO_CONFIRMADO("email.nao.confirmado"),
+    CREDENCIAIS_INCORRETAS("credenciais.incorretas"),
+    SENHA_ATUAL_INCORRETA("senha.atual.incorreta"),
+    SENHA_ATUAL_E_NOVA_IGUAIS("senha.atual.e.nova.iguais"),
+
+    USUARIO_NAO_ENCONTRADO("usuario.nao.encontrado"),
+    USUARIO_JA_INATIVO("usuario.ja.inativo"),
+    USUARIO_JA_ATIVO("usuario.ja.ativo"),
+    EMAIL_NAO_ENCONTRADO("email.nao.encontrado"),
+    EMAIL_JA_CADASTRADO("email.ja.cadastrado"),
+    PRONTUARIO_JA_CADASTRADO("prontuario.ja.cadastrado"),
+
+    TOKEN_NAO_ENCONTRADO("token.nao.encontrado"),
+    TOKEN_EXPIROU("token.expirou"),
+    TOKEN_RENOVACAO_EXPIROU("token.renovacao.expirou"),
+    TOKEN_AGUARDE_UM_MINUTO("token.aguarde.um.minuto"),
+
+    EMAIL_REDEFINICAO_SENHA_JA_ENVIADO("email.redefinicao.senha.ja.enviado"),
+
+    PROBLEMA_COM_ENVIO_EMAIL("problema.com.envio.email"),
+
+    HUMOR_REGISTRADO_HOJE("humor.registrado.hoje"),
+
+    PERFIL_NAO_ENCONTRADO("perfil.nao.encontrado"),
+    EMAIL_USUARIO_NAO_CONFIRMADO("email.usuario.nao.confirmado"),
+
+    USUARIO_INATIVO("usuario.inativo"),
+
+    PERGUNTA_NAO_ENCONTRADA("pergunta.nao.encontrada"),
+    PERGUNTA_NAO_PERMITE_MULTIPLAS_RESPOSTAS("pergunta.nao.permite.multiplas.respostas"),
+    
+    INCIDENTE_NAO_ENCONTRADO("incidente.nao.encontrado"),
+    INCIDENTE_NAO_POSSUI_PERGUNTAS("incidente.nao.possui.perguntas"),
+
+    RESPOSTA_PARA_PERGUNTA_NAO_ENCONTRADA("resposta.para.pergunta.nao.encontrada");
+
+    String message;
 }
