@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe.common.security;
 
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,6 +59,12 @@ public class ApplicationSecurity {
     PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	    
+    @Bean
+    public TimeZone timeZone() {
+		TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
+        return TimeZone.getTimeZone("America/Sao_Paulo");
+    }
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
