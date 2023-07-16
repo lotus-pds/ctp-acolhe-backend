@@ -22,7 +22,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.edu.ifsp.spo.ctpacolhe.common.filter.ExceptionHandlerFilter;
-import br.edu.ifsp.spo.ctpacolhe.common.filter.UsuarioAtivoFilter;
 import br.edu.ifsp.spo.ctpacolhe.common.jwt.JwtTokenFilter;
 
 @Configuration
@@ -54,9 +53,6 @@ public class ApplicationSecurity {
 
 	@Autowired
 	private JwtTokenFilter jwtTokenFilter;
-	
-	@Autowired
-    private UsuarioAtivoFilter usuarioAtivoFilter;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -93,8 +89,6 @@ public class ApplicationSecurity {
 		
 		http.addFilterBefore(exceptionHandlerFilter, JwtTokenFilter.class);
 		
-		http.addFilterAfter(usuarioAtivoFilter, UsernamePasswordAuthenticationFilter.class);
-
 		return http.build();
 	}
 
