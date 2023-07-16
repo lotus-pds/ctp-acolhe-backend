@@ -6,6 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum MensagemExceptionType {
+	ERRO_NA_SOLICITACAO("erro.na.solicitacao"),
+	
     EMAIL_NAO_CONFIRMADO("email.nao.confirmado"),
     CREDENCIAIS_INCORRETAS("credenciais.incorretas"),
     SENHA_ATUAL_INCORRETA("senha.atual.incorreta"),
