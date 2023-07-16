@@ -9,4 +9,5 @@ import lombok.Setter;
 @Setter
 public class RespostaCreateDto {
 	private UUID idResposta;
+	private String textoResposta;
 }
