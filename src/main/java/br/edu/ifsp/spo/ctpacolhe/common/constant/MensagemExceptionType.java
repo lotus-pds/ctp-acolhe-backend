@@ -18,14 +18,18 @@ public enum MensagemExceptionType {
     EMAIL_JA_CADASTRADO("email.ja.cadastrado"),
     PRONTUARIO_JA_CADASTRADO("prontuario.ja.cadastrado"),
 
-    TOKEN_NAO_ENCONTRADO("token.nao.encontrado"),
-    TOKEN_EXPIROU("token.expirou"),
+    TOKEN_RENOVACAO_NAO_ENCONTRADO("token.renovacao.nao.encontrado"),
     TOKEN_RENOVACAO_EXPIROU("token.renovacao.expirou"),
-    TOKEN_AGUARDE_UM_MINUTO("token.aguarde.um.minuto"),
-
+    
+    TOKEN_VERIFICACAO_NAO_ENCONTRADO("token.verificacao.nao.encontrado"),
+    TOKEN_VERIFICACAO_EXPIROU("token.verificacao.expirou"),
+    TOKEN_VERIFICACAO_AGUARDE_UM_MINUTO("token.verificacao.aguarde.um.minuto"),
+    PROBLEMA_COM_ENVIO_EMAIL_VERIFICACAO("problema.com.envio.email.verificacao"),
+    
+    TOKEN_REDEFINICAO_SENHA_NAO_ENCONTRADO("token.redefinicao.senha.nao.encontrado"),
+    TOKEN_REDEFINICAO_SENHA_EXPIROU("token.redefinicao.senha.expirou"),
+    TOKEN_REDEFINICAO_SENHA_AGUARDE_UM_MINUTO("token.redefinicao.senha.aguarde.um.minuto"),
     EMAIL_REDEFINICAO_SENHA_JA_ENVIADO("email.redefinicao.senha.ja.enviado"),
-
-    PROBLEMA_COM_ENVIO_EMAIL("problema.com.envio.email"),
 
     HUMOR_REGISTRADO_HOJE("humor.registrado.hoje"),
 
