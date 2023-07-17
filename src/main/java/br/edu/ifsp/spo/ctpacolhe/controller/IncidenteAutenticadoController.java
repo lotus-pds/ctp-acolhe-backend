@@ -2,9 +2,6 @@ package br.edu.ifsp.spo.ctpacolhe.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
-
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,12 +49,5 @@ public class IncidenteAutenticadoController implements Controller  {
 
 		URI uri = uriCreated("/incidente/{idIncidente}", dto.getIdIncidente());
 		return ResponseEntity.created(uri).body(dto);
-	}
-	
-	@GetMapping("/{idIncidente}")
-	public ResponseEntity<IncidenteDto> buscaIncidente(@PathParam("idIncidente") UUID idIncidente) {
-		Incidente incidente = incidenteService.buscaIncidente(idIncidente);
-		IncidenteDto dto = incidenteMapper.toCustom(incidente);
-		return ResponseEntity.ok(dto);
 	}
 }
