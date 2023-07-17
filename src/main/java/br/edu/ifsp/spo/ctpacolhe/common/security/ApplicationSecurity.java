@@ -42,7 +42,6 @@ public class ApplicationSecurity {
 			"/conta/renovar-token",
 			"/curso"
     );
-			
 
 	public AuthenticationManager authenticationManager;
 
@@ -82,7 +81,7 @@ public class ApplicationSecurity {
                 .antMatchers(ACCOUNT_OPEN_PATHS.toArray(String[]::new)).permitAll()
                 .antMatchers("/usuario/autenticado/**").hasAnyAuthority("Admin", "Aluno")
                 .antMatchers("/usuario/autenticado/humor/**").hasAnyAuthority("Aluno")
-                .antMatchers("/usuario", "/usuario/{idUsuario}/perfil").hasAnyAuthority("Admin")
+                .antMatchers("/usuario", "/usuario/{idUsuario}/perfil", "/incidente/**").hasAnyAuthority("Admin")
                 .anyRequest().authenticated()
              );
 		
