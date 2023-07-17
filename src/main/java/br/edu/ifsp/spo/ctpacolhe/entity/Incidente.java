@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.ctpacolhe.entity;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -55,4 +56,8 @@ public class Incidente {
 	@JoinColumn(name = "id_incidente", referencedColumnName = "id_incidente")
 	@Builder.Default
 	private Set<IncidenteDetalhe> detalhes = new HashSet<>();
+
+	public UUID getIdUsuarioOrigem() {
+		return Optional.ofNullable(usuarioCopia).orElseGet(UsuarioCopia::new).getIdUsuarioOrigem();
+	}
 }

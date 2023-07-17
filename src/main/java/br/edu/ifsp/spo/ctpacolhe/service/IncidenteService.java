@@ -49,6 +49,9 @@ public class IncidenteService {
 	@Autowired
 	private UsuarioCopiaRepository usuarioCopiaRepository;
 	
+	private static final String CANCELADO = "CAN";
+	private static final String FINALIZADO = "FIN";
+	
 	public Page<Incidente> buscaIncidentes(FiltroWrapper filtroWrapper) {
 		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
 		
@@ -80,6 +83,23 @@ public class IncidenteService {
 				.orElseThrow(() -> new ValidationException(MensagemExceptionType.INCIDENTE_NAO_ENCONTRADO));
 		
 		return incidente;
+	}
+	
+	public Incidente cancelaIncidente(UUID idIncidente) {
+		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
+		Incidente incidente = buscaIncidente(idIncidente);
+		
+		if (!usuarioAutenticado.getIdUsuario().equals(incidente.getIdUsuarioOrigem())) {
+			throw new ValidationException(MensagemExceptionType.INCIDENTE_DE_OUTRO_ALUNO);
+		}
+		
+		if (CANCELADO.equals(incidente.getIdStatus()) || FINALIZADO.equals(incidente.getIdStatus())) {
+			throw new ValidationException(MensagemExceptionType.INCIDENTE_JA_CANCELADO_OU_FINALIZADO);
+		}
+		
+		incidente.setIdStatus(CANCELADO);
+		
+		return incidenteRepository.save(incidente);
 	}
 
 	private Set<IncidenteDetalhe> validaPerguntas(IncidenteCreateDto incidenteDto, List<Pergunta> perguntas) {

@@ -2,12 +2,15 @@ package br.edu.ifsp.spo.ctpacolhe.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,5 +52,16 @@ public class IncidenteAutenticadoController implements Controller  {
 
 		URI uri = uriCreated("/incidente/{idIncidente}", dto.getIdIncidente());
 		return ResponseEntity.created(uri).body(dto);
+	}
+	
+	@PatchMapping("/{idIncidente}/cancelar")
+	@ResponseBody
+	public ResponseEntity<IncidenteDto> cancelaIncidente(@PathVariable("idIncidente") UUID idIncidente) {
+		Incidente incidente = incidenteService.cancelaIncidente(idIncidente);
+		
+		incidente = incidenteService.buscaIncidente(incidente.getIdIncidente());
+		IncidenteDto dto = incidenteMapper.toCustom(incidente);
+		
+		return ResponseEntity.ok(dto);
 	}
 }
