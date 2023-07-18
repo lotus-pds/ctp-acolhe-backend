@@ -52,13 +52,18 @@ public class IncidenteService {
 	private static final String CANCELADO = "CAN";
 	private static final String FINALIZADO = "FIN";
 	
-	public Page<Incidente> buscaIncidentes(FiltroWrapper filtroWrapper) {
+	public Page<Incidente> buscaIncidentesAutenticado(FiltroWrapper filtroWrapper) {
 		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
 		
 		IncidenteFiltro filtro = (IncidenteFiltro) filtroWrapper.getFiltro();
 		filtro.setIdUsuarioOrigem(usuarioAutenticado.getIdUsuario());
 		
 		return incidenteRepository.findAllBy(filtroWrapper);
+	}
+	
+	public Page<Incidente> buscaIncidentes(FiltroWrapper filtroWrapper) {
+		Page<Incidente> incidentes = incidenteRepository.findAllBy(filtroWrapper);
+		return incidentes;
 	}
 
 	public Incidente criaIncidente(IncidenteCreateDto incidenteDto) {

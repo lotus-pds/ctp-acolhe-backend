@@ -26,7 +26,7 @@ import br.edu.ifsp.spo.ctpacolhe.service.IncidenteService;
 
 @RestController
 @RequestMapping("/usuario/autenticado/incidente")
-public class IncidenteAutenticadoController implements Controller  {
+public class IncidenteAutenticadoController implements Controller {
 	
 	@Autowired
 	private IncidenteService incidenteService;
@@ -37,7 +37,7 @@ public class IncidenteAutenticadoController implements Controller  {
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<List<IncidenteDto>> buscaIncidentes(Pageable paginacao, IncidenteAutenticadoFiltroDto filtro) {
-		Page<Incidente> incidentes = incidenteService.buscaIncidentes(filtro.toWrapper(paginacao));
+		Page<Incidente> incidentes = incidenteService.buscaIncidentesAutenticado(filtro.toWrapper(paginacao));
 		List<IncidenteDto> dtos = incidenteMapper.toCustom(incidentes.getContent());
 		return respostaPaginada(incidentes).body(dtos);
 	}
