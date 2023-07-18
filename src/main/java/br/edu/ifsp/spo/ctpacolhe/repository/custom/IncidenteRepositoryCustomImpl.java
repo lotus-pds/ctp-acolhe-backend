@@ -74,6 +74,27 @@ public class IncidenteRepositoryCustomImpl extends RepositoryCustom implements I
 		if (filtro.hasIdUsuarioOrigem()) {
 			predicates.add(builder.equal(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.idUsuarioOrigem), filtro.getIdUsuarioOrigem()));
 		}
+		if (filtro.hasNome()) {
+			predicates.add(builder.like(builder.upper(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.nome)), "%" + filtro.getNome().toUpperCase() + "%"));
+		}
+		if (filtro.hasEmail()) {
+			predicates.add(builder.like(builder.upper(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.email)), "%" + filtro.getEmail().toUpperCase() + "%"));
+		}
+		if (filtro.hasNomeCurso()) {
+			predicates.add(builder.like(builder.upper(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.nomeCurso)), "%" + filtro.getNomeCurso().toUpperCase() + "%"));
+		}
+		if (filtro.hasTipoCurso()) {
+			predicates.add(builder.like(builder.upper(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.tipoCurso)), "%" + filtro.getTipoCurso().toUpperCase() + "%"));
+		}
+		if (filtro.hasPeriodo()) {
+			predicates.add(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.periodo).in(filtro.getPeriodo()));
+		}
+		if (filtro.hasTurma()) {
+			predicates.add(builder.like(builder.upper(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.turma)), "%" + filtro.getTurma().toUpperCase() + "%"));
+		}
+		if (filtro.hasProntuario()) {
+			predicates.add(builder.like(builder.upper(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.prontuario)), "%" + filtro.getProntuario().toUpperCase() + "%"));
+		}
 		
 		return predicates;
 	}
