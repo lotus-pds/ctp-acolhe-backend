@@ -46,6 +46,7 @@ public enum MensagemExceptionType {
     INCIDENTE_NAO_ENCONTRADO("incidente.nao.encontrado"),
     INCIDENTE_NAO_POSSUI_PERGUNTAS("incidente.nao.possui.perguntas"),
     INCIDENTE_EM_PROCESSO_CANCELADO_OU_FINALIZADO("incidente.em.processo.cancelado.ou.finalizado"),
+    INCIDENTE_PENDENTE_CANCELADO_OU_FINALIZADO("incidente.pendente.cancelado.ou.finalizado"),
     INCIDENTE_JA_CANCELADO_OU_FINALIZADO("incidente.ja.cancelado.ou.finalizado"),
     INCIDENTE_DE_OUTRO_ALUNO("incidente.de.outro.aluno"),
 

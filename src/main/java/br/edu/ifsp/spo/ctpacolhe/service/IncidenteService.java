@@ -49,6 +49,7 @@ public class IncidenteService {
 	@Autowired
 	private UsuarioCopiaRepository usuarioCopiaRepository;
 	
+	private static final String PENDENTE = "PEN";
 	private static final String CANCELADO = "CAN";
 	private static final String EM_PROCESSO = "EPR";
 	private static final String FINALIZADO = "FIN";
@@ -117,6 +118,19 @@ public class IncidenteService {
 		}
 		
 		incidente.setIdStatus(EM_PROCESSO);
+		
+		return incidenteRepository.save(incidente);
+	}
+	
+	public Incidente finalizarIncidente(UUID idIncidente) {
+		Incidente incidente = buscaIncidente(idIncidente);
+		
+		if (PENDENTE.equals(incidente.getIdStatus()) || CANCELADO.equals(incidente.getIdStatus())
+				|| FINALIZADO.equals(incidente.getIdStatus())) {
+			throw new ValidationException(MensagemExceptionType.INCIDENTE_PENDENTE_CANCELADO_OU_FINALIZADO);
+		}
+		
+		incidente.setIdStatus(FINALIZADO);
 		
 		return incidenteRepository.save(incidente);
 	}
