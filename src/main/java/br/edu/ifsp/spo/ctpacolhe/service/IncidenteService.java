@@ -50,6 +50,7 @@ public class IncidenteService {
 	private UsuarioCopiaRepository usuarioCopiaRepository;
 	
 	private static final String CANCELADO = "CAN";
+	private static final String EM_PROCESSO = "EPR";
 	private static final String FINALIZADO = "FIN";
 	
 	public Page<Incidente> buscaIncidentesAutenticado(FiltroWrapper filtroWrapper) {
@@ -103,6 +104,19 @@ public class IncidenteService {
 		}
 		
 		incidente.setIdStatus(CANCELADO);
+		
+		return incidenteRepository.save(incidente);
+	}
+	
+	public Incidente processaIncidente(UUID idIncidente) {
+		Incidente incidente = buscaIncidente(idIncidente);
+		
+		if (EM_PROCESSO.equals(incidente.getIdStatus()) || CANCELADO.equals(incidente.getIdStatus())
+				|| FINALIZADO.equals(incidente.getIdStatus())) {
+			throw new ValidationException(MensagemExceptionType.INCIDENTE_EM_PROCESSO_CANCELADO_OU_FINALIZADO);
+		}
+		
+		incidente.setIdStatus(EM_PROCESSO);
 		
 		return incidenteRepository.save(incidente);
 	}
