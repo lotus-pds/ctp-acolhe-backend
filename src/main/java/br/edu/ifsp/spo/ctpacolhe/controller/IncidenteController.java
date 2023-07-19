@@ -56,4 +56,15 @@ public class IncidenteController implements Controller {
 		
 		return ResponseEntity.ok(dto);
 	}
+	
+	@PatchMapping("/{idIncidente}/finalizar")
+	@ResponseBody
+	public ResponseEntity<IncidenteDto> finalizarIncidente(@PathVariable("idIncidente") UUID idIncidente) {
+		Incidente incidente = incidenteService.finalizarIncidente(idIncidente);
+		
+		incidente = incidenteService.buscaIncidente(incidente.getIdIncidente());
+		IncidenteDto dto = incidenteMapper.toCustom(incidente);
+		
+		return ResponseEntity.ok(dto);
+	}
 }
