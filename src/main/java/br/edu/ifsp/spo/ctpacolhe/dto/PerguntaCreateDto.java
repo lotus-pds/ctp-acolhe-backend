@@ -14,4 +14,8 @@ public class PerguntaCreateDto {
 	@NotEmpty
 	private UUID idPergunta;
 	private List<RespostaCreateDto> respostas;
+	
+	public boolean hasRespostas() {
+		return respostas != null && !respostas.isEmpty();
+	}
 }
