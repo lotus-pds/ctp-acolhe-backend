@@ -47,4 +47,7 @@ public class IncidenteDetalhe {
 	@Enumerated(EnumType.STRING)
 	private TipoResposta tipoResposta;
 
+	@Column(name = "pergunta_obrigatoria")
+	private Boolean perguntaObrigatoria;
+	
 }

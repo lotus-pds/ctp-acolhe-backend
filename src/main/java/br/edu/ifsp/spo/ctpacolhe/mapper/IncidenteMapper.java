@@ -32,7 +32,7 @@ public interface IncidenteMapper {
 			Set<Resposta> respostasDaPergunta = getRespostasByPergunta(detalhes, perguntaAtual);
 
 			return PerguntaIncidenteDto.builder().descricao(perguntaAtual).ordem(deta.getOrdemPergunta())
-					.tipoResposta(deta.getTipoResposta()).respostas(respostasDaPergunta.stream()
+					.tipoResposta(deta.getTipoResposta()).obrigatoria(deta.getPerguntaObrigatoria()).respostas(respostasDaPergunta.stream()
 							.map(resp -> RespostaIncidenteDto.builder().descricao(resp.getDescricao()).ordem(resp.getOrdem()).build())
 							.toList())
 					.build();
