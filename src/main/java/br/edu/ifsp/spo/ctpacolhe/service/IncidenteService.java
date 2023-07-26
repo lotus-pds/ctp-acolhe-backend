@@ -146,6 +146,11 @@ public class IncidenteService {
 					.orElseThrow(() -> new ValidationException(MensagemExceptionType.PERGUNTA_NAO_ENCONTRADA,
 							pi.getIdPergunta()));
 			
+			if (perguntaValida.getObrigatoria() && !pi.hasRespostas()) {
+				throw new ValidationException(MensagemExceptionType.PERGUNTA_OBRIGATORIA_SEM_RESPOSTAS,
+						perguntaValida.getIdPergunta());
+			}
+
 			if (!TipoResposta.MULTISELECT.equals(perguntaValida.getTipoResposta()) && pi.getRespostas().size() > 1) {
 				throw new ValidationException(MensagemExceptionType.PERGUNTA_NAO_PERMITE_MULTIPLAS_RESPOSTAS,
 						perguntaValida.getIdPergunta());
@@ -160,7 +165,7 @@ public class IncidenteService {
 	private Set<IncidenteDetalhe> validaRespostas(PerguntaCreateDto perguntaIncidente, Pergunta pergunta) {
 		return perguntaIncidente.getRespostas().stream().map(ri -> {
 			IncidenteDetalheBuilder incidenteDetalheBuilder = IncidenteDetalhe.builder().idIncidenteDetalhe(UUID.randomUUID()).pergunta(pergunta.getDescricao())
-					 .ordemPergunta(pergunta.getOrdem()).tipoResposta(pergunta.getTipoResposta());
+					 .ordemPergunta(pergunta.getOrdem()).tipoResposta(pergunta.getTipoResposta()).perguntaObrigatoria(pergunta.getObrigatoria());
 			
 			if(TipoResposta.DISSERTATIVA.equals(pergunta.getTipoResposta())) {
 				incidenteDetalheBuilder.resposta(ri.getTextoResposta()).ordemResposta(1);

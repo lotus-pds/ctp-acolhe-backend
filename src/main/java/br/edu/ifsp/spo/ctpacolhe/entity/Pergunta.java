@@ -41,6 +41,10 @@ public class Pergunta {
 	@Column(name = "ordem")
 	private Integer ordem;
 	
+	@Column(name = "obrigatoria")
+	@Builder.Default
+	private Boolean obrigatoria = true;
+	
 	@Column(name = "tipo_resposta")
 	@Enumerated(EnumType.STRING)
 	private TipoResposta tipoResposta;

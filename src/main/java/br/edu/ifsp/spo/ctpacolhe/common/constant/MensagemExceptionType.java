@@ -42,6 +42,7 @@ public enum MensagemExceptionType {
 
     PERGUNTA_NAO_ENCONTRADA("pergunta.nao.encontrada"),
     PERGUNTA_NAO_PERMITE_MULTIPLAS_RESPOSTAS("pergunta.nao.permite.multiplas.respostas"),
+    PERGUNTA_OBRIGATORIA_SEM_RESPOSTAS("pergunta.obrigatoria.sem.respostas"),
     
     INCIDENTE_NAO_ENCONTRADO("incidente.nao.encontrado"),
     INCIDENTE_NAO_POSSUI_PERGUNTAS("incidente.nao.possui.perguntas"),

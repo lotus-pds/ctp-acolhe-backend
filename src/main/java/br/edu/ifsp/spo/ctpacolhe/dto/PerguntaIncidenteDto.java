@@ -17,5 +17,6 @@ public class PerguntaIncidenteDto {
 	private String descricao;
 	private Integer ordem;
 	private TipoResposta tipoResposta;
+	private Boolean obrigatoria;
 	private List<RespostaIncidenteDto> respostas;
 }
