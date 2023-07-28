@@ -20,6 +20,7 @@ public interface IncidenteMapper {
 	
 	UsuarioCopiaMapper USUARIO_COPIA_MAPPER = Mappers.getMapper(UsuarioCopiaMapper.class);
 	StatusMapper STATUS_MAPPER = Mappers.getMapper(StatusMapper.class);
+	TipoIncidenteMapper TIPO_INCIDENTE_MAPPER = Mappers.getMapper(TipoIncidenteMapper.class);
 	
 	default IncidenteDto toCustom(Incidente incidente) {
 		Set<IncidenteDetalhe> detalhes = incidente.getDetalhes();
@@ -41,7 +42,8 @@ public interface IncidenteMapper {
 		return IncidenteDto.builder().assunto(incidente.getAssunto()).dataIncidente(incidente.getDataIncidente())
 				.idIncidente(incidente.getIdIncidente()).perguntas(perguntasComRespostas)
 				.usuarioCopia(USUARIO_COPIA_MAPPER.to(incidente.getUsuarioCopia()))
-				.status(STATUS_MAPPER.to(incidente.getStatus())).build();
+				.status(STATUS_MAPPER.to(incidente.getStatus()))
+				.tipos(TIPO_INCIDENTE_MAPPER.to(incidente.getTipos().stream().toList())).build();
 	}
 
 	default Set<Resposta> getRespostasByPergunta(Set<IncidenteDetalhe> detalhes, String pergunta) {
