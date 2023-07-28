@@ -12,6 +12,7 @@ public abstract class Incidente_ {
 	public static volatile SingularAttribute<Incidente, String> idStatus;
 	public static volatile SingularAttribute<Incidente, LocalDateTime> dataIncidente;
 	public static volatile SingularAttribute<Incidente, UsuarioCopia> usuarioCopia;
+	public static volatile SetAttribute<Incidente, TipoIncidente> tipos;
 	public static volatile SingularAttribute<Incidente, Status> status;
 	public static volatile SetAttribute<Incidente, IncidenteDetalhe> detalhes;
 }
