@@ -30,6 +30,7 @@ public class IncidenteRepositoryCustomImpl extends RepositoryCustom implements I
 		CriteriaQuery<Incidente> query = builder.createQuery(Incidente.class);
 		Root<Incidente> root = query.from(Incidente.class);
 		
+		root.fetch(Incidente_.tipos, JoinType.LEFT);
 		root.fetch(Incidente_.usuarioCopia, JoinType.LEFT);
 		root.fetch(Incidente_.detalhes, JoinType.LEFT);
 		root.fetch(Incidente_.status, JoinType.LEFT);
