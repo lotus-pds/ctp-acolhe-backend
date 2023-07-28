@@ -1,6 +1,7 @@
 package br.edu.ifsp.spo.ctpacolhe.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +27,13 @@ import br.edu.ifsp.spo.ctpacolhe.entity.IncidenteDetalhe;
 import br.edu.ifsp.spo.ctpacolhe.entity.IncidenteDetalhe.IncidenteDetalheBuilder;
 import br.edu.ifsp.spo.ctpacolhe.entity.Pergunta;
 import br.edu.ifsp.spo.ctpacolhe.entity.Resposta;
+import br.edu.ifsp.spo.ctpacolhe.entity.TipoIncidente;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
 import br.edu.ifsp.spo.ctpacolhe.entity.UsuarioCopia;
 import br.edu.ifsp.spo.ctpacolhe.entity.filter.IncidenteFiltro;
 import br.edu.ifsp.spo.ctpacolhe.repository.IncidenteRepository;
 import br.edu.ifsp.spo.ctpacolhe.repository.PerguntaRepository;
+import br.edu.ifsp.spo.ctpacolhe.repository.TipoIncidenteRepository;
 import br.edu.ifsp.spo.ctpacolhe.repository.UsuarioCopiaRepository;
 
 @Service
@@ -39,6 +42,9 @@ public class IncidenteService {
 	
 	@Autowired
 	private IncidenteRepository incidenteRepository;
+	
+	@Autowired
+	private TipoIncidenteRepository tipoIncidenteRepository;
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -70,6 +76,9 @@ public class IncidenteService {
 
 	public Incidente criaIncidente(IncidenteCreateDto incidenteDto) {
 		List<Pergunta> perguntasValidas = perguntaRepository.findAll();
+
+		Set<TipoIncidente> tipos = validaTipos(incidenteDto);
+		
 		Set<IncidenteDetalhe> detalhes = validaPerguntas(incidenteDto, perguntasValidas);
 
 		UsuarioCopia usuarioCopia = montaUsuarioCopia(usuarioService.validaUsuarioAutenticado());
@@ -79,8 +88,8 @@ public class IncidenteService {
 		detalhes.forEach(d -> d.setIdIncidente(idIncidente));
 
 		Incidente incidente = Incidente.builder().idIncidente(idIncidente).idUsuarioCopia(usuarioCopia.getIdUsuarioCopia())
-				.dataIncidente(LocalDateTime.now()).assunto(incidenteDto.getAssunto()).idStatus("PEN")
-				.detalhes(detalhes).build();
+				.dataIncidente(LocalDateTime.now()).assunto(incidenteDto.getAssunto())
+				.tipos(tipos).idStatus(PENDENTE).detalhes(detalhes).build();
 		
 		return incidenteRepository.save(incidente);
 	}
@@ -134,12 +143,33 @@ public class IncidenteService {
 		
 		return incidenteRepository.save(incidente);
 	}
+	
+	private Set<TipoIncidente> validaTipos(IncidenteCreateDto incidenteDto) {		
+		if (!incidenteDto.hasTipos()) {
+			throw new ValidationException(MensagemExceptionType.INCIDENTE_NAO_POSSUI_TIPOS);
+		}
+		
+		Set<TipoIncidente> tiposIncidente = incidenteDto.getTipos().stream().map(t -> {
+			TipoIncidente tipoIncidenteValido = tipoIncidenteRepository.findById(t.getIdTipoIncidente())
+					.orElseThrow(() -> new ValidationException(MensagemExceptionType.TIPO_INCIDENTE_NAO_ENCONTRADO, t.getIdTipoIncidente()));
+			
+			if (!tipoIncidenteValido.isAtivo()) {
+				throw new ValidationException(MensagemExceptionType.TIPO_INCIDENTE_NAO_ESTA_ATIVO, tipoIncidenteValido.getIdTipoIncidente());
+			}
+			
+			return tipoIncidenteValido;
+		}).collect(Collectors.toSet());
+		
+		return tiposIncidente;
+	}
 
 	private Set<IncidenteDetalhe> validaPerguntas(IncidenteCreateDto incidenteDto, List<Pergunta> perguntas) {
+		List<PerguntaCreateDto> perguntasIncidente = Optional.ofNullable(incidenteDto.getPerguntas()).orElseGet(ArrayList::new);
 		Set<IncidenteDetalhe> detalhes = new HashSet<>();
-				
-		List<PerguntaCreateDto> perguntasIncidente = Optional.ofNullable(incidenteDto.getPerguntas())
-				.orElseThrow(() -> new ValidationException(MensagemExceptionType.INCIDENTE_NAO_POSSUI_PERGUNTAS));
+		
+		if (!incidenteDto.hasPerguntas()) {
+			throw new ValidationException(MensagemExceptionType.INCIDENTE_NAO_POSSUI_PERGUNTAS);
+		}
 		
 		perguntasIncidente.forEach(pi -> {
 			Pergunta perguntaValida = perguntas.stream().filter(p -> p.getIdPergunta().equals(pi.getIdPergunta())).findFirst()
