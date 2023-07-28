@@ -46,10 +46,14 @@ public enum MensagemExceptionType {
     
     INCIDENTE_NAO_ENCONTRADO("incidente.nao.encontrado"),
     INCIDENTE_NAO_POSSUI_PERGUNTAS("incidente.nao.possui.perguntas"),
+    INCIDENTE_NAO_POSSUI_TIPOS("incidente.nao.possui.tipos"),
     INCIDENTE_EM_PROCESSO_CANCELADO_OU_FINALIZADO("incidente.em.processo.cancelado.ou.finalizado"),
     INCIDENTE_PENDENTE_CANCELADO_OU_FINALIZADO("incidente.pendente.cancelado.ou.finalizado"),
     INCIDENTE_JA_CANCELADO_OU_FINALIZADO("incidente.ja.cancelado.ou.finalizado"),
     INCIDENTE_DE_OUTRO_ALUNO("incidente.de.outro.aluno"),
+    
+    TIPO_INCIDENTE_NAO_ENCONTRADO("tipo.incidente.nao.encontrado"),
+    TIPO_INCIDENTE_NAO_ESTA_ATIVO("tipo.incidente.nao.esta.ativo"),
 
     RESPOSTA_PARA_PERGUNTA_NAO_ENCONTRADA("resposta.para.pergunta.nao.encontrada");
 
