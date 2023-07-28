@@ -20,6 +20,7 @@ public class IncidenteDto {
 	private String assunto;
 	private LocalDateTime dataIncidente;
 	private StatusDto status;
+	private List<TipoIncidenteDto> tipos;
 	private UsuarioCopiaDto usuarioCopia;
 	private List<PerguntaIncidenteDto> perguntas;
 }
