@@ -15,5 +15,15 @@ public class IncidenteCreateDto {
 	@Max(value = 255)
 	private String assunto;
 	@NotEmpty
+	private List<TipoIncidenteDto> tipos;
+	@NotEmpty
 	private List<PerguntaCreateDto> perguntas;
+	
+	public boolean hasTipos() {
+		return this.tipos != null && !this.tipos.isEmpty();
+	}
+	
+	public boolean hasPerguntas() {
+		return this.perguntas != null && !this.perguntas.isEmpty();
+	}
 }

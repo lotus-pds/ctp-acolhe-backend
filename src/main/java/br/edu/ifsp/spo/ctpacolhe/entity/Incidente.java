@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -51,6 +53,11 @@ public class Incidente {
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_status", referencedColumnName = "id_status", insertable = false, updatable = false)
 	private Status status;
+    
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "incidente_x_tipo_incidente", joinColumns = @JoinColumn(name = "id_incidente"), inverseJoinColumns = @JoinColumn(name = "id_tipo_incidente"))
+	@Builder.Default
+	private Set<TipoIncidente> tipos = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "id_incidente", referencedColumnName = "id_incidente")
