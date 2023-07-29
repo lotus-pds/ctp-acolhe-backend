@@ -8,4 +8,6 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(TipoIncidente.class)
 public abstract class TipoIncidente_ {
 	public static volatile SingularAttribute<TipoIncidente, UUID> idTipoIncidente;
+	public static volatile SingularAttribute<TipoIncidente, String> tipo;
+	public static volatile SingularAttribute<TipoIncidente, Boolean> ativo;
 }
