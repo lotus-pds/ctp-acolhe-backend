@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,6 +18,8 @@ import br.edu.ifsp.spo.ctpacolhe.common.util.CtpAcolheUtils;
 import br.edu.ifsp.spo.ctpacolhe.common.wrapper.FiltroWrapper;
 import br.edu.ifsp.spo.ctpacolhe.entity.Incidente;
 import br.edu.ifsp.spo.ctpacolhe.entity.Incidente_;
+import br.edu.ifsp.spo.ctpacolhe.entity.TipoIncidente;
+import br.edu.ifsp.spo.ctpacolhe.entity.TipoIncidente_;
 import br.edu.ifsp.spo.ctpacolhe.entity.UsuarioCopia_;
 import br.edu.ifsp.spo.ctpacolhe.entity.filter.IncidenteFiltro;
 
@@ -35,9 +38,7 @@ public class IncidenteRepositoryCustomImpl extends RepositoryCustom implements I
 		root.fetch(Incidente_.detalhes, JoinType.LEFT);
 		root.fetch(Incidente_.status, JoinType.LEFT);
 		
-		List<Predicate> predicates = aplicaFiltros(filtro, root);
-		
-		query.where(predicates.toArray(new Predicate[0]));
+		query.where(aplicaFiltros(filtro, root));
 		query.orderBy(builder.asc(root.get(Incidente_.dataIncidente)));
 		
 		TypedQuery<Incidente> typedQuery = entityManager.createQuery(query);
@@ -50,18 +51,22 @@ public class IncidenteRepositoryCustomImpl extends RepositoryCustom implements I
 		
 		incidentes = typedQuery.getResultList();
 		
-		Long totalRegistros = countRegistros(builder, predicates);
+		Long totalRegistros = countRegistros(filtro);
 		
 		return new PageImpl<>(incidentes, filtroWrapper.getPaginacao(totalRegistros), totalRegistros);
 	}
 	
-	private List<Predicate> aplicaFiltros(IncidenteFiltro filtro, Root<Incidente> root) {
+	private Predicate[] aplicaFiltros(IncidenteFiltro filtro, Root<Incidente> root) {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		
 		List<Predicate> predicates = new ArrayList<>();
 				
 		if (filtro.hasAssunto()) {
 			predicates.add(builder.like(builder.upper(root.get(Incidente_.assunto)), "%" + filtro.getAssunto().toUpperCase() + "%"));
+		}
+		if (filtro.hasIdTipoIncidente()) {
+			SetJoin<Incidente, TipoIncidente> joinTipos = root.join(Incidente_.tipos);
+			predicates.add(joinTipos.get(TipoIncidente_.idTipoIncidente).in(filtro.getIdTipoIncidente()));
 		}
 		if (filtro.hasIdStatus()) {
 			predicates.add(builder.equal(root.get(Incidente_.idStatus), filtro.getIdStatus()));
@@ -97,15 +102,20 @@ public class IncidenteRepositoryCustomImpl extends RepositoryCustom implements I
 			predicates.add(builder.like(builder.upper(root.get(Incidente_.usuarioCopia).get(UsuarioCopia_.prontuario)), "%" + filtro.getProntuario().toUpperCase() + "%"));
 		}
 		
-		return predicates;
+		return predicates.toArray(new Predicate[0]);
 	}
 	
-	private Long countRegistros(CriteriaBuilder builder, List<Predicate> predicates) {
-		CriteriaQuery<Long> qtdRegistros = builder.createQuery(Long.class);
-		qtdRegistros.select(builder.count(qtdRegistros.from(Incidente.class)));
-		qtdRegistros.where(predicates.toArray(new Predicate[0]));
-        
-        Long totalRegistros = entityManager.createQuery(qtdRegistros).getSingleResult();
-		return totalRegistros;
+	private Long countRegistros(IncidenteFiltro filtro) {
+	    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<Long> qtdRegistros = builder.createQuery(Long.class);
+	    Root<Incidente> countRoot = qtdRegistros.from(Incidente.class);
+
+	    Predicate[] predicates = aplicaFiltros(filtro, countRoot);
+	    qtdRegistros.where(predicates);
+
+	    qtdRegistros.select(builder.count(countRoot));
+
+	    TypedQuery<Long> typedQuery = entityManager.createQuery(qtdRegistros);
+	    return typedQuery.getSingleResult();
 	}
 }

@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 public class IncidenteFiltro implements Filtro {
 	private String assunto;
+	private List<UUID> idTipoIncidente; 
 	private String idStatus;
 	private LocalDate dataIncidenteInicial;
 	private LocalDate dataIncidenteFinal;
@@ -28,6 +29,10 @@ public class IncidenteFiltro implements Filtro {
 	
 	public Boolean hasAssunto() {
 		return this.assunto != null && !this.assunto.isEmpty();
+	}
+	
+	public Boolean hasIdTipoIncidente() {
+		return this.idTipoIncidente != null && !this.idTipoIncidente.isEmpty();
 	}
 	
 	public Boolean hasIdStatus() {
