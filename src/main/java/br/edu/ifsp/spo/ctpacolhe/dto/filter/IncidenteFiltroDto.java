@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.ctpacolhe.dto.filter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @Setter
 public class IncidenteFiltroDto implements FiltroDto {
 	private String assunto;
+	private List<UUID> idTipoIncidente;
 	private String idStatus;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
@@ -37,6 +39,7 @@ public class IncidenteFiltroDto implements FiltroDto {
 	public FiltroWrapper toWrapper(Pageable paginacao) {
 		IncidenteFiltro incidenteFiltro = IncidenteFiltro.builder()
 				.assunto(assunto)
+				.idTipoIncidente(idTipoIncidente)
 				.idStatus(idStatus)
 				.dataIncidenteInicial(dataIncidenteInicial)
 				.dataIncidenteFinal(dataIncidenteFinal)
