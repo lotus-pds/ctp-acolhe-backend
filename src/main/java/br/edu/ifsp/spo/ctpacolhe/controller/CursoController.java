@@ -29,7 +29,7 @@ public class CursoController implements Controller {
 	
 	@GetMapping
 	@ResponseBody
-	public ResponseEntity<List<CursoDto>> buscaHumores(Pageable paginacao, CursoFiltroDto filtro) {
+	public ResponseEntity<List<CursoDto>> buscaCursos(Pageable paginacao, CursoFiltroDto filtro) {
 		Page<Curso> cursos = cursoService.buscaCursos(filtro.toWrapper(paginacao));
 		List<CursoDto> dtos = cursoMapper.to(cursos.getContent());
 		return respostaPaginada(cursos).body(dtos);
