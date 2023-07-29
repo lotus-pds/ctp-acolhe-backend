@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.ctpacolhe.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -16,11 +17,14 @@ import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.common.wrapper.FiltroWrapper;
 import br.edu.ifsp.spo.ctpacolhe.dto.AvatarUpdateDto;
+import br.edu.ifsp.spo.ctpacolhe.dto.CursoDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.PerfilDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.SenhaUpdateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioUpdateDto;
+import br.edu.ifsp.spo.ctpacolhe.entity.Curso;
 import br.edu.ifsp.spo.ctpacolhe.entity.Perfil;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
+import br.edu.ifsp.spo.ctpacolhe.repository.CursoRepository;
 import br.edu.ifsp.spo.ctpacolhe.repository.PerfilRepository;
 import br.edu.ifsp.spo.ctpacolhe.repository.UsuarioRepository;
 
@@ -33,6 +37,9 @@ public class UsuarioService {
 	
 	@Autowired
 	private PerfilRepository perfilRepository;
+	
+	@Autowired
+	private CursoRepository cursoRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -51,9 +58,12 @@ public class UsuarioService {
 			throw new ValidationException(MensagemExceptionType.PRONTUARIO_JA_CADASTRADO);
 		}
 		
+		CursoDto cursoDto = Optional.ofNullable(dto.getCurso()).orElseGet(CursoDto::new);
+		Curso curso = cursoRepository.findById(cursoDto.getIdCurso()).orElseGet(Curso::new);
+		
 		usuario.setNome(dto.getNome());
 		usuario.setTelefone(dto.getTelefone());
-		usuario.setIdCurso(dto.getIdCurso());
+		usuario.setIdCurso(curso.getIdCurso());
 		usuario.setPeriodo(dto.getPeriodo());
 		usuario.setTurma(dto.getTurma());
 		usuario.setProntuario(dto.getProntuario());
