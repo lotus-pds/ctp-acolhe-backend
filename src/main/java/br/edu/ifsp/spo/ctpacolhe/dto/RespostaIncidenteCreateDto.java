@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RespostaCreateDto {
+public class RespostaIncidenteCreateDto {
 	private UUID idResposta;
 	@Max(value = 1000)
 	private String textoResposta;

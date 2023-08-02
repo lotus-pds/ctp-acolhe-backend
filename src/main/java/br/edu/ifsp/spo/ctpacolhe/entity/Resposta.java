@@ -29,5 +29,8 @@ public class Resposta {
 	
 	@Transient
 	private Integer ordem;
+	
+	@Transient
+	private String mensagemEncaminhamento;
 }
 

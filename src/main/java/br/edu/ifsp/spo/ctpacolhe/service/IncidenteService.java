@@ -20,7 +20,7 @@ import br.edu.ifsp.spo.ctpacolhe.common.constant.TipoResposta;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.common.wrapper.FiltroWrapper;
 import br.edu.ifsp.spo.ctpacolhe.dto.IncidenteCreateDto;
-import br.edu.ifsp.spo.ctpacolhe.dto.PerguntaCreateDto;
+import br.edu.ifsp.spo.ctpacolhe.dto.PerguntaIncidenteCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.Curso;
 import br.edu.ifsp.spo.ctpacolhe.entity.Incidente;
 import br.edu.ifsp.spo.ctpacolhe.entity.IncidenteDetalhe;
@@ -164,7 +164,7 @@ public class IncidenteService {
 	}
 
 	private Set<IncidenteDetalhe> validaPerguntas(IncidenteCreateDto incidenteDto, List<Pergunta> perguntas) {
-		List<PerguntaCreateDto> perguntasIncidente = Optional.ofNullable(incidenteDto.getPerguntas()).orElseGet(ArrayList::new);
+		List<PerguntaIncidenteCreateDto> perguntasIncidente = Optional.ofNullable(incidenteDto.getPerguntas()).orElseGet(ArrayList::new);
 		Set<IncidenteDetalhe> detalhes = new HashSet<>();
 		
 		if (!incidenteDto.hasPerguntas()) {
@@ -192,7 +192,7 @@ public class IncidenteService {
 		return detalhes;
 	}
 
-	private Set<IncidenteDetalhe> validaRespostas(PerguntaCreateDto perguntaIncidente, Pergunta pergunta) {
+	private Set<IncidenteDetalhe> validaRespostas(PerguntaIncidenteCreateDto perguntaIncidente, Pergunta pergunta) {
 		return perguntaIncidente.getRespostas().stream().map(ri -> {
 			IncidenteDetalheBuilder incidenteDetalheBuilder = IncidenteDetalhe.builder().idIncidenteDetalhe(UUID.randomUUID()).pergunta(pergunta.getDescricao())
 					 .ordemPergunta(pergunta.getOrdem()).tipoResposta(pergunta.getTipoResposta()).perguntaObrigatoria(pergunta.getObrigatoria());

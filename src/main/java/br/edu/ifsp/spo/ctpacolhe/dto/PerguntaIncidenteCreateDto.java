@@ -10,10 +10,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PerguntaCreateDto {
+public class PerguntaIncidenteCreateDto {
 	@NotEmpty
 	private UUID idPergunta;
-	private List<RespostaCreateDto> respostas;
+	private List<RespostaIncidenteCreateDto> respostas;
 	
 	public boolean hasRespostas() {
 		return respostas != null && !respostas.isEmpty();
