@@ -17,7 +17,7 @@ public class IncidenteCreateDto {
 	@NotEmpty
 	private List<TipoIncidenteDto> tipos;
 	@NotEmpty
-	private List<PerguntaCreateDto> perguntas;
+	private List<PerguntaIncidenteCreateDto> perguntas;
 	
 	public boolean hasTipos() {
 		return this.tipos != null && !this.tipos.isEmpty();
