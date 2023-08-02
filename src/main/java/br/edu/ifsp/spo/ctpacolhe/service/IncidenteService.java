@@ -66,11 +66,11 @@ public class IncidenteService {
 		IncidenteFiltro filtro = (IncidenteFiltro) filtroWrapper.getFiltro();
 		filtro.setIdUsuarioOrigem(usuarioAutenticado.getIdUsuario());
 		
-		return incidenteRepository.findAllBy(filtroWrapper);
+		return incidenteRepository.findAll(filtroWrapper);
 	}
 	
 	public Page<Incidente> buscaIncidentes(FiltroWrapper filtroWrapper) {
-		Page<Incidente> incidentes = incidenteRepository.findAllBy(filtroWrapper);
+		Page<Incidente> incidentes = incidenteRepository.findAll(filtroWrapper);
 		return incidentes;
 	}
 

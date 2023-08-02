@@ -26,7 +26,7 @@ import br.edu.ifsp.spo.ctpacolhe.entity.filter.IncidenteFiltro;
 public class IncidenteRepositoryCustomImpl extends RepositoryCustom implements IncidenteRepositoryCustom {
 
 	@Override
-	public Page<Incidente> findAllBy(FiltroWrapper filtroWrapper) {
+	public Page<Incidente> findAll(FiltroWrapper filtroWrapper) {
 		IncidenteFiltro filtro = (IncidenteFiltro) filtroWrapper.getFiltro();
 		
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
