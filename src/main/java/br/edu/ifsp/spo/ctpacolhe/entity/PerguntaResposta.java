@@ -50,6 +50,7 @@ public class PerguntaResposta {
 	public Resposta getResposta() {
 		Resposta novaResposta = resposta;
 		novaResposta.setOrdem(ordemResposta);
+		novaResposta.setMensagemEncaminhamento(mensagemEncaminhamento);
 		return novaResposta;
 	}
 
