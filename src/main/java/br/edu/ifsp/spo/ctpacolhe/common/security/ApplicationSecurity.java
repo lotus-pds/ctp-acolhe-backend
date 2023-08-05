@@ -40,7 +40,9 @@ public class ApplicationSecurity {
 			"/conta/senha/esqueci/reenviar-email",
 			"/conta/senha/redefinir",
 			"/conta/renovar-token",
-			"/curso"
+			"/curso",
+			"/v3/**",
+			"/doc/swagger-ui/**"
     );
 
 	public AuthenticationManager authenticationManager;
