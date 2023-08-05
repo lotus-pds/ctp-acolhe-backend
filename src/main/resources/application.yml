@@ -42,6 +42,10 @@ spring:
           ssl:
             enabled: true
 
+springdoc:
+  swagger-ui:
+    path: /doc/swagger-ui
+
 support:
   mail: ${SUPPORT_EMAIL:lotusteam.2023@gmail.com}
   name: ${SUPPORT_NAME:CTP Acolhe | Lotus}
