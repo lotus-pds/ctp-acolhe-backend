@@ -9,8 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.edu.ifsp.spo.ctpacolhe.entity.AgendamentoSala;
+import br.edu.ifsp.spo.ctpacolhe.repository.custom.AgendamentoSalaRepositoryCustom;
 
-public interface AgendamentoSalaRepository extends JpaRepository<AgendamentoSala, UUID> {
+public interface AgendamentoSalaRepository extends JpaRepository<AgendamentoSala, UUID>, AgendamentoSalaRepositoryCustom {
 	@Query("SELECT a FROM AgendamentoSala a"
 			+ " WHERE (a.dataAtendimentoInicial > ?1 AND a.dataAtendimentoInicial < ?2)"
 			+ " OR (a.dataAtendimentoFinal > ?1 AND a.dataAtendimentoFinal < ?2)"
