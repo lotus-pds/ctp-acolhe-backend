@@ -31,7 +31,7 @@ public class AgendamentoSalaControllerImpl implements AgendamentoSalaController 
 	public ResponseEntity<AgendamentoSalaDto> criaAgendamento(@RequestBody AgendamentoSalaCreateDto agendamentoDto) {
 		AgendamentoSala agendamentoSala = agendamentoSalaService.criaAgendamento(agendamentoDto);
 
-		//TODO: adicionar GET unitário de agendamento
+		agendamentoSala = agendamentoSalaService.buscaAgendamento(agendamentoSala.getIdAgendamento());
 		AgendamentoSalaDto dto = agendamentoSalaMapper.to(agendamentoSala);
 		
 		URI uri = uriCreated("/agendamentoSala/{idAgendamento}", dto.getIdAgendamento());
