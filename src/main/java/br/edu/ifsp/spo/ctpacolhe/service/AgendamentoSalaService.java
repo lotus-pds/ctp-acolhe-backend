@@ -6,10 +6,12 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
 import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
+import br.edu.ifsp.spo.ctpacolhe.common.wrapper.FiltroWrapper;
 import br.edu.ifsp.spo.ctpacolhe.dto.AgendamentoSalaCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.AgendamentoSala;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
@@ -46,6 +48,11 @@ public class AgendamentoSalaService {
 	public AgendamentoSala buscaAgendamento(UUID idAgendamento) {
 		return agendamentoSalaRepository.findById(idAgendamento)
 				.orElseThrow(() -> new ValidationException(MensagemExceptionType.AGENDAMENTO_SALA_NAO_ENCONTRADO));
+	}
+	
+	public Page<AgendamentoSala> buscaAgendamentos(FiltroWrapper filtroWrapper) {
+		Page<AgendamentoSala> agendamentos = agendamentoSalaRepository.findAll(filtroWrapper);
+		return agendamentos;
 	}
 
 	private void validaPeriodoAgendamento(AgendamentoSalaCreateDto agendamentoDto) {
