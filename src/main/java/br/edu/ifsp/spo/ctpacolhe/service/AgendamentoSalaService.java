@@ -42,6 +42,11 @@ public class AgendamentoSalaService {
 		
 		return agendamentoSalaRepository.save(agendamento);
 	}
+	
+	public AgendamentoSala buscaAgendamento(UUID idAgendamento) {
+		return agendamentoSalaRepository.findById(idAgendamento)
+				.orElseThrow(() -> new ValidationException(MensagemExceptionType.AGENDAMENTO_SALA_NAO_ENCONTRADO));
+	}
 
 	private void validaPeriodoAgendamento(AgendamentoSalaCreateDto agendamentoDto) {
 		LocalDateTime atendimentoInicial = agendamentoDto.getDataAtendimentoInicial();
