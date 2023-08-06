@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifsp.spo.ctpacolhe.common.constant.MensagemExceptionType;
+import br.edu.ifsp.spo.ctpacolhe.common.exception.ValidationException;
 import br.edu.ifsp.spo.ctpacolhe.dto.AgendamentoSalaCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.entity.AgendamentoSala;
 import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
@@ -26,7 +28,7 @@ public class AgendamentoSalaService {
 	public AgendamentoSala criaAgendamento(AgendamentoSalaCreateDto agendamentoDto) {
 		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
 		
-		//TODO: adicionar validações necessárias
+		validaPeriodoAgendamento(agendamentoDto);
 
 		AgendamentoSala agendamento = AgendamentoSala.builder()
 				.idAgendamento(UUID.randomUUID())
@@ -39,6 +41,24 @@ public class AgendamentoSalaService {
 				.build();
 		
 		return agendamentoSalaRepository.save(agendamento);
+	}
+
+	private void validaPeriodoAgendamento(AgendamentoSalaCreateDto agendamentoDto) {
+		LocalDateTime atendimentoInicial = agendamentoDto.getDataAtendimentoInicial();
+		LocalDateTime atendimentoFinal = agendamentoDto.getDataAtendimentoFinal();
+		
+		if (atendimentoInicial.isAfter(atendimentoFinal)) {
+			throw new ValidationException(MensagemExceptionType.AGENDAMENTO_INICIAL_DEPOIS_DE_AGENDAMENTO_FINAL);
+		}
+		
+		if (atendimentoInicial.isBefore(LocalDateTime.now()) ||
+				atendimentoFinal.isBefore(LocalDateTime.now())) {
+			throw new ValidationException(MensagemExceptionType.PERIODO_AGENDAMENTO_NO_PASSADO);
+		}
+		
+		if (!agendamentoSalaRepository.findAllByPeriod(atendimentoInicial, atendimentoFinal).isEmpty()) {
+			throw new ValidationException(MensagemExceptionType.EXISTE_AGENDAMENTO_NESTE_PERIODO);
+		}
 	}
 	
 }

@@ -1,11 +1,18 @@
 package br.edu.ifsp.spo.ctpacolhe.repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import br.edu.ifsp.spo.ctpacolhe.entity.AgendamentoSala;
 
 public interface AgendamentoSalaRepository extends JpaRepository<AgendamentoSala, UUID> {
-
+	@Query("SELECT a FROM AgendamentoSala a"
+			+ " WHERE (a.dataAtendimentoInicial > ?1 AND a.dataAtendimentoInicial < ?2)"
+			+ " OR (a.dataAtendimentoFinal > ?1 AND a.dataAtendimentoFinal < ?2)"
+			+ " OR (a.dataAtendimentoInicial = ?1 AND a.dataAtendimentoFinal = ?2)")
+	List<AgendamentoSala> findAllByPeriod(LocalDateTime dataInicial, LocalDateTime dataFinal);
 }
