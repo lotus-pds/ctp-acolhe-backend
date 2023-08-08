@@ -30,7 +30,7 @@ public class AgendamentoSalaService {
 	public AgendamentoSala criaAgendamento(AgendamentoSalaCreateDto agendamentoDto) {
 		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
 		
-		validaPeriodoAgendamento(agendamentoDto);
+		validaPeriodoAgendamento(agendamentoDto.getDataAtendimentoInicial(), agendamentoDto.getDataAtendimentoFinal());
 
 		AgendamentoSala agendamento = AgendamentoSala.builder()
 				.idAgendamento(UUID.randomUUID())
@@ -54,6 +54,19 @@ public class AgendamentoSalaService {
 		return agendamentos;
 	}
 	
+	public AgendamentoSala atualizaAgendamento(UUID idAgendamento, AgendamentoSalaCreateDto agendamentoDto) {
+		AgendamentoSala agendamento = validaAgendamento(idAgendamento);
+		
+		validaPeriodoAgendamento(agendamentoDto.getDataAtendimentoInicial(), agendamentoDto.getDataAtendimentoFinal());
+		
+		agendamento.setNomeAlunos(agendamentoDto.getNomeAlunos());
+		agendamento.setNomeTecnico(agendamentoDto.getNomeTecnico());
+		agendamento.setDataAtendimentoInicial(agendamentoDto.getDataAtendimentoInicial());
+		agendamento.setDataAtendimentoFinal(agendamentoDto.getDataAtendimentoFinal());
+		
+		return agendamentoSalaRepository.save(agendamento);
+	}
+	
 	public void deletaAgendamento(UUID idAgendamento) {
 		AgendamentoSala agendamento = validaAgendamento(idAgendamento);
 		
@@ -65,10 +78,7 @@ public class AgendamentoSalaService {
 				.orElseThrow(() -> new ValidationException(MensagemExceptionType.AGENDAMENTO_SALA_NAO_ENCONTRADO));
 	}
 
-	private void validaPeriodoAgendamento(AgendamentoSalaCreateDto agendamentoDto) {
-		LocalDateTime atendimentoInicial = agendamentoDto.getDataAtendimentoInicial();
-		LocalDateTime atendimentoFinal = agendamentoDto.getDataAtendimentoFinal();
-		
+	private void validaPeriodoAgendamento(LocalDateTime atendimentoInicial, LocalDateTime atendimentoFinal) {		
 		if (atendimentoInicial.isAfter(atendimentoFinal)) {
 			throw new ValidationException(MensagemExceptionType.AGENDAMENTO_INICIAL_DEPOIS_DE_AGENDAMENTO_FINAL);
 		}
