@@ -57,7 +57,8 @@ public class AgendamentoSalaControllerImpl implements AgendamentoSalaController 
 	
 	@PutMapping("/{idAgendamento}")
 	@ResponseBody
-	public ResponseEntity<AgendamentoSalaDto> atualizaAgendamento(@PathVariable("idAgendamento") UUID idAgendamento, @RequestBody AgendamentoSalaCreateDto agendamentoDto) {
+	public ResponseEntity<AgendamentoSalaDto> atualizaAgendamento(@PathVariable("idAgendamento") UUID idAgendamento,
+			@RequestBody AgendamentoSalaCreateDto agendamentoDto) {
 		AgendamentoSala agendamentoSala = agendamentoSalaService.atualizaAgendamento(idAgendamento, agendamentoDto);
 		AgendamentoSalaDto dto = agendamentoSalaMapper.to(agendamentoSala);
 		return ResponseEntity.ok(dto);
