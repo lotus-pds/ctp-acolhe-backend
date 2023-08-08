@@ -46,13 +46,23 @@ public class AgendamentoSalaService {
 	}
 	
 	public AgendamentoSala buscaAgendamento(UUID idAgendamento) {
-		return agendamentoSalaRepository.findById(idAgendamento)
-				.orElseThrow(() -> new ValidationException(MensagemExceptionType.AGENDAMENTO_SALA_NAO_ENCONTRADO));
+		return validaAgendamento(idAgendamento);
 	}
 	
 	public Page<AgendamentoSala> buscaAgendamentos(FiltroWrapper filtroWrapper) {
 		Page<AgendamentoSala> agendamentos = agendamentoSalaRepository.findAll(filtroWrapper);
 		return agendamentos;
+	}
+	
+	public void deletaAgendamento(UUID idAgendamento) {
+		AgendamentoSala agendamento = validaAgendamento(idAgendamento);
+		
+		agendamentoSalaRepository.delete(agendamento);
+	}
+	
+	private AgendamentoSala validaAgendamento(UUID idAgendamento) {
+		return agendamentoSalaRepository.findById(idAgendamento)
+				.orElseThrow(() -> new ValidationException(MensagemExceptionType.AGENDAMENTO_SALA_NAO_ENCONTRADO));
 	}
 
 	private void validaPeriodoAgendamento(AgendamentoSalaCreateDto agendamentoDto) {

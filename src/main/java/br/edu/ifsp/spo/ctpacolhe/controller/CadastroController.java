@@ -49,7 +49,7 @@ public class CadastroController implements Controller {
 	
 	@PatchMapping("cadastro/verificacao/{token}")
 	@ResponseBody
-    public ResponseEntity<UsuarioDto> verificacao(@PathVariable UUID token) {
+    public ResponseEntity<UsuarioDto> verificacao(@PathVariable("token") UUID token) {
         Usuario usuario = cadastroService.verificar(token);
         usuario = usuarioService.buscaUsuario(usuario.getIdUsuario());
 
