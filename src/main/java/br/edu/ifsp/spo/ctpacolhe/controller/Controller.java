@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public interface Controller {
 	
-	public static final String QUANTIDADE_TOTAL = "quantidadeTotal";
+	public static final String QUANTIDADE_TOTAL = "Quantidade-Total";
 	
 	default URI uriCreated(String path, Object... id) {
 		String uriString = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
