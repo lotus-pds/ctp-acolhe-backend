@@ -39,6 +39,7 @@ public class AgendamentoSalaControllerImpl implements AgendamentoSalaController 
 	
 	@PostMapping
 	@ResponseBody
+	public ResponseEntity<AgendamentoSalaDto> criaAgendamento(@Valid @RequestBody AgendamentoSalaCreateDto agendamentoDto) {
 		AgendamentoSala agendamentoSala = agendamentoSalaService.criaAgendamento(agendamentoDto);
 
 		agendamentoSala = agendamentoSalaService.buscaAgendamento(agendamentoSala.getIdAgendamento());
