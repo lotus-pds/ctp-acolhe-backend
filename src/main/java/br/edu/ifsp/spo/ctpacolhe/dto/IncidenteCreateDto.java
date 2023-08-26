@@ -2,8 +2,9 @@ package br.edu.ifsp.spo.ctpacolhe.dto;
 
 import java.util.List;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class IncidenteCreateDto {
 	@NotEmpty
-	@Max(value = 255)
+	@Length(max = 255)
 	private String assunto;
 	@NotEmpty
 	private List<TipoIncidenteDto> tipos;

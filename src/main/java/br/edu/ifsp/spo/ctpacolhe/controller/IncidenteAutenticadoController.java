@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +46,7 @@ public class IncidenteAutenticadoController implements Controller {
 	
 	@PostMapping
 	@ResponseBody
-	public ResponseEntity<IncidenteDto> criaIncidente(@RequestBody IncidenteCreateDto incidenteDto) {
+	public ResponseEntity<IncidenteDto> criaIncidente(@Valid @RequestBody IncidenteCreateDto incidenteDto) {
 		Incidente incidente = incidenteService.criaIncidente(incidenteDto);
 
 		incidente = incidenteService.buscaIncidente(incidente.getIdIncidente());
