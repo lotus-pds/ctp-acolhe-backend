@@ -30,7 +30,7 @@ public class AgendamentoSalaService {
 	public AgendamentoSala criaAgendamento(AgendamentoSalaCreateDto agendamentoDto) {
 		Usuario usuarioAutenticado = usuarioService.buscaUsuarioAutenticado();
 		
-		validaPeriodoAgendamento(agendamentoDto.getDataAtendimentoInicial(), agendamentoDto.getDataAtendimentoFinal());
+		validaPeriodoAgendamento(agendamentoDto.getDataAtendimentoInicial(), agendamentoDto.getDataAtendimentoFinal(), null);
 
 		AgendamentoSala agendamento = AgendamentoSala.builder()
 				.idAgendamento(UUID.randomUUID())
@@ -57,7 +57,7 @@ public class AgendamentoSalaService {
 	public AgendamentoSala atualizaAgendamento(UUID idAgendamento, AgendamentoSalaCreateDto agendamentoDto) {
 		AgendamentoSala agendamento = validaAgendamento(idAgendamento);
 		
-		validaPeriodoAgendamento(agendamentoDto.getDataAtendimentoInicial(), agendamentoDto.getDataAtendimentoFinal());
+		validaPeriodoAgendamento(agendamentoDto.getDataAtendimentoInicial(), agendamentoDto.getDataAtendimentoFinal(), agendamento.getIdAgendamento());
 		
 		agendamento.setNomeAlunos(agendamentoDto.getNomeAlunos());
 		agendamento.setNomeTecnico(agendamentoDto.getNomeTecnico());
@@ -78,7 +78,7 @@ public class AgendamentoSalaService {
 				.orElseThrow(() -> new ValidationException(MensagemExceptionType.AGENDAMENTO_SALA_NAO_ENCONTRADO));
 	}
 
-	private void validaPeriodoAgendamento(LocalDateTime atendimentoInicial, LocalDateTime atendimentoFinal) {		
+	private void validaPeriodoAgendamento(LocalDateTime atendimentoInicial, LocalDateTime atendimentoFinal, UUID idAgendamento) {		
 		if (atendimentoInicial.isAfter(atendimentoFinal)) {
 			throw new ValidationException(MensagemExceptionType.AGENDAMENTO_INICIAL_DEPOIS_DE_AGENDAMENTO_FINAL);
 		}
@@ -88,8 +88,14 @@ public class AgendamentoSalaService {
 			throw new ValidationException(MensagemExceptionType.PERIODO_AGENDAMENTO_NO_PASSADO);
 		}
 		
-		if (!agendamentoSalaRepository.findAllByPeriod(atendimentoInicial, atendimentoFinal).isEmpty()) {
-			throw new ValidationException(MensagemExceptionType.EXISTE_AGENDAMENTO_NESTE_PERIODO);
+		if (idAgendamento != null) {
+			if (!agendamentoSalaRepository.findAllByPeriodAndIdNot(atendimentoInicial, atendimentoFinal, idAgendamento).isEmpty()) {
+				throw new ValidationException(MensagemExceptionType.EXISTE_AGENDAMENTO_NESTE_PERIODO);
+			}
+		} else {
+			if (!agendamentoSalaRepository.findAllByPeriod(atendimentoInicial, atendimentoFinal).isEmpty()) {
+				throw new ValidationException(MensagemExceptionType.EXISTE_AGENDAMENTO_NESTE_PERIODO);
+			}
 		}
 	}
 	

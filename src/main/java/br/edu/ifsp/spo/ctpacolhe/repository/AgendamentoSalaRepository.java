@@ -13,10 +13,19 @@ import br.edu.ifsp.spo.ctpacolhe.repository.custom.AgendamentoSalaRepositoryCust
 
 public interface AgendamentoSalaRepository extends JpaRepository<AgendamentoSala, UUID>, AgendamentoSalaRepositoryCustom {
 	@Query("SELECT a FROM AgendamentoSala a"
-			+ " WHERE (a.dataAtendimentoInicial > ?1 AND a.dataAtendimentoInicial < ?2)"
-			+ " OR (a.dataAtendimentoFinal > ?1 AND a.dataAtendimentoFinal < ?2)"
+			+ " WHERE (a.dataAtendimentoInicial >= ?1 AND a.dataAtendimentoInicial < ?2)"
+			+ " OR (a.dataAtendimentoFinal > ?1 AND a.dataAtendimentoFinal <= ?2)"
+			+ " OR (data_atendimento_inicial < ?1 AND data_atendimento_final > ?2)"
 			+ " OR (a.dataAtendimentoInicial = ?1 AND a.dataAtendimentoFinal = ?2)")
 	List<AgendamentoSala> findAllByPeriod(LocalDateTime dataInicial, LocalDateTime dataFinal);
+	
+	@Query("SELECT a FROM AgendamentoSala a"
+			+ " WHERE ((a.dataAtendimentoInicial >= ?1 AND a.dataAtendimentoInicial < ?2)"
+			+ " OR (a.dataAtendimentoFinal > ?1 AND a.dataAtendimentoFinal <= ?2)"
+			+ " OR (data_atendimento_inicial < ?1 AND data_atendimento_final > ?2)"
+			+ " OR (a.dataAtendimentoInicial = ?1 AND a.dataAtendimentoFinal = ?2))"
+			+ " AND a.idAgendamento != ?3")
+	List<AgendamentoSala> findAllByPeriodAndIdNot(LocalDateTime atendimentoInicial, LocalDateTime atendimentoFinal, UUID idAgendamento);
 	
 	@Query("SELECT a FROM AgendamentoSala a"
 			+ " LEFT JOIN FETCH a.criadoPor u"
