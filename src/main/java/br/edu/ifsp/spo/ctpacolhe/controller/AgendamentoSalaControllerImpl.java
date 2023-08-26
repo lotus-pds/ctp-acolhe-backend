@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +39,6 @@ public class AgendamentoSalaControllerImpl implements AgendamentoSalaController 
 	
 	@PostMapping
 	@ResponseBody
-	public ResponseEntity<AgendamentoSalaDto> criaAgendamento(@RequestBody AgendamentoSalaCreateDto agendamentoDto) {
 		AgendamentoSala agendamentoSala = agendamentoSalaService.criaAgendamento(agendamentoDto);
 
 		agendamentoSala = agendamentoSalaService.buscaAgendamento(agendamentoSala.getIdAgendamento());
@@ -58,7 +59,7 @@ public class AgendamentoSalaControllerImpl implements AgendamentoSalaController 
 	@PutMapping("/{idAgendamento}")
 	@ResponseBody
 	public ResponseEntity<AgendamentoSalaDto> atualizaAgendamento(@PathVariable("idAgendamento") UUID idAgendamento,
-			@RequestBody AgendamentoSalaCreateDto agendamentoDto) {
+			@Valid @RequestBody AgendamentoSalaCreateDto agendamentoDto) {
 		AgendamentoSala agendamentoSala = agendamentoSalaService.atualizaAgendamento(idAgendamento, agendamentoDto);
 		AgendamentoSalaDto dto = agendamentoSalaMapper.to(agendamentoSala);
 		return ResponseEntity.ok(dto);
