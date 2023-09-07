@@ -30,6 +30,7 @@ public class Perfil {
 	private String descricao;
 	
 	public Perfil(String descricao) {
+		this.idPerfil = descricao;
 		this.descricao = descricao;
 	}
 	

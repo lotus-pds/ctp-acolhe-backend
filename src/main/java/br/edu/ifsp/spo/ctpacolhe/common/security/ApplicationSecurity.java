@@ -81,9 +81,10 @@ public class ApplicationSecurity {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests((authz) -> authz
                 .antMatchers(ACCOUNT_OPEN_PATHS.toArray(String[]::new)).permitAll()
-                .antMatchers("/usuario/autenticado/**").hasAnyAuthority("Admin", "Aluno")
+                .antMatchers("/usuario/autenticado/**").hasAnyAuthority("CTP", "Admin", "Aluno")
                 .antMatchers("/usuario/autenticado/humor/**").hasAnyAuthority("Aluno")
-                .antMatchers("/usuario", "/usuario/{idUsuario}/perfil", "/incidente/**", "/agendamentoSala/**").hasAnyAuthority("Admin")
+                .antMatchers("/usuario", "/incidente/**", "/agendamentoSala/**").hasAnyAuthority("CTP", "Admin")
+                .antMatchers("/usuario/{idUsuario}/perfil").hasAnyAuthority("CTP")
                 .anyRequest().authenticated()
              );
 		

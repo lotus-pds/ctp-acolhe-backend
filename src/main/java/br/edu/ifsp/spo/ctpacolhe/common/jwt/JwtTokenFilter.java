@@ -81,7 +81,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		String email = (String) claims.get("email");
 
 		perfis = perfis.replace("[", "").replace("]", "");
-		String[] nomePerfis = perfis.split(",");
+		String[] nomePerfis = perfis.split(", ");
 
 		for (String nomePerfil : nomePerfis) {
 			usuarioDetails.addPerfil(new Perfil(nomePerfil));
