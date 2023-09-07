@@ -37,6 +37,7 @@ public enum MensagemExceptionType {
 
     PERFIL_NAO_ENCONTRADO("perfil.nao.encontrado"),
     EMAIL_USUARIO_NAO_CONFIRMADO("email.usuario.nao.confirmado"),
+    NAO_PERMITIDO_ADICIONAR_PERFIL_CTP("nao.permitido.adicionar.perfil.ctp"),
 
     USUARIO_INATIVO("usuario.inativo"),
 
