@@ -44,6 +44,8 @@ public class UsuarioService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	private final static String CTP = "CTP";
+	
 	public Usuario buscaUsuario(UUID idUsuario) {
 		Usuario usuario = usuarioRepository.findById(idUsuario)
 				.orElseThrow(() -> new ValidationException(MensagemExceptionType.USUARIO_NAO_ENCONTRADO));
@@ -126,7 +128,6 @@ public class UsuarioService {
 		return usuarios;
 	}
 	
-	// TODO: continuar testando: dando erros
 	public Usuario alteraPerfis(UUID idUsuario, List<PerfilDto> perfisAtualizados) {
 		Usuario usuario = buscaUsuario(idUsuario);
 
@@ -139,6 +140,8 @@ public class UsuarioService {
 		for (PerfilDto perfilDto : perfisAtualizados) {
 			if (!perfilRepository.existsByIdPerfil(perfilDto.getIdPerfil())) {
 				throw new ValidationException(MensagemExceptionType.PERFIL_NAO_ENCONTRADO, perfilDto.getIdPerfil());
+			} if (CTP.equals(perfilDto.getIdPerfil()) && !usuario.getPerfis().stream().anyMatch(p -> CTP.equals(p.getIdPerfil()))) {
+				throw new ValidationException(MensagemExceptionType.NAO_PERMITIDO_ADICIONAR_PERFIL_CTP);
 			}
 			
 			Perfil novoPerfil = usuario.novoPerfil(perfilDto.getIdPerfil());

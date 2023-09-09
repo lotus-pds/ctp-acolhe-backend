@@ -57,7 +57,7 @@ public class EmailService {
 	@Async
 	public void enviaEmailDeVerificacao(Usuario usuario, VerificacaoEmailToken verificacaoToken) 
 			 throws MessagingException {
-		String urlVerificacao = url + "subscribe/verification/" + verificacaoToken.getToken().toString();
+		String urlVerificacao = url + "cadastro/verificacao/" + verificacaoToken.getToken().toString();
         String nome = usuario.getNome().split(" ")[0];
 		
         String conteudo = emailContentService.getConteudoEmail(nome, urlVerificacao, EmailContentType.VERIFICACAO_EMAIL);
@@ -68,7 +68,7 @@ public class EmailService {
 	@Async
 	public void enviaEmailDeRedefinicao(Usuario usuario, RedefinicaoSenhaToken redefinicaoSenhaToken)
 			throws MessagingException {
-		String urlRedefinicao = url + "reset-my-password/" + redefinicaoSenhaToken.getToken().toString();
+		String urlRedefinicao = url + "redefinir_senha/" + redefinicaoSenhaToken.getToken().toString();
         String nome = usuario.getNome().split(" ")[0];
         
         String conteudo = emailContentService.getConteudoEmail(nome, urlRedefinicao, EmailContentType.REDEFINICAO_SENHA);

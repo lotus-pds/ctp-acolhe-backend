@@ -37,6 +37,7 @@ public enum MensagemExceptionType {
 
     PERFIL_NAO_ENCONTRADO("perfil.nao.encontrado"),
     EMAIL_USUARIO_NAO_CONFIRMADO("email.usuario.nao.confirmado"),
+    NAO_PERMITIDO_ADICIONAR_PERFIL_CTP("nao.permitido.adicionar.perfil.ctp"),
 
     USUARIO_INATIVO("usuario.inativo"),
 
@@ -55,7 +56,12 @@ public enum MensagemExceptionType {
     TIPO_INCIDENTE_NAO_ENCONTRADO("tipo.incidente.nao.encontrado"),
     TIPO_INCIDENTE_NAO_ESTA_ATIVO("tipo.incidente.nao.esta.ativo"),
 
-    RESPOSTA_PARA_PERGUNTA_NAO_ENCONTRADA("resposta.para.pergunta.nao.encontrada");
+    RESPOSTA_PARA_PERGUNTA_NAO_ENCONTRADA("resposta.para.pergunta.nao.encontrada"),
+    
+    AGENDAMENTO_SALA_NAO_ENCONTRADO("agendamento.sala.nao.encontrado"),
+    AGENDAMENTO_INICIAL_DEPOIS_DE_AGENDAMENTO_FINAL("agendamento.inicial.depois.de.agendamento.final"),
+    PERIODO_AGENDAMENTO_NO_PASSADO("periodo.agendamento.no.passado"),
+    EXISTE_AGENDAMENTO_NESTE_PERIODO("existe.agendamento.neste.periodo");
 
     String message;
 }

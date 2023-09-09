@@ -2,8 +2,9 @@ package br.edu.ifsp.spo.ctpacolhe.dto;
 
 import java.util.List;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -13,9 +14,8 @@ import lombok.Setter;
 @Setter
 public class IncidenteCreateDto {
 	@NotEmpty
-	@Max(value = 255)
-	
 	@Schema(example = "Conflitos em sala")
+	@Length(max = 255)
 	private String assunto;
 	
 	@NotEmpty

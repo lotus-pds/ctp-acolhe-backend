@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Cadastro")
 public interface CadastroController extends Controller {
 	
-	
 	@Operation(summary = "Cadastra novo usuário")
 	public ResponseEntity<UsuarioDto> cadastro(UsuarioCreateDto usuarioDto);
 	

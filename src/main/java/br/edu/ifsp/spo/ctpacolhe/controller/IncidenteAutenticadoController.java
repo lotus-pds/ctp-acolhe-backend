@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Incidente Autenticado")
 public interface IncidenteAutenticadoController extends Controller {
 	
-	
 	@Operation(summary = "Retorna Incidentes")
 	public ResponseEntity<List<IncidenteDto>> buscaIncidentes(Pageable paginacao, IncidenteAutenticadoFiltroDto filtro);
 	
