@@ -3,51 +3,24 @@ package br.edu.ifsp.spo.ctpacolhe.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifsp.spo.ctpacolhe.dto.PerfilDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.UsuarioDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.filter.UsuarioFiltroDto;
-import br.edu.ifsp.spo.ctpacolhe.entity.Usuario;
-import br.edu.ifsp.spo.ctpacolhe.mapper.UsuarioMapper;
-import br.edu.ifsp.spo.ctpacolhe.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@RestController
-@RequestMapping("/usuario")
-public class UsuarioController implements Controller {
+
+@Tag(name = "Usuário")
+public interface UsuarioController extends Controller {
 	
-	@Autowired
-	private UsuarioService usuarioService;
+	@Operation(summary = "Retorna usuários")
+	public ResponseEntity<List<UsuarioDto>> buscaUsuarios(Pageable paginacao, UsuarioFiltroDto filtro);
 	
-	@Autowired
-	private UsuarioMapper usuarioMapper;
+	@Operation(summary = "Altera perfil do usuário por ID")
+    public ResponseEntity<UsuarioDto> alteraPerfis(@PathVariable("idUsuario") UUID idUsuario, List<PerfilDto> perfisAtualizados);
 	
-	@GetMapping
-	@ResponseBody
-	public ResponseEntity<List<UsuarioDto>> buscaUsuarios(Pageable paginacao, UsuarioFiltroDto filtro) {
-		Page<Usuario> usuarios = usuarioService.buscaUsuarios(filtro.toWrapper(paginacao));
-		List<UsuarioDto> dtos = usuarioMapper.to(usuarios.getContent());
-		return respostaPaginada(usuarios).body(dtos);
-	}
-	
-	@PatchMapping("/{idUsuario}/perfil")
-	@ResponseBody
-    public ResponseEntity<UsuarioDto> alteraPerfis(@PathVariable("idUsuario") UUID idUsuario, @RequestBody List<PerfilDto> perfisAtualizados) {
-        usuarioService.alteraPerfis(idUsuario, perfisAtualizados);
-        
-        Usuario usuario = usuarioService.buscaUsuario(idUsuario);
-        UsuarioDto dto = usuarioMapper.to(usuario);
-        
-        return ResponseEntity.ok(dto);
-    }
 }

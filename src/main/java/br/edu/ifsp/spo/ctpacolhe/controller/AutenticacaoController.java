@@ -1,48 +1,23 @@
 package br.edu.ifsp.spo.ctpacolhe.controller;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoCreateDto;
 import br.edu.ifsp.spo.ctpacolhe.dto.AcessoDto;
-import br.edu.ifsp.spo.ctpacolhe.service.AutenticacaoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@RestController
-@RequestMapping("/conta")
-public class AutenticacaoController {
+@Tag(name = "Autenticação")
+public interface AutenticacaoController extends Controller{
 	
-	@Autowired
-	private AutenticacaoService autenticacaoService;
+	@Operation(summary = "Acesso do usuário autenticado à sessão")
+	public ResponseEntity<AcessoDto> acesso(AcessoCreateDto acessoDto);
 	
-	@PostMapping("/acesso")
-	@ResponseBody
-	public ResponseEntity<AcessoDto> acesso(@RequestBody @Valid AcessoCreateDto acessoDto) {
-		AcessoDto dto = autenticacaoService.montaAutenticacao(acessoDto);
-		
-		return ResponseEntity.ok(dto);
-	}
+	@Operation(summary = "Renova token de autenticação")
+    public ResponseEntity<AcessoDto> renovarToken(String renovacaoToken);
 	
-	@PostMapping("/renovar-token")
-    public ResponseEntity<AcessoDto> renovarToken(@Valid @RequestBody @NotBlank String renovacaoToken) {
-		AcessoDto dto = autenticacaoService.renovacaoToken(renovacaoToken);
-
-		return ResponseEntity.ok(dto);
-    }
+	@Operation(summary = "Remove usuário autenticado da sessão")
+    public ResponseEntity<Void> sair(Authentication usuarioAutenticado);
 	
-	@DeleteMapping("/sair")
-    public ResponseEntity<Void> sair(Authentication usuarioAutenticado) {
-        autenticacaoService.sair(usuarioAutenticado);
-
-        return ResponseEntity.noContent().build();
-    }
 }
