@@ -17,7 +17,7 @@ public interface IncidenteController extends Controller {
 	
 	@Operation(summary = "Retorna os incidentes com filtros")
 	public ResponseEntity<List<IncidenteDto>> buscaIncidentes(Pageable paginacao, IncidenteFiltroDto filtro);
-	
+
 	@Operation(summary = "Retorna um incidente por ID")
 	public ResponseEntity<IncidenteDto> buscaIncidente(@PathVariable("idIncidente") UUID idIncidente);
 	

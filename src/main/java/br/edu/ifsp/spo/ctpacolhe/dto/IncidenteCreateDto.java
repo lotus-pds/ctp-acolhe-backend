@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,10 @@ import lombok.Setter;
 public class IncidenteCreateDto {
 	@NotEmpty
 	@Max(value = 255)
+	
+	@Schema(example = "Conflitos em sala")
 	private String assunto;
+	
 	@NotEmpty
 	private List<TipoIncidenteDto> tipos;
 	@NotEmpty
