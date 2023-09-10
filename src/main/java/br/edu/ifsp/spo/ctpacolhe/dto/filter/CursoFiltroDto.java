@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.ctpacolhe.dto.filter;
 
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 
 import br.edu.ifsp.spo.ctpacolhe.common.constant.TipoCurso;
@@ -11,6 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ParameterObject
 public class CursoFiltroDto implements FiltroDto {
 	
 	@Schema(example = "Técnico em Informática Integrado ao Ensino Médio")

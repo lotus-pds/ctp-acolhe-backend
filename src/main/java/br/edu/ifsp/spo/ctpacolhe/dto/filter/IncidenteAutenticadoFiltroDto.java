@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -16,6 +17,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ParameterObject
 public class IncidenteAutenticadoFiltroDto implements FiltroDto {
 	
 	@Schema(example = "Dificuldade com os estudos")
@@ -28,9 +30,11 @@ public class IncidenteAutenticadoFiltroDto implements FiltroDto {
 	private String idStatus;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
+	@Schema(example = "2023-09-09")
 	private LocalDate dataIncidenteInicial;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
+	@Schema(example = "2023-09-10")
 	private LocalDate dataIncidenteFinal;
 
 	@Override

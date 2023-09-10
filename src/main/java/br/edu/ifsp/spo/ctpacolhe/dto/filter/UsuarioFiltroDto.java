@@ -1,5 +1,6 @@
 package br.edu.ifsp.spo.ctpacolhe.dto.filter;
 
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 
 import br.edu.ifsp.spo.ctpacolhe.common.wrapper.FiltroWrapper;
@@ -10,6 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ParameterObject
 public class UsuarioFiltroDto implements FiltroDto {
 	
 	@Schema(example = "Renato Silva")
