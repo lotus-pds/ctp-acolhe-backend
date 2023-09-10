@@ -2,6 +2,7 @@ package br.edu.ifsp.spo.ctpacolhe.dto.filter;
 
 import java.time.LocalDate;
 
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -13,6 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ParameterObject
 public class AgendamentoSalaFiltroDto implements FiltroDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
 	private LocalDate dataAtendimentoInicial;
