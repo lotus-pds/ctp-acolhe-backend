@@ -15,4 +15,5 @@ public class HumorDto {
 	private LocalDate dataHumor;
 	private UUID idUsuario;
 	private SentimentoHumor idSentimento;
+	private String descricao;
 }

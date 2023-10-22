@@ -40,4 +40,6 @@ public class Humor {
 	@Enumerated(EnumType.STRING)
 	private SentimentoHumor idSentimento;
 
+	@Column(name = "descricao")
+	private String descricao;
 }

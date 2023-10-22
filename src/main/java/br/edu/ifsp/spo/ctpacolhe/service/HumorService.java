@@ -40,6 +40,7 @@ public class HumorService {
 				.dataHumor(LocalDate.now())
 				.idUsuario(usuarioAutenticado.getIdUsuario())
 				.idSentimento(dto.getIdSentimento())
+				.descricao(dto.getDescricao())
 				.build();
 
 		return humorRepository.save(humor);
